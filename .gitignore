@@ -1,6 +1,6 @@
 # Private directories - do not commit
 papers/
-docs/
+proj_docs/
 ref_codes/
 
 # OS files

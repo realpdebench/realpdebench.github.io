@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs==1.6.1 mkdocs-material==9.7.1
+          pip install mkdocs==1.6.1 mkdocs-material==9.7.1 mkdocs-bootstrap mkdocs-bootstrap4 pymdown-extensions
 
       - name: Build and deploy
         run: |

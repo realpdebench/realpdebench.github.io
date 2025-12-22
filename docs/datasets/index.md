@@ -221,18 +221,6 @@ For quick experimentation, sample data (10% of each dataset) is available:
 python -m realpdebench.download --sample
 ```
 
-## Citation
-
-If you use RealPDEBench in your research, please cite:
-
-```bibtex
-@article{realpdebench2025,
-  title={RealPDEBench: A Benchmark for Complex Physical Systems with Real-World Data},
-  author={Authors},
-  year={2025}
-}
-```
-
 ## Support
 
 - **GitHub Issues:** [Report bugs or request features](https://github.com/realpdebench/realpdebench.github.io/issues)

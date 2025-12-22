@@ -64,22 +64,24 @@
   {% endif %}
   {{ super() }}
 
-  <!-- Global Footer -->
-  <footer class="rp-footer">
-    <div class="container">
-      <div class="rp-footer-content">
-        <p class="rp-footer-copyright">© 2025 AI for Scientific Simulation and Discovery Lab, Westlake University. All rights reserved.</p>
-        <div class="rp-footer-links">
-          <a href="https://ai4s.lab.westlake.edu.cn/" target="_blank">Lab Website</a> | 
-          <a href="mailto:wutailin@westlake.edu.cn">Contact</a>
+  {% if is_site_home %}
+    <!-- Homepage Footer -->
+    <footer class="rp-footer">
+      <div class="container">
+        <div class="rp-footer-content">
+          <p class="rp-footer-copyright">© 2025 AI for Scientific Simulation and Discovery Lab, Westlake University. All rights reserved.</p>
+          <div class="rp-footer-links">
+            <a href="https://ai4s.lab.westlake.edu.cn/" target="_blank">Lab Website</a> | 
+            <a href="mailto:wutailin@westlake.edu.cn">Contact</a>
+          </div>
+          <p class="rp-footer-note">
+            For questions and collaborations, please reach out via email or 
+            <a href="{{ config.repo_url }}/issues" target="_blank">GitHub Issues</a>
+          </p>
         </div>
-        <p class="rp-footer-note">
-          For questions and collaborations, please reach out via email or 
-          <a href="{{ config.repo_url }}/issues" target="_blank">GitHub Issues</a>
-        </p>
       </div>
-    </div>
-  </footer>
+    </footer>
+  {% endif %}
 </div>
 {% endblock %}
 

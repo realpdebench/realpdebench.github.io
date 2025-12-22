@@ -590,3 +590,21 @@
     </div>
   </div>
 </section>
+
+<!-- Citation -->
+<section id="citation" class="section-sm rp-fullbleed rp-fullbleed--platinum">
+  <div class="container">
+    <p class="subtitle">Citation</p>
+    <h2 class="section-title">Citation</h2>
+    <p style="font-size: 1.125rem; color: var(--slate); max-width: 760px; margin-bottom: 1.5rem;">
+      If you use RealPDEBench in your research, please cite:
+    </p>
+    <div class="glass-card" style="padding: 1.5rem 2rem;">
+      <pre style="margin: 0; overflow: auto;"><code>@article{realpdebench2025,
+  title={RealPDEBench: A Benchmark for Complex Physical Systems with Real-World Data},
+  author={Authors},
+  year={2025}
+}</code></pre>
+    </div>
+  </div>
+</section>

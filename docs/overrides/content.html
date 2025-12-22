@@ -1,0 +1,48 @@
+{# Override mkdocs theme content renderer to inject "On this page" server-side
+   (avoids flash from client-side JS insertion). #}
+
+{% if page and page.file and page.file.src_path != 'index.md' and page.file.src_path != 'getting-started.md' and page.toc %}
+  {% macro render_onpage(items) -%}
+    {%- for item in items -%}
+      {%- if item.level >= 2 and item.level <= 5 -%}
+        <li class="onpage-toc-item level-{{ item.level }}">
+          <a href="{{ item.url }}">{{ item.title }}</a>
+          {%- if item.children and item.level < 5 -%}
+            <ul class="onpage-toc-sublist">
+              {{- render_onpage(item.children) -}}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- else -%}
+        {%- if item.children -%}
+          {{- render_onpage(item.children) -}}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endmacro %}
+
+  {# Prefer children of the H1 item (skip repeating page title) #}
+  {% set root = page.toc[0] if page.toc else none %}
+  {% set onpage_items = root.children if root and root.children else page.toc %}
+
+  {% set onpage_html %}
+<nav class="onpage-toc" aria-label="On this page">
+  <div class="onpage-toc-title">On this page</div>
+  <ul class="onpage-toc-list">
+    {{ render_onpage(onpage_items) }}
+  </ul>
+</nav>
+  {% endset %}
+
+  {# Insert "On this page" before the first H2 (after the page brief). #}
+  {% set content = page.content %}
+  {% if '<h2' in content %}
+    {{ content | replace('<h2', onpage_html ~ '<h2', 1) | safe }}
+  {% else %}
+    {{ content }}
+  {% endif %}
+{% else %}
+  {{ page.content }}
+{% endif %}
+
+

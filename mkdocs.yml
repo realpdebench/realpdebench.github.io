@@ -1,1 +1,73 @@
-site_name: My Docs
+site_name: RealPDEBench
+site_url: https://realpdebench.github.io
+site_description: First Scientific ML Benchmark with Paired Real-World and Simulated Data
+
+# Repository
+repo_name: realpdebench/realpdebench.github.io
+repo_url: https://github.com/realpdebench/realpdebench.github.io
+
+# Theme - Bootstrap with custom overrides
+theme:
+  name: bootstrap
+  custom_dir: docs/overrides
+
+# Extensions for enhanced markdown
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Math support
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+# Custom CSS
+extra_css:
+  - stylesheets/custom.css
+
+# Navigation
+nav:
+  - Home: index.md
+  - Datasets:
+    - Datasets Overview: datasets/index.md
+    - Cylinder: datasets/cylinder.md
+    - Controlled Cylinder: datasets/controlled-cylinder.md
+    - FSI: datasets/fsi.md
+    - Foil: datasets/foil.md
+    - Combustion: datasets/combustion.md
+  - Models:
+    - Models Overview: models.md
+    - Trad & CNN: models/trad-cnn.md
+    - Neural Operators: models/neural-operators.md
+    - Foundation Models: models/foundation-models.md
+  - Metrics:
+    - Metrics Overview: metrics.md
+    - Data-oriented: metrics/data-oriented.md
+    - Physics-oriented: metrics/physics-oriented.md
+  - Getting Started: getting-started.md

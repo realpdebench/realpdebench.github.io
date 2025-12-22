@@ -1,0 +1,67 @@
+<div class="bs-sidebar rp-sidebar" role="complementary" aria-label="Sidebar navigation">
+  {% set is_getting_started = page and page.file and page.file.src_path == 'getting-started.md' %}
+
+  {% macro render_sidebar_toc(items) -%}
+    {%- for item in items -%}
+      {%- if item.level >= 2 and item.level <= 5 -%}
+        <li class="nav-item rp-sidebar-toc-item level-{{ item.level }}">
+          <a href="{{ item.url }}" class="nav-link">{{ item.title }}</a>
+          {%- if item.children and item.level < 5 -%}
+            <ul class="nav flex-column rp-sidebar-toc">
+              {{- render_sidebar_toc(item.children) -}}
+            </ul>
+          {%- endif -%}
+        </li>
+      {%- else -%}
+        {%- if item.children -%}
+          {{- render_sidebar_toc(item.children) -}}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endmacro %}
+
+  {# Determine active top-level section (Datasets/Models/Metrics/Getting Started) #}
+  {% set ns = namespace(active=None) %}
+  {%- for item in nav -%}
+    {%- if item.active -%}
+      {% set ns.active = item %}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {% set section_title = ns.active.title if ns.active else 'Pages' %}
+
+  <div class="rp-sidebar-section">
+    <div class="rp-sidebar-section-label">{{ section_title|upper }}</div>
+    {% if is_getting_started and page.toc %}
+      {# Getting Started: show in-page TOC in sidebar (no in-content "On this page") #}
+      {% set root = page.toc[0] if page.toc else none %}
+      {% set toc_items = root.children if root and root.children else page.toc %}
+      <ul class="nav flex-column rp-sidebar-toc">
+        {{ render_sidebar_toc(toc_items) }}
+      </ul>
+    {% else %}
+      <ul class="nav flex-column rp-sidebar-nav">
+        {%- if ns.active and ns.active.children -%}
+          {%- for child in ns.active.children -%}
+            <li class="nav-item">
+              <a href="{{ child.url|url }}" class="nav-link{% if child.active %} active{% endif %}"{% if child.active %} aria-current="page"{% endif %}>{{ child.title }}</a>
+            </li>
+          {%- endfor -%}
+        {%- elif ns.active -%}
+          <li class="nav-item">
+            <a href="{{ ns.active.url|url }}" class="nav-link{% if ns.active.active %} active{% endif %}"{% if ns.active.active %} aria-current="page"{% endif %}>{{ ns.active.title }}</a>
+          </li>
+        {%- else -%}
+          {# Fallback: render full nav if active section can't be detected #}
+          {%- for item in nav -%}
+            <li class="nav-item">
+              <a href="{{ item.url|url }}" class="nav-link{% if item.active %} active{% endif %}"{% if item.active %} aria-current="page"{% endif %}>{{ item.title }}</a>
+            </li>
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+    {% endif %}
+  </div>
+</div>
+
+

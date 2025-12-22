@@ -33,3 +33,11 @@ yarn-error.log*
 dist/
 build/
 *.egg-info/
+site/
+
+# Local tooling / assistant artifacts
+.claude/
+
+# Other
+CLAUDE.md
+restart_mkdocs.cmd

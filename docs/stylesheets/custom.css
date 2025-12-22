@@ -1748,32 +1748,67 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-sidebar-toggle-f
   margin-bottom: 1rem;
 }
 
-/* Documentation Tables */
+/* Documentation Tables
+   - "Single-line" separators (horizontal rules only)
+   - Default width: 80% of the main content column (centered)
+   - On small screens: fall back to 100% width */
 .content-wrapper:not(.real-homepage) table {
-  width: 100%;
+  width: 80%;
+  max-width: 100%;
   border-collapse: collapse;
-  margin: 1.5rem 0;
+  border-spacing: 0;
+  border-top: 1px solid rgba(105, 98, 133, 0.22);
+  border-bottom: 1px solid rgba(105, 98, 133, 0.22);
+  margin: 1.5rem auto;
   font-size: 0.95rem;
-  background: white;
+  background: transparent;
 }
 
-.content-wrapper:not(.real-homepage) th {
-  background: #f8f9fa;
-  padding: 12px 16px;
+.content-wrapper:not(.real-homepage) table tbody tr {
+  background: transparent;
+}
+
+/* Neutralize Bootstrap's zebra striping / bordered table variants for a clean "single-line" look */
+.content-wrapper:not(.real-homepage) table.table-striped > tbody > tr:nth-of-type(odd),
+.content-wrapper:not(.real-homepage) table.table-striped > tbody > tr:nth-of-type(odd) > td,
+.content-wrapper:not(.real-homepage) table.table-striped > tbody > tr:nth-of-type(odd) > th,
+.content-wrapper:not(.real-homepage) table.table-striped > tbody > tr:nth-of-type(odd) > * {
+  background: transparent !important;
+}
+
+.content-wrapper:not(.real-homepage) table.table-bordered,
+.content-wrapper:not(.real-homepage) table.table-bordered > :not(caption) > * > * {
+  border: 0 !important;
+}
+
+.content-wrapper:not(.real-homepage) table th,
+.content-wrapper:not(.real-homepage) table td {
+  padding: 0.85rem 1rem;
   text-align: left;
+  vertical-align: top;
+  border: 0;
+  border-bottom: 1px solid rgba(105, 98, 133, 0.18); /* slate @ low opacity */
+}
+
+.content-wrapper:not(.real-homepage) table thead th {
+  background: transparent;
   font-weight: 600;
-  border: 1px solid #dee2e6;
-  color: #495057;
+  color: var(--carbon);
+  border-bottom: 1px solid rgba(105, 98, 133, 0.28);
 }
 
-.content-wrapper:not(.real-homepage) td {
-  padding: 12px 16px;
-  border: 1px solid #dee2e6;
-  color: #212529;
+.content-wrapper:not(.real-homepage) table tbody tr:last-child td {
+  border-bottom: 0;
 }
 
-.content-wrapper:not(.real-homepage) tr:hover {
-  background: #f8f9fa;
+.content-wrapper:not(.real-homepage) table tbody tr:hover {
+  background: rgba(235, 233, 245, 0.45); /* lavender-light tint */
+}
+
+@media (max-width: 768px) {
+  .content-wrapper:not(.real-homepage) table {
+    width: 100%;
+  }
 }
 
 /* Documentation Lists */

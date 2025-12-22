@@ -577,6 +577,7 @@
     <p style="font-size: 1.25rem; color: var(--slate); margin-bottom: 2.25rem; max-width: 760px;">
       Access datasets, baselines, and evaluation scripts to reproduce results and benchmark new models on paired experiments and CFD simulations.
     </p>
+
     <div style="display: flex; gap: 1rem; justify-content: flex-start; flex-wrap: wrap;">
       <a href="getting-started/" class="btn-primary" style="font-size: 1.05rem; padding: 14px 32px;">
         Getting Started
@@ -588,19 +589,17 @@
         Code & Baselines
       </a>
     </div>
-  </div>
-</section>
 
-<!-- Citation -->
-<section id="citation" class="section-sm rp-fullbleed rp-fullbleed--platinum">
-  <div class="container">
-    <p class="subtitle">Citation</p>
-    <h2 class="section-title">Citation</h2>
-    <p style="font-size: 1.125rem; color: var(--slate); max-width: 760px; margin-bottom: 1.5rem;">
-      If you use RealPDEBench in your research, please cite:
-    </p>
-    <div class="glass-card" style="padding: 1.5rem 2rem;">
-      <pre style="margin: 0; overflow: auto;"><code>@article{realpdebench2025,
+    <!-- Inline Citation (BibTeX) -->
+    <div id="citation" class="rp-citation-inline">
+      <div class="rp-citation-inline-header">
+        <span class="rp-citation-inline-kicker">Citation</span>
+      </div>
+      <p class="rp-citation-inline-lead">If you find RealPDEBench useful in your research, please cite:</p>
+      <div class="rp-citation-inline-code-meta">
+        <span class="rp-citation-inline-hint">BibTeX</span>
+      </div>
+      <pre class="rp-code-block"><code class="language-plaintext">@article{realpdebench2025,
   title={RealPDEBench: A Benchmark for Complex Physical Systems with Real-World Data},
   author={Authors},
   year={2025}

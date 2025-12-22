@@ -1825,25 +1825,113 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-sidebar-toggle-f
 
 /* Documentation Code Blocks */
 .content-wrapper:not(.real-homepage) pre {
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-  border-radius: 6px;
-  padding: 1.5rem;
-  overflow-x: auto;
-  margin: 1.5rem 0;
+  background: rgba(245, 245, 247, 0.95); /* platinum */
+  border: 1px solid rgba(182, 177, 202, 0.45);
+  border-radius: 14px;
+  padding: 1.1rem 1.25rem;
+  overflow: auto;
+  margin: 1.35rem 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
 
 .content-wrapper:not(.real-homepage) code {
-  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-  font-size: 0.9em;
-  background: #f8f9fa;
-  padding: 2px 6px;
-  border-radius: 3px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  font-size: 0.92em;
+  background: rgba(235, 233, 245, 0.65);
+  border: 1px solid rgba(182, 177, 202, 0.35);
+  padding: 2px 7px;
+  border-radius: 8px;
 }
 
 .content-wrapper:not(.real-homepage) pre code {
   background: none;
+  border: 0;
   padding: 0;
+  font-size: 0.95em;
+  line-height: 1.65;
+  color: var(--carbon);
+}
+
+/* Homepage: inline citation inside Resources */
+.real-homepage .rp-citation-inline {
+  /* Keep the citation text left-aligned with the section content */
+  max-width: 100%;
+  /* More space under the CTA buttons */
+  margin: 2.25rem 0 0;
+}
+
+.real-homepage .rp-citation-inline-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 12px;
+  margin: 0 0 0.6rem;
+}
+
+.real-homepage .rp-citation-inline-kicker {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+
+.real-homepage .rp-citation-inline-hint {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(105, 98, 133, 0.85);
+}
+
+.real-homepage .rp-citation-inline-lead {
+  margin: 0 0 0.8rem;
+  color: var(--slate);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Put "BibTeX" flush with the code block's top-right; left side intentionally blank */
+.real-homepage .rp-citation-inline-code-meta {
+  max-width: 760px;
+  margin: 0 auto 0.45rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Center the code box while keeping the surrounding text left-aligned */
+.real-homepage .rp-citation-inline .rp-code-block {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+/* Homepage citation: wrap BibTeX lines to avoid an ugly horizontal scrollbar */
+.real-homepage .rp-citation-inline .rp-code-block code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/* Reusable code block style (no "floating card") */
+.rp-code-block {
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(182, 177, 202, 0.45);
+  border-radius: 16px;
+  padding: 1rem 1.15rem;
+  overflow: auto;
+  margin: 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.rp-code-block code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: var(--carbon);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  display: block;
+  white-space: pre;
 }
 
 /* Documentation Links */

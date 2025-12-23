@@ -991,7 +991,10 @@ html {
   position: absolute;
   left: 50%;
   top: calc(100% + 10px);
-  max-width: 280px;
+  /* Keep the tooltip on a single line (no awkward wrapping) */
+  display: block;
+  width: max-content;
+  max-width: min(420px, calc(100vw - 32px));
   padding: 10px 12px;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.96);
@@ -1000,6 +1003,9 @@ html {
   color: var(--slate);
   font-size: 0.95rem;
   line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   opacity: 0;
   transform: translate(-50%, -4px);
   pointer-events: none;

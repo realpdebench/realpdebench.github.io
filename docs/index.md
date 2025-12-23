@@ -41,7 +41,6 @@
 
             <div class="rp-carousel-meta" aria-hidden="true">
               <span class="rp-carousel-kicker">Combustion</span>
-              <span class="rp-carousel-hint">Drag the divider (both views stay synced)</span>
             </div>
           </div>
 
@@ -81,7 +80,6 @@
 
             <div class="rp-carousel-meta" aria-hidden="true">
               <span class="rp-carousel-kicker">FSI</span>
-              <span class="rp-carousel-hint">Drag the divider (both views stay synced)</span>
             </div>
           </div>
 
@@ -121,7 +119,6 @@
 
             <div class="rp-carousel-meta" aria-hidden="true">
               <span class="rp-carousel-kicker">Cylinder</span>
-              <span class="rp-carousel-hint">Drag the divider (both views stay synced)</span>
             </div>
           </div>
 
@@ -161,7 +158,6 @@
 
             <div class="rp-carousel-meta" aria-hidden="true">
               <span class="rp-carousel-kicker">Controlled Cylinder</span>
-              <span class="rp-carousel-hint">Drag the divider (both views stay synced)</span>
             </div>
           </div>
 
@@ -201,7 +197,6 @@
 
             <div class="rp-carousel-meta" aria-hidden="true">
               <span class="rp-carousel-kicker">Foil</span>
-              <span class="rp-carousel-hint">Drag the divider (both views stay synced)</span>
             </div>
           </div>
         </div>
@@ -214,6 +209,7 @@
 
     <div class="rp-hero-inner">
       <h1 class="hero-title">
+        RealPDEBench:<br>
         Bridging the <span class="hero-gradient">Sim-to-Real</span> Gap
       </h1>
       <p class="rp-hero-subtitle">

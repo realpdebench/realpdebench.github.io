@@ -13,9 +13,9 @@
 
   /* Accent (low-saturation mint) */
   /* Tuned to stay low-sat but avoid washing out on the lavender-tinted background */
-  --mint-light: #C7DED4;
-  --mint-mid: #A8C6BA;
-  --mint-dark: #6C9084;
+  --mint-light: #BFD9CF;
+  --mint-mid: #9FC2B4;
+  --mint-dark: #4E776B;
 
   /* Typography */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -733,9 +733,9 @@ html {
 .real-homepage .hero-gradient-mint {
   background: linear-gradient(
     135deg,
-    var(--mint-dark) 0%,
+    var(--mint-light) 0%,
     var(--mint-mid) 55%,
-    var(--mint-light) 100%
+    var(--mint-dark) 100%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1139,15 +1139,21 @@ html {
 /* Homepage Stats */
 .real-homepage .rp-home-stats {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 3rem;
+  grid-template-columns: 1fr;
+  gap: 2rem;
   text-align: center;
 }
 
-@media (max-width: 600px) {
+@media (min-width: 600px) {
   .real-homepage .rp-home-stats {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .real-homepage .rp-home-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://realpdebench.github.io/datasets/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Datasets Overview - RealPDEBench</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../stylesheets/custom.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Apply collapsed-sidebar state early to avoid flash on refresh.
+    (function () {
+      try {
+        
+        if (localStorage.getItem("rp_sidebar_collapsed") === "1") {
+          document.documentElement.classList.add("sidebar-collapsed");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">RealPDEBench</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+<!-- Custom Apple-style Navigation Bar -->
+<nav class="apple-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="https://realpdebench.github.io/">RealPDEBench</a>
+    </div>
+    <div class="navbar-links" id="rp-nav-menu">
+      <a href="https://realpdebench.github.io/">Home</a>
+      <a href="https://realpdebench.github.io/getting-started/">Getting Started</a>
+      <a href="https://realpdebench.github.io/datasets/">Datasets</a>
+      <a href="https://realpdebench.github.io/models/">Models</a>
+      <a href="https://realpdebench.github.io/metrics/">Metrics</a>
+      <a href="https://github.com/realpdebench/realpdebench.github.io" target="_blank">GitHub</a>
+    </div>
+    <div class="navbar-search">
+      <button class="search-btn" aria-label="Search" type="button" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+          <circle cx="8" cy="8" r="6" stroke-width="2"/>
+          <path d="M12.5 12.5L16 16" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button type="button" class="rp-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="rp-nav-menu">
+        <span class="rp-nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="rp-nav-backdrop" aria-hidden="true"></div>
+
+
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href=".." class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="cylinder/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/realpdebench/realpdebench.github.io/edit/master/docs/datasets/index.md" class="nav-link">Edit on realpdebench/realpdebench.github.io
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+<div class="content-wrapper ">
+  
+    <button type="button" class="rp-sidebar-toggle rp-sidebar-toggle-floating" aria-label="Toggle sidebar">
+      <span class="rp-sidebar-toggle-icon" aria-hidden="true"></span>
+    </button>
+  
+  
+                    <div class="col-md-3"><div class="bs-sidebar rp-sidebar" role="complementary" aria-label="Sidebar navigation">
+  
+
+  
+
+  
+  
+
+  <div class="rp-sidebar-section">
+    <div class="rp-sidebar-section-label">DATASETS</div>
+    
+      <ul class="nav flex-column rp-sidebar-nav"><li class="nav-item">
+              <a href="./" class="nav-link active" aria-current="page">Datasets Overview</a>
+            </li><li class="nav-item">
+              <a href="cylinder/" class="nav-link">Cylinder</a>
+            </li><li class="nav-item">
+              <a href="controlled-cylinder/" class="nav-link">Controlled Cylinder</a>
+            </li><li class="nav-item">
+              <a href="fsi/" class="nav-link">FSI</a>
+            </li><li class="nav-item">
+              <a href="foil/" class="nav-link">Foil</a>
+            </li><li class="nav-item">
+              <a href="combustion/" class="nav-link">Combustion</a>
+            </li></ul>
+    
+  </div>
+</div>
+
+</div>
+                    <div class="col-md-9" role="main">
+
+
+  
+
+  
+  
+  
+
+  
+
+  
+  
+  
+    <h1 id="datasets-overview">Datasets Overview<a class="headerlink" href="#datasets-overview" title="Permanent link">&para;</a></h1>
+<p>RealPDEBench provides <strong>5 comprehensive datasets</strong> spanning fluid dynamics and combustion systems. Each dataset contains paired real-world measurements and CFD simulations.</p>
+
+<nav class="onpage-toc" aria-label="On this page">
+  <div class="onpage-toc-title">On this page</div>
+  <ul class="onpage-toc-list">
+    <li class="onpage-toc-item level-2">
+          <a href="#dataset-summary">Dataset Summary</a></li><li class="onpage-toc-item level-2">
+          <a href="#data-collection-methods">Data Collection Methods</a><ul class="onpage-toc-sublist"><li class="onpage-toc-item level-3">
+          <a href="#real-world-measurements">Real-World Measurements</a></li><li class="onpage-toc-item level-3">
+          <a href="#computational-simulations">Computational Simulations</a></li></ul></li><li class="onpage-toc-item level-2">
+          <a href="#data-format">Data Format</a></li><li class="onpage-toc-item level-2">
+          <a href="#detailed-dataset-descriptions">Detailed Dataset Descriptions</a><ul class="onpage-toc-sublist"><li class="onpage-toc-item level-3">
+          <a href="#1-cylinder">1. Cylinder</a></li><li class="onpage-toc-item level-3">
+          <a href="#2-controlled-cylinder">2. Controlled Cylinder</a></li><li class="onpage-toc-item level-3">
+          <a href="#3-fsi-fluid-structure-interaction">3. FSI (Fluid-Structure Interaction)</a></li><li class="onpage-toc-item level-3">
+          <a href="#4-foil">4. Foil</a></li><li class="onpage-toc-item level-3">
+          <a href="#5-combustion">5. Combustion</a></li></ul></li><li class="onpage-toc-item level-2">
+          <a href="#sim-to-real-gap">Sim-to-Real Gap</a><ul class="onpage-toc-sublist"><li class="onpage-toc-item level-3">
+          <a href="#sources-of-discrepancy">Sources of Discrepancy</a></li><li class="onpage-toc-item level-3">
+          <a href="#quantitative-gap">Quantitative Gap</a></li></ul></li><li class="onpage-toc-item level-2">
+          <a href="#download-instructions">Download Instructions</a><ul class="onpage-toc-sublist"><li class="onpage-toc-item level-3">
+          <a href="#individual-datasets">Individual Datasets</a></li><li class="onpage-toc-item level-3">
+          <a href="#full-benchmark">Full Benchmark</a></li><li class="onpage-toc-item level-3">
+          <a href="#sample-data">Sample Data</a></li></ul></li><li class="onpage-toc-item level-2">
+          <a href="#support">Support</a></li>
+  </ul>
+</nav>
+  <h2 id="dataset-summary">Dataset Summary<a class="headerlink" href="#dataset-summary" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>Domain</th>
+<th>Re Range</th>
+<th>Measured Fields</th>
+<th>Simulated Fields</th>
+<th>Trajectories</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Cylinder</strong></td>
+<td>Fluid Dynamics</td>
+<td>1800-12000</td>
+<td>u, v (PIV)</td>
+<td>u, v, p (CFD)</td>
+<td>250+</td>
+</tr>
+<tr>
+<td><strong>Controlled Cylinder</strong></td>
+<td>Flow Control</td>
+<td>1781-9843</td>
+<td>u, v (PIV)</td>
+<td>u, v, p (CFD)</td>
+<td>150+</td>
+</tr>
+<tr>
+<td><strong>FSI</strong></td>
+<td>Fluid-Structure</td>
+<td>3272-9068</td>
+<td>u, v, y_c, ẏ_c</td>
+<td>u, v, p, F_y</td>
+<td>120+</td>
+</tr>
+<tr>
+<td><strong>Foil</strong></td>
+<td>Aerodynamics</td>
+<td>2968-17031</td>
+<td>u, v (2D slice)</td>
+<td>u, v, w, p (3D)</td>
+<td>100+</td>
+</tr>
+<tr>
+<td><strong>Combustion</strong></td>
+<td>Reactive Flow</td>
+<td>~10000</td>
+<td>OH* intensity</td>
+<td>T, ρ, 38 species</td>
+<td>80+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Total:</strong> 700+ trajectories with 2000+ frames each.</p>
+<h2 id="data-collection-methods">Data Collection Methods<a class="headerlink" href="#data-collection-methods" title="Permanent link">&para;</a></h2>
+<h3 id="real-world-measurements">Real-World Measurements<a class="headerlink" href="#real-world-measurements" title="Permanent link">&para;</a></h3>
+<p>All fluid dynamics datasets (Cylinder, Controlled Cylinder, FSI, Foil) use <strong>Particle Image Velocimetry (PIV)</strong>:</p>
+<ul>
+<li><strong>Technique:</strong> Fluorescent particle tracking (10μm hollow-glass microspheres)</li>
+<li><strong>Frame Rate:</strong> 400-500 fps</li>
+<li><strong>Duration:</strong> 20 seconds per trajectory</li>
+<li><strong>Setup:</strong> Circulating water tunnel with high-speed cameras</li>
+</ul>
+<p>The Combustion dataset uses <strong>OH* Chemiluminescence Imaging</strong>:</p>
+<ul>
+<li><strong>Technique:</strong> High-speed imaging of OH radical emission</li>
+<li><strong>Frame Rate:</strong> 4000 fps</li>
+<li><strong>Duration:</strong> 1 second per trajectory</li>
+<li><strong>Setup:</strong> Swirl-stabilized burner with intensified CMOS camera</li>
+</ul>
+<h3 id="computational-simulations">Computational Simulations<a class="headerlink" href="#computational-simulations" title="Permanent link">&para;</a></h3>
+<p><strong>Fluid Dynamics (2D):</strong>
+- <strong>Solver:</strong> Lilypad (Finite Volume + Immersed Boundary Method)
+- <strong>Grid:</strong> Adaptive mesh refinement
+- <strong>Output:</strong> u, v, p fields</p>
+<p><strong>Aerodynamics (3D):</strong>
+- <strong>Solver:</strong> Waterlily (GPU-accelerated)
+- <strong>Domain:</strong> Full 3D simulation
+- <strong>Output:</strong> u, v, w, p fields</p>
+<p><strong>Combustion (3D LES):</strong>
+- <strong>Solver:</strong> STAR-CCM+ with LES turbulence model
+- <strong>Chemistry:</strong> Eddy Dissipation Concept (EDC)
+- <strong>Mechanism:</strong> 38 species, 184 reactions for NH₃/CH₄ co-firing
+- <strong>Output:</strong> Temperature, density, species mass fractions</p>
+<h2 id="data-format">Data Format<a class="headerlink" href="#data-format" title="Permanent link">&para;</a></h2>
+<p>All datasets are provided in <strong>HDF5 format</strong> with the following structure:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>dataset.h5
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── real_data/
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── trajectory_001/
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   │   ├── u                    # Velocity component x (T, X, Y)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   │   ├── v                    # Velocity component y (T, X, Y)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   │   └── metadata             # Parameters (Re, geometry, etc.)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── trajectory_002/
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   └── ...
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>└── sim_data/
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    ├── trajectory_001/
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    │   ├── u                    # Velocity component x (T, X, Y)
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    │   ├── v                    # Velocity component y (T, X, Y)
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    │   ├── p                    # Pressure field (T, X, Y)
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    │   └── metadata
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    ├── trajectory_002/
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    └── ...
+</span></code></pre></div>
+<p><strong>Array Dimensions:</strong>
+- <code>T</code> = Time steps (2000+ frames)
+- <code>X, Y</code> = Spatial dimensions (typically 128×128 or 256×256)
+- All arrays are NumPy-compatible</p>
+<h2 id="detailed-dataset-descriptions">Detailed Dataset Descriptions<a class="headerlink" href="#detailed-dataset-descriptions" title="Permanent link">&para;</a></h2>
+<h3 id="1-cylinder">1. Cylinder<a class="headerlink" href="#1-cylinder" title="Permanent link">&para;</a></h3>
+<p>Wake dynamics behind a stationary circular cylinder.</p>
+<p><strong>Key Features:</strong>
+- Von Kármán vortex street
+- Reynolds numbers from transitional to turbulent regime
+- Classical fluid dynamics benchmark</p>
+<p><strong>Use Cases:</strong>
+- Vortex shedding prediction
+- Frequency analysis
+- Wake structure learning</p>
+<p><a href="cylinder/">View Cylinder Dataset Details →</a></p>
+<hr />
+<h3 id="2-controlled-cylinder">2. Controlled Cylinder<a class="headerlink" href="#2-controlled-cylinder" title="Permanent link">&para;</a></h3>
+<p>Active flow control with forced cylinder vibration.</p>
+<p><strong>Key Features:</strong>
+- Prescribed sinusoidal motion
+- Control frequencies: 0.5-1.4 Hz
+- Lock-in and drag reduction phenomena</p>
+<p><strong>Use Cases:</strong>
+- Flow control optimization
+- Closed-loop learning
+- Control phase prediction</p>
+<p><a href="controlled-cylinder/">View Controlled Cylinder Details →</a></p>
+<hr />
+<h3 id="3-fsi-fluid-structure-interaction">3. FSI (Fluid-Structure Interaction)<a class="headerlink" href="#3-fsi-fluid-structure-interaction" title="Permanent link">&para;</a></h3>
+<p>Vortex-induced vibration with two-way coupling.</p>
+<p><strong>Key Features:</strong>
+- Free cylinder oscillation
+- Coupled fluid-structure dynamics
+- Mass ratio and damping variations</p>
+<p><strong>Use Cases:</strong>
+- Coupled system prediction
+- VIV amplitude forecasting
+- Force-motion relationship learning</p>
+<p><a href="fsi/">View FSI Dataset Details →</a></p>
+<hr />
+<h3 id="4-foil">4. Foil<a class="headerlink" href="#4-foil" title="Permanent link">&para;</a></h3>
+<p>NACA0025 symmetric airfoil at various angles of attack.</p>
+<p><strong>Key Features:</strong>
+- 3D flow with 2D cross-sectional measurements
+- Angles of attack: 0°-20°
+- Stall and separation dynamics</p>
+<p><strong>Use Cases:</strong>
+- Stall prediction
+- Lift/drag estimation from flow fields
+- 3D effects modeling</p>
+<p><a href="foil/">View Foil Dataset Details →</a></p>
+<hr />
+<h3 id="5-combustion">5. Combustion<a class="headerlink" href="#5-combustion" title="Permanent link">&para;</a></h3>
+<p>3D swirl-stabilized NH₃/CH₄/air flames.</p>
+<p><strong>Key Features:</strong>
+- Multi-species reactive flow
+- 38 chemical species, 184 reactions
+- OH* chemiluminescence vs. full LES output</p>
+<p><strong>Use Cases:</strong>
+- Flame dynamics prediction
+- Emissions estimation
+- Surrogate modeling (map sim species → real measurements)</p>
+<p><strong>Note:</strong> This is the most challenging dataset with the lowest R² values due to complex multi-physics coupling.</p>
+<p><a href="combustion/">View Combustion Dataset Details →</a></p>
+<hr />
+<h2 id="sim-to-real-gap">Sim-to-Real Gap<a class="headerlink" href="#sim-to-real-gap" title="Permanent link">&para;</a></h2>
+<p>A key feature of RealPDEBench is the <strong>explicit sim-to-real gap</strong>:</p>
+<h3 id="sources-of-discrepancy">Sources of Discrepancy<a class="headerlink" href="#sources-of-discrepancy" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Numerical Errors:</strong> Discretization, modeling assumptions in CFD</li>
+<li><strong>Measurement Noise:</strong> Camera sensors, particle tracking errors</li>
+<li><strong>Unmeasured Modalities:</strong> Pressure fields not measurable in PIV</li>
+<li><strong>Boundary Conditions:</strong> Idealized (sim) vs. imperfect (real) inflow</li>
+<li><strong>3D Effects:</strong> 2D simulations vs. 3D real flows</li>
+</ol>
+<h3 id="quantitative-gap">Quantitative Gap<a class="headerlink" href="#quantitative-gap" title="Permanent link">&para;</a></h3>
+<p>Training on real-world data achieves <strong>9.39% to 78.91% improvement</strong> in Relative L₂ Error compared to training on simulated data alone.</p>
+<h2 id="download-instructions">Download Instructions<a class="headerlink" href="#download-instructions" title="Permanent link">&para;</a></h2>
+<h3 id="individual-datasets">Individual Datasets<a class="headerlink" href="#individual-datasets" title="Permanent link">&para;</a></h3>
+<p>Each dataset can be downloaded separately:</p>
+<ul>
+<li><a href="#">Cylinder Dataset (XX GB)</a></li>
+<li><a href="#">Controlled Cylinder Dataset (XX GB)</a></li>
+<li><a href="#">FSI Dataset (XX GB)</a></li>
+<li><a href="#">Foil Dataset (XX GB)</a></li>
+<li><a href="#">Combustion Dataset (XX GB)</a></li>
+</ul>
+<h3 id="full-benchmark">Full Benchmark<a class="headerlink" href="#full-benchmark" title="Permanent link">&para;</a></h3>
+<p>Download the complete benchmark including all datasets, baseline model checkpoints, and evaluation scripts:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Using wget</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>wget<span class="w"> </span>https://zenodo.org/record/XXXXX/realpdebench_full.tar.gz
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Or using Python API</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>pip<span class="w"> </span>install<span class="w"> </span>realpdebench
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>python<span class="w"> </span>-m<span class="w"> </span>realpdebench.download<span class="w"> </span>--all
+</span></code></pre></div>
+<h3 id="sample-data">Sample Data<a class="headerlink" href="#sample-data" title="Permanent link">&para;</a></h3>
+<p>For quick experimentation, sample data (10% of each dataset) is available:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>python<span class="w"> </span>-m<span class="w"> </span>realpdebench.download<span class="w"> </span>--sample
+</span></code></pre></div>
+<h2 id="support">Support<a class="headerlink" href="#support" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>GitHub Issues:</strong> <a href="https://github.com/realpdebench/realpdebench.github.io/issues">Report bugs or request features</a></li>
+<li><strong>Discussions:</strong> <a href="https://github.com/realpdebench/realpdebench.github.io/discussions">Ask questions</a></li>
+</ul>
+  
+
+
+</div>
+
+  
+</div>
+
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+  
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../search/main.js"></script>
+  <script>
+    (function () {
+      function fitOneLineTitle(el, opts) {
+        if (!el) return;
+
+        var minPx = (opts && opts.minPx) || 18;
+        var maxSteps = (opts && opts.maxSteps) || 120;
+
+        // Reset any previous inline sizing (so it can grow again when more space is available).
+        el.style.removeProperty("font-size");
+        el.style.whiteSpace = "nowrap";
+
+        // Force a reflow after reset so measurements are accurate.
+        // eslint-disable-next-line no-unused-expressions
+        el.offsetWidth;
+
+        var size = parseFloat(window.getComputedStyle(el).fontSize) || 32;
+        var guard = 0;
+
+        while (guard < maxSteps && el.scrollWidth - el.clientWidth > 1 && size > minPx) {
+          size -= 1;
+          el.style.fontSize = size + "px";
+          guard += 1;
+        }
+      }
+
+      function fitPageTitle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper) return;
+
+        // We only support responsive layout down to 768px width. Below that, do not adapt.
+        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+
+        if (wrapper.classList.contains("real-homepage")) {
+          var hero = document.querySelector(".real-homepage .hero-title");
+          if (w < 768) {
+            if (hero) hero.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(hero, { minPx: 28 });
+        } else {
+          var h1 = document.querySelector(".content-wrapper:not(.real-homepage) .col-md-9[role='main'] > h1");
+          if (w < 768) {
+            if (h1) h1.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(h1, { minPx: 20 });
+        }
+      }
+
+      function initSidebarToggle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper || wrapper.classList.contains("real-homepage")) return;
+
+        var btn = document.querySelector(".rp-sidebar-toggle");
+        if (!btn) return;
+
+        btn.addEventListener("click", function () {
+          document.documentElement.classList.toggle("sidebar-collapsed");
+          try {
+            localStorage.setItem(
+              "rp_sidebar_collapsed",
+              document.documentElement.classList.contains("sidebar-collapsed") ? "1" : "0"
+            );
+          } catch (e) {}
+
+          // Sidebar toggle changes available title width; refit after layout updates.
+          window.requestAnimationFrame(function () {
+            fitPageTitle();
+          });
+        });
+      }
+
+      function initMobileNav() {
+        var toggleBtn = document.querySelector(".rp-nav-toggle");
+        var backdrop = document.querySelector(".rp-nav-backdrop");
+        if (!toggleBtn) return;
+
+        function closeMenu() {
+          document.body.classList.remove("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
+
+        function openMenu() {
+          document.body.classList.add("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "true");
+        }
+
+        toggleBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+
+        if (backdrop) {
+          backdrop.addEventListener("click", closeMenu);
+        }
+
+        // Close menu when clicking a nav link
+        var navLinks = document.querySelectorAll(".navbar-links a");
+        navLinks.forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        // Close menu on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+
+        // Close menu if window resizes out of the hamburger breakpoint (>= 768px)
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 768 && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+      }
+
+      function initHeroVideoCarousel() {
+        var carousel = document.querySelector(".real-homepage [data-rp-hero-carousel]");
+        if (!carousel) return;
+
+        var track = carousel.querySelector("[data-rp-carousel-track]");
+        var slides = track ? Array.prototype.slice.call(track.querySelectorAll("[data-rp-carousel-slide]")) : [];
+        if (!track || slides.length === 0) return;
+
+        var prevBtn = carousel.querySelector("[data-rp-carousel-prev]");
+        var nextBtn = carousel.querySelector("[data-rp-carousel-next]");
+        var dotsRoot = carousel.querySelector("[data-rp-carousel-dots]");
+
+        var state = {
+          index: 0,
+          pendingIndex: null,
+          fadeTimer: null,
+          split: 20, // percent (default starts near left)
+          dragging: false,
+          dragEl: null,
+          dragPointerId: null,
+          syncTimer: null,
+        };
+
+        function clamp(n, min, max) {
+          return Math.max(min, Math.min(max, n));
+        }
+
+        function setSplit(pct) {
+          state.split = clamp(pct, 0, 100);
+          carousel.style.setProperty("--rp-split", state.split.toFixed(1) + "%");
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.setAttribute("aria-valuenow", String(Math.round(state.split)));
+          });
+        }
+
+        function activeSlide() {
+          return slides[state.index];
+        }
+
+        function pauseAllVideos() {
+          slides.forEach(function (s) {
+            var vids = s.querySelectorAll("video");
+            vids.forEach(function (v) {
+              try {
+                v.pause();
+              } catch (e) {}
+            });
+          });
+        }
+
+        function playActiveVideos() {
+          var s = activeSlide();
+          if (!s) return;
+          var vids = Array.prototype.slice.call(s.querySelectorAll("video"));
+          vids.forEach(function (v) {
+            v.muted = true;
+            v.playsInline = true;
+            v.loop = true;
+            // Start from the same time (best-effort)
+            try {
+              v.play().catch(function () {});
+            } catch (e) {}
+          });
+
+          // Best-effort sync: keep all vids in the slide close to the first one.
+          if (state.syncTimer) window.clearInterval(state.syncTimer);
+          if (vids.length <= 1) return;
+
+          var master = vids[0];
+          state.syncTimer = window.setInterval(function () {
+            if (!master || master.paused) return;
+            var t = master.currentTime || 0;
+            vids.forEach(function (v) {
+              if (v === master) return;
+              if (Math.abs((v.currentTime || 0) - t) > 0.06) {
+                try {
+                  v.currentTime = t;
+                } catch (e) {}
+              }
+            });
+          }, 250);
+        }
+
+        function buildDots() {
+          if (!dotsRoot) return;
+          dotsRoot.innerHTML = "";
+          slides.forEach(function (s, i) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "rp-carousel-dot" + (i === state.index ? " is-active" : "");
+            btn.setAttribute("aria-label", s.getAttribute("data-title") || "Slide " + (i + 1));
+            btn.addEventListener("click", function () {
+              setIndex(i);
+            });
+            dotsRoot.appendChild(btn);
+          });
+        }
+
+        function normalizeIndex(i) {
+          return ((i % slides.length) + slides.length) % slides.length;
+        }
+
+        function applyIndex() {
+          // Mark active slide (for future extensions)
+          slides.forEach(function (s, idx) {
+            if (idx === state.index) s.classList.add("is-active");
+            else s.classList.remove("is-active");
+          });
+
+          track.style.transform = "translateX(" + -state.index * 100 + "%)";
+          buildDots();
+        }
+
+        function setIndex(i, opts) {
+          if (slides.length <= 0) return;
+          var next = normalizeIndex(i);
+
+          if (opts && opts.immediate) {
+            state.index = next;
+            state.pendingIndex = null;
+            if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+            state.fadeTimer = null;
+
+            applyIndex();
+            pauseAllVideos();
+            playActiveVideos();
+
+            // Ensure visible (in case we were mid-transition).
+            track.style.opacity = "1";
+            return;
+          }
+
+          // If we’re already on this slide (and no pending transition), do nothing.
+          if (state.pendingIndex == null && next === state.index) return;
+
+          state.pendingIndex = next;
+          if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+
+          // Fade out quickly, then swap slides while hidden and fade back in.
+          track.style.opacity = "0";
+          if (state.syncTimer) {
+            window.clearInterval(state.syncTimer);
+            state.syncTimer = null;
+          }
+          pauseAllVideos();
+
+          state.fadeTimer = window.setTimeout(function () {
+            state.index = state.pendingIndex != null ? state.pendingIndex : state.index;
+            state.pendingIndex = null;
+
+            applyIndex();
+            playActiveVideos();
+
+            window.requestAnimationFrame(function () {
+              track.style.opacity = "1";
+            });
+          }, 180);
+        }
+
+        function hideControlsIfSingle() {
+          if (slides.length <= 1) {
+            if (prevBtn) prevBtn.style.display = "none";
+            if (nextBtn) nextBtn.style.display = "none";
+            if (dotsRoot) dotsRoot.style.display = "none";
+          }
+        }
+
+        function splitFromPointerEvent(e, el) {
+          if (!el) return;
+          var rect = el.getBoundingClientRect();
+          if (!rect.width) return;
+          var x = clamp(e.clientX - rect.left, 0, rect.width);
+          setSplit((x / rect.width) * 100);
+        }
+
+        function onPointerDown(e) {
+          // Only left-click / primary contact
+          if (typeof e.button === "number" && e.button !== 0) return;
+          state.dragging = true;
+          state.dragEl = e.currentTarget;
+          state.dragPointerId = e.pointerId;
+          try {
+            state.dragEl.setPointerCapture(state.dragPointerId);
+          } catch (err) {}
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function onPointerMove(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function endDrag(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          state.dragging = false;
+          state.dragEl = null;
+          state.dragPointerId = null;
+        }
+
+        function attachCompareHandlers() {
+          var compares = carousel.querySelectorAll("[data-rp-compare]");
+          compares.forEach(function (el) {
+            el.addEventListener("pointerdown", onPointerDown);
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", endDrag);
+            el.addEventListener("pointercancel", endDrag);
+          });
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.addEventListener("keydown", function (e) {
+              var step = 2;
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setSplit(state.split - step);
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setSplit(state.split + step);
+              } else if (e.key === "Home") {
+                e.preventDefault();
+                setSplit(0);
+              } else if (e.key === "End") {
+                e.preventDefault();
+                setSplit(100);
+              }
+            });
+          });
+        }
+
+        // Nav controls
+        if (prevBtn) {
+          prevBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base - 1);
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base + 1);
+          });
+        }
+
+        hideControlsIfSingle();
+        attachCompareHandlers();
+        setSplit(state.split);
+        buildDots();
+        setIndex(0, { immediate: true });
+      }
+
+      function initDatasetVideoTiles() {
+        // Homepage-only: dataset bento tiles with hover overlay + loading fallback
+        var home = document.querySelector(".content-wrapper.real-homepage");
+        if (!home) return;
+
+        var tiles = Array.prototype.slice.call(home.querySelectorAll("#datasets [data-rp-video-tile]"));
+        if (!tiles || tiles.length === 0) return;
+
+        tiles.forEach(function (tile) {
+          var video = tile.querySelector("video");
+          if (!video) return;
+
+          function markLoaded() {
+            tile.classList.add("is-loaded");
+            tile.classList.remove("is-error");
+          }
+
+          function markError() {
+            tile.classList.add("is-error");
+            tile.classList.remove("is-loaded");
+          }
+
+          function onLoaded() {
+            markLoaded();
+            try {
+              video.removeEventListener("loadeddata", onLoaded);
+            } catch (e) {}
+          }
+
+          // If the first frame is already available, mark immediately (e.g., cache hit).
+          if (video.readyState >= 2) {
+            markLoaded();
+          } else {
+            video.addEventListener("loadeddata", onLoaded);
+          }
+
+          video.addEventListener("error", markError);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          initSidebarToggle();
+          initMobileNav();
+          initHeroVideoCarousel();
+          initDatasetVideoTiles();
+          fitPageTitle();
+
+          var resizeTimer;
+          window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+              fitPageTitle();
+            }, 100);
+          });
+        });
+      } else {
+        initSidebarToggle();
+        initMobileNav();
+        initHeroVideoCarousel();
+        initDatasetVideoTiles();
+        fitPageTitle();
+      }
+    })();
+  </script>
+
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

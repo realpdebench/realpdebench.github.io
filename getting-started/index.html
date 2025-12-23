@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://realpdebench.github.io/getting-started/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Getting Started - RealPDEBench</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../stylesheets/custom.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Apply collapsed-sidebar state early to avoid flash on refresh.
+    (function () {
+      try {
+        
+        if (localStorage.getItem("rp_sidebar_collapsed") === "1") {
+          document.documentElement.classList.add("sidebar-collapsed");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">RealPDEBench</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+<!-- Custom Apple-style Navigation Bar -->
+<nav class="apple-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="https://realpdebench.github.io/">RealPDEBench</a>
+    </div>
+    <div class="navbar-links" id="rp-nav-menu">
+      <a href="https://realpdebench.github.io/">Home</a>
+      <a href="https://realpdebench.github.io/getting-started/">Getting Started</a>
+      <a href="https://realpdebench.github.io/datasets/">Datasets</a>
+      <a href="https://realpdebench.github.io/models/">Models</a>
+      <a href="https://realpdebench.github.io/metrics/">Metrics</a>
+      <a href="https://github.com/realpdebench/realpdebench.github.io" target="_blank">GitHub</a>
+    </div>
+    <div class="navbar-search">
+      <button class="search-btn" aria-label="Search" type="button" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+          <circle cx="8" cy="8" r="6" stroke-width="2"/>
+          <path d="M12.5 12.5L16 16" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button type="button" class="rp-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="rp-nav-menu">
+        <span class="rp-nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="rp-nav-backdrop" aria-hidden="true"></div>
+
+
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../metrics/physics-oriented/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/realpdebench/realpdebench.github.io/edit/master/docs/getting-started.md" class="nav-link">Edit on realpdebench/realpdebench.github.io
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+<div class="content-wrapper ">
+  
+    <button type="button" class="rp-sidebar-toggle rp-sidebar-toggle-floating" aria-label="Toggle sidebar">
+      <span class="rp-sidebar-toggle-icon" aria-hidden="true"></span>
+    </button>
+  
+  
+                    <div class="col-md-3"><div class="bs-sidebar rp-sidebar" role="complementary" aria-label="Sidebar navigation">
+  
+
+  
+
+  
+  
+
+  <div class="rp-sidebar-section">
+    <div class="rp-sidebar-section-label">GETTING STARTED</div>
+    
+      
+      
+      
+      <ul class="nav flex-column rp-sidebar-toc">
+        <li class="nav-item rp-sidebar-toc-item level-2">
+          <a href="#installation" class="nav-link">Installation</a></li><li class="nav-item rp-sidebar-toc-item level-2">
+          <a href="#basic-usage" class="nav-link">Basic Usage</a><ul class="nav flex-column rp-sidebar-toc"><li class="nav-item rp-sidebar-toc-item level-3">
+          <a href="#load-a-dataset" class="nav-link">Load a Dataset</a></li><li class="nav-item rp-sidebar-toc-item level-3">
+          <a href="#train-a-model" class="nav-link">Train a Model</a></li><li class="nav-item rp-sidebar-toc-item level-3">
+          <a href="#evaluate" class="nav-link">Evaluate</a></li></ul></li><li class="nav-item rp-sidebar-toc-item level-2">
+          <a href="#training-paradigms" class="nav-link">Training Paradigms</a><ul class="nav flex-column rp-sidebar-toc"><li class="nav-item rp-sidebar-toc-item level-3">
+          <a href="#1-simulated-training" class="nav-link">1. Simulated Training</a></li><li class="nav-item rp-sidebar-toc-item level-3">
+          <a href="#2-real-world-training" class="nav-link">2. Real-World Training</a></li><li class="nav-item rp-sidebar-toc-item level-3">
+          <a href="#3-sim-pretrain-real-finetune" class="nav-link">3. Sim Pretrain + Real Finetune</a></li></ul></li><li class="nav-item rp-sidebar-toc-item level-2">
+          <a href="#download-data" class="nav-link">Download Data</a></li><li class="nav-item rp-sidebar-toc-item level-2">
+          <a href="#examples" class="nav-link">Examples</a></li><li class="nav-item rp-sidebar-toc-item level-2">
+          <a href="#support" class="nav-link">Support</a></li>
+      </ul>
+    
+  </div>
+</div>
+
+</div>
+                    <div class="col-md-9" role="main">
+
+
+  <h1 id="getting-started">Getting Started<a class="headerlink" href="#getting-started" title="Permanent link">&para;</a></h1>
+<p>Quick start guide to using RealPDEBench.</p>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>realpdebench
+</span></code></pre></div>
+<h2 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
+<h3 id="load-a-dataset">Load a Dataset<a class="headerlink" href="#load-a-dataset" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">realpdebench</span><span class="w"> </span><span class="kn">import</span> <span class="n">CylinderDataset</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Initialize dataset</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">dataset</span> <span class="o">=</span> <span class="n">CylinderDataset</span><span class="p">(</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    <span class="n">data_path</span><span class="o">=</span><span class="s1">&#39;path/to/cylinder.h5&#39;</span><span class="p">,</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">,</span>  <span class="c1"># &#39;real&#39;, &#39;sim&#39;, or &#39;both&#39;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span>  <span class="c1"># &#39;train&#39;, &#39;val&#39;, or &#39;test&#39;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">)</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Get a sample</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="n">sample</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="s1">&#39;velocity&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>  <span class="c1"># (T, X, Y, 2)</span>
+</span></code></pre></div>
+<h3 id="train-a-model">Train a Model<a class="headerlink" href="#train-a-model" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">realpdebench.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FNO</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">realpdebench.training</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trainer</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Initialize model</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">model</span> <span class="o">=</span> <span class="n">FNO</span><span class="p">(</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="n">modes</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">width</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">)</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Setup trainer</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="n">trainer</span> <span class="o">=</span> <span class="n">Trainer</span><span class="p">(</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>    <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>    <span class="n">config</span><span class="o">=</span><span class="s1">&#39;configs/fno_cylinder.yaml&#39;</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="p">)</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="c1"># Train</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</span></code></pre></div>
+<h3 id="evaluate">Evaluate<a class="headerlink" href="#evaluate" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">realpdebench.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">evaluate_model</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Evaluate on real-world test data</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">metrics</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;rmse&#39;</span><span class="p">,</span> <span class="s1">&#39;rel_l2&#39;</span><span class="p">,</span> <span class="s1">&#39;r2&#39;</span><span class="p">,</span> <span class="s1">&#39;ke&#39;</span><span class="p">]</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="nb">print</span><span class="p">(</span><span class="n">metrics</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="training-paradigms">Training Paradigms<a class="headerlink" href="#training-paradigms" title="Permanent link">&para;</a></h2>
+<h3 id="1-simulated-training">1. Simulated Training<a class="headerlink" href="#1-simulated-training" title="Permanent link">&para;</a></h3>
+<p>Train only on simulated data, test on real data:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">CylinderDataset</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;sim&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">test_dataset</span> <span class="o">=</span> <span class="n">CylinderDataset</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="2-real-world-training">2. Real-World Training<a class="headerlink" href="#2-real-world-training" title="Permanent link">&para;</a></h3>
+<p>Train on limited real data:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">train_dataset</span> <span class="o">=</span> <span class="n">CylinderDataset</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">test_dataset</span> <span class="o">=</span> <span class="n">CylinderDataset</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="3-sim-pretrain-real-finetune">3. Sim Pretrain + Real Finetune<a class="headerlink" href="#3-sim-pretrain-real-finetune" title="Permanent link">&para;</a></h3>
+<p>Leverage both simulated and real data:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Pretrain on simulated data</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">pretrain_dataset</span> <span class="o">=</span> <span class="n">CylinderDataset</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;sim&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">trainer</span><span class="o">.</span><span class="n">pretrain</span><span class="p">(</span><span class="n">pretrain_dataset</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># Finetune on real data</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">finetune_dataset</span> <span class="o">=</span> <span class="n">CylinderDataset</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s1">&#39;train&#39;</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="n">trainer</span><span class="o">.</span><span class="n">finetune</span><span class="p">(</span><span class="n">finetune_dataset</span><span class="p">)</span>
+</span></code></pre></div>
+<h2 id="download-data">Download Data<a class="headerlink" href="#download-data" title="Permanent link">&para;</a></h2>
+<p>Visit our <a href="/datasets/">Datasets</a> page to download individual datasets or the full benchmark.</p>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<p>Check out example notebooks:</p>
+<ul>
+<li><a href="examples/cylinder_prediction.ipynb">Cylinder Wake Prediction</a></li>
+<li><a href="examples/sim_to_real.ipynb">Sim-to-Real Transfer</a></li>
+<li><a href="examples/model_comparison.ipynb">Model Comparison</a></li>
+</ul>
+<h2 id="support">Support<a class="headerlink" href="#support" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>GitHub Issues:</strong> <a href="https://github.com/realpdebench/realpdebench.github.io/issues">Report bugs</a></li>
+<li><strong>Discussions:</strong> <a href="https://github.com/realpdebench/realpdebench.github.io/discussions">Ask questions</a></li>
+<li><strong>Email:</strong> contact@realpdebench.org</li>
+</ul>
+
+
+</div>
+
+  
+</div>
+
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+  
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../search/main.js"></script>
+  <script>
+    (function () {
+      function fitOneLineTitle(el, opts) {
+        if (!el) return;
+
+        var minPx = (opts && opts.minPx) || 18;
+        var maxSteps = (opts && opts.maxSteps) || 120;
+
+        // Reset any previous inline sizing (so it can grow again when more space is available).
+        el.style.removeProperty("font-size");
+        el.style.whiteSpace = "nowrap";
+
+        // Force a reflow after reset so measurements are accurate.
+        // eslint-disable-next-line no-unused-expressions
+        el.offsetWidth;
+
+        var size = parseFloat(window.getComputedStyle(el).fontSize) || 32;
+        var guard = 0;
+
+        while (guard < maxSteps && el.scrollWidth - el.clientWidth > 1 && size > minPx) {
+          size -= 1;
+          el.style.fontSize = size + "px";
+          guard += 1;
+        }
+      }
+
+      function fitPageTitle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper) return;
+
+        // We only support responsive layout down to 768px width. Below that, do not adapt.
+        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+
+        if (wrapper.classList.contains("real-homepage")) {
+          var hero = document.querySelector(".real-homepage .hero-title");
+          if (w < 768) {
+            if (hero) hero.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(hero, { minPx: 28 });
+        } else {
+          var h1 = document.querySelector(".content-wrapper:not(.real-homepage) .col-md-9[role='main'] > h1");
+          if (w < 768) {
+            if (h1) h1.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(h1, { minPx: 20 });
+        }
+      }
+
+      function initSidebarToggle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper || wrapper.classList.contains("real-homepage")) return;
+
+        var btn = document.querySelector(".rp-sidebar-toggle");
+        if (!btn) return;
+
+        btn.addEventListener("click", function () {
+          document.documentElement.classList.toggle("sidebar-collapsed");
+          try {
+            localStorage.setItem(
+              "rp_sidebar_collapsed",
+              document.documentElement.classList.contains("sidebar-collapsed") ? "1" : "0"
+            );
+          } catch (e) {}
+
+          // Sidebar toggle changes available title width; refit after layout updates.
+          window.requestAnimationFrame(function () {
+            fitPageTitle();
+          });
+        });
+      }
+
+      function initMobileNav() {
+        var toggleBtn = document.querySelector(".rp-nav-toggle");
+        var backdrop = document.querySelector(".rp-nav-backdrop");
+        if (!toggleBtn) return;
+
+        function closeMenu() {
+          document.body.classList.remove("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
+
+        function openMenu() {
+          document.body.classList.add("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "true");
+        }
+
+        toggleBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+
+        if (backdrop) {
+          backdrop.addEventListener("click", closeMenu);
+        }
+
+        // Close menu when clicking a nav link
+        var navLinks = document.querySelectorAll(".navbar-links a");
+        navLinks.forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        // Close menu on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+
+        // Close menu if window resizes out of the hamburger breakpoint (>= 768px)
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 768 && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+      }
+
+      function initHeroVideoCarousel() {
+        var carousel = document.querySelector(".real-homepage [data-rp-hero-carousel]");
+        if (!carousel) return;
+
+        var track = carousel.querySelector("[data-rp-carousel-track]");
+        var slides = track ? Array.prototype.slice.call(track.querySelectorAll("[data-rp-carousel-slide]")) : [];
+        if (!track || slides.length === 0) return;
+
+        var prevBtn = carousel.querySelector("[data-rp-carousel-prev]");
+        var nextBtn = carousel.querySelector("[data-rp-carousel-next]");
+        var dotsRoot = carousel.querySelector("[data-rp-carousel-dots]");
+
+        var state = {
+          index: 0,
+          pendingIndex: null,
+          fadeTimer: null,
+          split: 20, // percent (default starts near left)
+          dragging: false,
+          dragEl: null,
+          dragPointerId: null,
+          syncTimer: null,
+        };
+
+        function clamp(n, min, max) {
+          return Math.max(min, Math.min(max, n));
+        }
+
+        function setSplit(pct) {
+          state.split = clamp(pct, 0, 100);
+          carousel.style.setProperty("--rp-split", state.split.toFixed(1) + "%");
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.setAttribute("aria-valuenow", String(Math.round(state.split)));
+          });
+        }
+
+        function activeSlide() {
+          return slides[state.index];
+        }
+
+        function pauseAllVideos() {
+          slides.forEach(function (s) {
+            var vids = s.querySelectorAll("video");
+            vids.forEach(function (v) {
+              try {
+                v.pause();
+              } catch (e) {}
+            });
+          });
+        }
+
+        function playActiveVideos() {
+          var s = activeSlide();
+          if (!s) return;
+          var vids = Array.prototype.slice.call(s.querySelectorAll("video"));
+          vids.forEach(function (v) {
+            v.muted = true;
+            v.playsInline = true;
+            v.loop = true;
+            // Start from the same time (best-effort)
+            try {
+              v.play().catch(function () {});
+            } catch (e) {}
+          });
+
+          // Best-effort sync: keep all vids in the slide close to the first one.
+          if (state.syncTimer) window.clearInterval(state.syncTimer);
+          if (vids.length <= 1) return;
+
+          var master = vids[0];
+          state.syncTimer = window.setInterval(function () {
+            if (!master || master.paused) return;
+            var t = master.currentTime || 0;
+            vids.forEach(function (v) {
+              if (v === master) return;
+              if (Math.abs((v.currentTime || 0) - t) > 0.06) {
+                try {
+                  v.currentTime = t;
+                } catch (e) {}
+              }
+            });
+          }, 250);
+        }
+
+        function buildDots() {
+          if (!dotsRoot) return;
+          dotsRoot.innerHTML = "";
+          slides.forEach(function (s, i) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "rp-carousel-dot" + (i === state.index ? " is-active" : "");
+            btn.setAttribute("aria-label", s.getAttribute("data-title") || "Slide " + (i + 1));
+            btn.addEventListener("click", function () {
+              setIndex(i);
+            });
+            dotsRoot.appendChild(btn);
+          });
+        }
+
+        function normalizeIndex(i) {
+          return ((i % slides.length) + slides.length) % slides.length;
+        }
+
+        function applyIndex() {
+          // Mark active slide (for future extensions)
+          slides.forEach(function (s, idx) {
+            if (idx === state.index) s.classList.add("is-active");
+            else s.classList.remove("is-active");
+          });
+
+          track.style.transform = "translateX(" + -state.index * 100 + "%)";
+          buildDots();
+        }
+
+        function setIndex(i, opts) {
+          if (slides.length <= 0) return;
+          var next = normalizeIndex(i);
+
+          if (opts && opts.immediate) {
+            state.index = next;
+            state.pendingIndex = null;
+            if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+            state.fadeTimer = null;
+
+            applyIndex();
+            pauseAllVideos();
+            playActiveVideos();
+
+            // Ensure visible (in case we were mid-transition).
+            track.style.opacity = "1";
+            return;
+          }
+
+          // If we’re already on this slide (and no pending transition), do nothing.
+          if (state.pendingIndex == null && next === state.index) return;
+
+          state.pendingIndex = next;
+          if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+
+          // Fade out quickly, then swap slides while hidden and fade back in.
+          track.style.opacity = "0";
+          if (state.syncTimer) {
+            window.clearInterval(state.syncTimer);
+            state.syncTimer = null;
+          }
+          pauseAllVideos();
+
+          state.fadeTimer = window.setTimeout(function () {
+            state.index = state.pendingIndex != null ? state.pendingIndex : state.index;
+            state.pendingIndex = null;
+
+            applyIndex();
+            playActiveVideos();
+
+            window.requestAnimationFrame(function () {
+              track.style.opacity = "1";
+            });
+          }, 180);
+        }
+
+        function hideControlsIfSingle() {
+          if (slides.length <= 1) {
+            if (prevBtn) prevBtn.style.display = "none";
+            if (nextBtn) nextBtn.style.display = "none";
+            if (dotsRoot) dotsRoot.style.display = "none";
+          }
+        }
+
+        function splitFromPointerEvent(e, el) {
+          if (!el) return;
+          var rect = el.getBoundingClientRect();
+          if (!rect.width) return;
+          var x = clamp(e.clientX - rect.left, 0, rect.width);
+          setSplit((x / rect.width) * 100);
+        }
+
+        function onPointerDown(e) {
+          // Only left-click / primary contact
+          if (typeof e.button === "number" && e.button !== 0) return;
+          state.dragging = true;
+          state.dragEl = e.currentTarget;
+          state.dragPointerId = e.pointerId;
+          try {
+            state.dragEl.setPointerCapture(state.dragPointerId);
+          } catch (err) {}
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function onPointerMove(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function endDrag(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          state.dragging = false;
+          state.dragEl = null;
+          state.dragPointerId = null;
+        }
+
+        function attachCompareHandlers() {
+          var compares = carousel.querySelectorAll("[data-rp-compare]");
+          compares.forEach(function (el) {
+            el.addEventListener("pointerdown", onPointerDown);
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", endDrag);
+            el.addEventListener("pointercancel", endDrag);
+          });
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.addEventListener("keydown", function (e) {
+              var step = 2;
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setSplit(state.split - step);
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setSplit(state.split + step);
+              } else if (e.key === "Home") {
+                e.preventDefault();
+                setSplit(0);
+              } else if (e.key === "End") {
+                e.preventDefault();
+                setSplit(100);
+              }
+            });
+          });
+        }
+
+        // Nav controls
+        if (prevBtn) {
+          prevBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base - 1);
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base + 1);
+          });
+        }
+
+        hideControlsIfSingle();
+        attachCompareHandlers();
+        setSplit(state.split);
+        buildDots();
+        setIndex(0, { immediate: true });
+      }
+
+      function initDatasetVideoTiles() {
+        // Homepage-only: dataset bento tiles with hover overlay + loading fallback
+        var home = document.querySelector(".content-wrapper.real-homepage");
+        if (!home) return;
+
+        var tiles = Array.prototype.slice.call(home.querySelectorAll("#datasets [data-rp-video-tile]"));
+        if (!tiles || tiles.length === 0) return;
+
+        tiles.forEach(function (tile) {
+          var video = tile.querySelector("video");
+          if (!video) return;
+
+          function markLoaded() {
+            tile.classList.add("is-loaded");
+            tile.classList.remove("is-error");
+          }
+
+          function markError() {
+            tile.classList.add("is-error");
+            tile.classList.remove("is-loaded");
+          }
+
+          function onLoaded() {
+            markLoaded();
+            try {
+              video.removeEventListener("loadeddata", onLoaded);
+            } catch (e) {}
+          }
+
+          // If the first frame is already available, mark immediately (e.g., cache hit).
+          if (video.readyState >= 2) {
+            markLoaded();
+          } else {
+            video.addEventListener("loadeddata", onLoaded);
+          }
+
+          video.addEventListener("error", markError);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          initSidebarToggle();
+          initMobileNav();
+          initHeroVideoCarousel();
+          initDatasetVideoTiles();
+          fitPageTitle();
+
+          var resizeTimer;
+          window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+              fitPageTitle();
+            }, 100);
+          });
+        });
+      } else {
+        initSidebarToggle();
+        initMobileNav();
+        initHeroVideoCarousel();
+        initDatasetVideoTiles();
+        fitPageTitle();
+      }
+    })();
+  </script>
+
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

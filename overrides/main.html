@@ -1,0 +1,531 @@
+{% extends "base.html" %}
+{# MkDocs marks ALL */index.md pages as page.is_homepage (including /datasets/).
+   We only want landing-page behaviors on the site root index.md. #}
+{% set is_site_home = page and page.file and page.file.src_path == 'index.md' %}
+
+{% block extrahead %}
+  {{ super() }}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Apply collapsed-sidebar state early to avoid flash on refresh.
+    (function () {
+      try {
+        {% if is_site_home %}
+        document.documentElement.classList.add("rp-site-home");
+        {% endif %}
+        if (localStorage.getItem("rp_sidebar_collapsed") === "1") {
+          document.documentElement.classList.add("sidebar-collapsed");
+        }
+      } catch (e) {}
+    })();
+  </script>
+{% endblock %}
+
+{% block site_nav %}
+<!-- Custom Apple-style Navigation Bar -->
+<nav class="apple-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="{{ config.site_url or '/' }}">RealPDEBench</a>
+    </div>
+    <div class="navbar-links" id="rp-nav-menu">
+      <a href="{{ config.site_url or '/' }}">Home</a>
+      <a href="{{ config.site_url or '/' }}getting-started/">Getting Started</a>
+      <a href="{{ config.site_url or '/' }}datasets/">Datasets</a>
+      <a href="{{ config.site_url or '/' }}models/">Models</a>
+      <a href="{{ config.site_url or '/' }}metrics/">Metrics</a>
+      <a href="{{ config.repo_url }}" target="_blank">GitHub</a>
+    </div>
+    <div class="navbar-search">
+      <button class="search-btn" aria-label="Search" type="button" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+          <circle cx="8" cy="8" r="6" stroke-width="2"/>
+          <path d="M12.5 12.5L16 16" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button type="button" class="rp-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="rp-nav-menu">
+        <span class="rp-nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="rp-nav-backdrop" aria-hidden="true"></div>
+
+{% endblock %}
+
+{% block content %}
+<div class="content-wrapper {% if is_site_home %}real-homepage{% endif %}">
+  {% if not is_site_home %}
+    <button type="button" class="rp-sidebar-toggle rp-sidebar-toggle-floating" aria-label="Toggle sidebar">
+      <span class="rp-sidebar-toggle-icon" aria-hidden="true"></span>
+    </button>
+  {% endif %}
+  {{ super() }}
+
+  {% if is_site_home %}
+    <!-- Homepage Footer -->
+    <footer class="rp-footer">
+      <div class="container">
+        <div class="rp-footer-content">
+          <p class="rp-footer-copyright">© 2025 AI for Scientific Simulation and Discovery Lab, Westlake University. All rights reserved.</p>
+          <div class="rp-footer-links">
+            <a href="https://ai4s.lab.westlake.edu.cn/" target="_blank">Lab Website</a> | 
+            <a href="mailto:wutailin@westlake.edu.cn">Contact</a>
+          </div>
+          <p class="rp-footer-note">
+            For questions and collaborations, please reach out via email or 
+            <a href="{{ config.repo_url }}/issues" target="_blank">GitHub Issues</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    (function () {
+      function fitOneLineTitle(el, opts) {
+        if (!el) return;
+
+        var minPx = (opts && opts.minPx) || 18;
+        var maxSteps = (opts && opts.maxSteps) || 120;
+
+        // Reset any previous inline sizing (so it can grow again when more space is available).
+        el.style.removeProperty("font-size");
+        el.style.whiteSpace = "nowrap";
+
+        // Force a reflow after reset so measurements are accurate.
+        // eslint-disable-next-line no-unused-expressions
+        el.offsetWidth;
+
+        var size = parseFloat(window.getComputedStyle(el).fontSize) || 32;
+        var guard = 0;
+
+        while (guard < maxSteps && el.scrollWidth - el.clientWidth > 1 && size > minPx) {
+          size -= 1;
+          el.style.fontSize = size + "px";
+          guard += 1;
+        }
+      }
+
+      function fitPageTitle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper) return;
+
+        // We only support responsive layout down to 768px width. Below that, do not adapt.
+        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+
+        if (wrapper.classList.contains("real-homepage")) {
+          var hero = document.querySelector(".real-homepage .hero-title");
+          if (w < 768) {
+            if (hero) hero.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(hero, { minPx: 28 });
+        } else {
+          var h1 = document.querySelector(".content-wrapper:not(.real-homepage) .col-md-9[role='main'] > h1");
+          if (w < 768) {
+            if (h1) h1.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(h1, { minPx: 20 });
+        }
+      }
+
+      function initSidebarToggle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper || wrapper.classList.contains("real-homepage")) return;
+
+        var btn = document.querySelector(".rp-sidebar-toggle");
+        if (!btn) return;
+
+        btn.addEventListener("click", function () {
+          document.documentElement.classList.toggle("sidebar-collapsed");
+          try {
+            localStorage.setItem(
+              "rp_sidebar_collapsed",
+              document.documentElement.classList.contains("sidebar-collapsed") ? "1" : "0"
+            );
+          } catch (e) {}
+
+          // Sidebar toggle changes available title width; refit after layout updates.
+          window.requestAnimationFrame(function () {
+            fitPageTitle();
+          });
+        });
+      }
+
+      function initMobileNav() {
+        var toggleBtn = document.querySelector(".rp-nav-toggle");
+        var backdrop = document.querySelector(".rp-nav-backdrop");
+        if (!toggleBtn) return;
+
+        function closeMenu() {
+          document.body.classList.remove("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
+
+        function openMenu() {
+          document.body.classList.add("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "true");
+        }
+
+        toggleBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+
+        if (backdrop) {
+          backdrop.addEventListener("click", closeMenu);
+        }
+
+        // Close menu when clicking a nav link
+        var navLinks = document.querySelectorAll(".navbar-links a");
+        navLinks.forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        // Close menu on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+
+        // Close menu if window resizes out of the hamburger breakpoint (>= 768px)
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 768 && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+      }
+
+      function initHeroVideoCarousel() {
+        var carousel = document.querySelector(".real-homepage [data-rp-hero-carousel]");
+        if (!carousel) return;
+
+        var track = carousel.querySelector("[data-rp-carousel-track]");
+        var slides = track ? Array.prototype.slice.call(track.querySelectorAll("[data-rp-carousel-slide]")) : [];
+        if (!track || slides.length === 0) return;
+
+        var prevBtn = carousel.querySelector("[data-rp-carousel-prev]");
+        var nextBtn = carousel.querySelector("[data-rp-carousel-next]");
+        var dotsRoot = carousel.querySelector("[data-rp-carousel-dots]");
+
+        var state = {
+          index: 0,
+          pendingIndex: null,
+          fadeTimer: null,
+          split: 20, // percent (default starts near left)
+          dragging: false,
+          dragEl: null,
+          dragPointerId: null,
+          syncTimer: null,
+        };
+
+        function clamp(n, min, max) {
+          return Math.max(min, Math.min(max, n));
+        }
+
+        function setSplit(pct) {
+          state.split = clamp(pct, 0, 100);
+          carousel.style.setProperty("--rp-split", state.split.toFixed(1) + "%");
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.setAttribute("aria-valuenow", String(Math.round(state.split)));
+          });
+        }
+
+        function activeSlide() {
+          return slides[state.index];
+        }
+
+        function pauseAllVideos() {
+          slides.forEach(function (s) {
+            var vids = s.querySelectorAll("video");
+            vids.forEach(function (v) {
+              try {
+                v.pause();
+              } catch (e) {}
+            });
+          });
+        }
+
+        function playActiveVideos() {
+          var s = activeSlide();
+          if (!s) return;
+          var vids = Array.prototype.slice.call(s.querySelectorAll("video"));
+          vids.forEach(function (v) {
+            v.muted = true;
+            v.playsInline = true;
+            v.loop = true;
+            // Start from the same time (best-effort)
+            try {
+              v.play().catch(function () {});
+            } catch (e) {}
+          });
+
+          // Best-effort sync: keep all vids in the slide close to the first one.
+          if (state.syncTimer) window.clearInterval(state.syncTimer);
+          if (vids.length <= 1) return;
+
+          var master = vids[0];
+          state.syncTimer = window.setInterval(function () {
+            if (!master || master.paused) return;
+            var t = master.currentTime || 0;
+            vids.forEach(function (v) {
+              if (v === master) return;
+              if (Math.abs((v.currentTime || 0) - t) > 0.06) {
+                try {
+                  v.currentTime = t;
+                } catch (e) {}
+              }
+            });
+          }, 250);
+        }
+
+        function buildDots() {
+          if (!dotsRoot) return;
+          dotsRoot.innerHTML = "";
+          slides.forEach(function (s, i) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "rp-carousel-dot" + (i === state.index ? " is-active" : "");
+            btn.setAttribute("aria-label", s.getAttribute("data-title") || "Slide " + (i + 1));
+            btn.addEventListener("click", function () {
+              setIndex(i);
+            });
+            dotsRoot.appendChild(btn);
+          });
+        }
+
+        function normalizeIndex(i) {
+          return ((i % slides.length) + slides.length) % slides.length;
+        }
+
+        function applyIndex() {
+          // Mark active slide (for future extensions)
+          slides.forEach(function (s, idx) {
+            if (idx === state.index) s.classList.add("is-active");
+            else s.classList.remove("is-active");
+          });
+
+          track.style.transform = "translateX(" + -state.index * 100 + "%)";
+          buildDots();
+        }
+
+        function setIndex(i, opts) {
+          if (slides.length <= 0) return;
+          var next = normalizeIndex(i);
+
+          if (opts && opts.immediate) {
+            state.index = next;
+            state.pendingIndex = null;
+            if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+            state.fadeTimer = null;
+
+            applyIndex();
+            pauseAllVideos();
+            playActiveVideos();
+
+            // Ensure visible (in case we were mid-transition).
+            track.style.opacity = "1";
+            return;
+          }
+
+          // If we’re already on this slide (and no pending transition), do nothing.
+          if (state.pendingIndex == null && next === state.index) return;
+
+          state.pendingIndex = next;
+          if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+
+          // Fade out quickly, then swap slides while hidden and fade back in.
+          track.style.opacity = "0";
+          if (state.syncTimer) {
+            window.clearInterval(state.syncTimer);
+            state.syncTimer = null;
+          }
+          pauseAllVideos();
+
+          state.fadeTimer = window.setTimeout(function () {
+            state.index = state.pendingIndex != null ? state.pendingIndex : state.index;
+            state.pendingIndex = null;
+
+            applyIndex();
+            playActiveVideos();
+
+            window.requestAnimationFrame(function () {
+              track.style.opacity = "1";
+            });
+          }, 180);
+        }
+
+        function hideControlsIfSingle() {
+          if (slides.length <= 1) {
+            if (prevBtn) prevBtn.style.display = "none";
+            if (nextBtn) nextBtn.style.display = "none";
+            if (dotsRoot) dotsRoot.style.display = "none";
+          }
+        }
+
+        function splitFromPointerEvent(e, el) {
+          if (!el) return;
+          var rect = el.getBoundingClientRect();
+          if (!rect.width) return;
+          var x = clamp(e.clientX - rect.left, 0, rect.width);
+          setSplit((x / rect.width) * 100);
+        }
+
+        function onPointerDown(e) {
+          // Only left-click / primary contact
+          if (typeof e.button === "number" && e.button !== 0) return;
+          state.dragging = true;
+          state.dragEl = e.currentTarget;
+          state.dragPointerId = e.pointerId;
+          try {
+            state.dragEl.setPointerCapture(state.dragPointerId);
+          } catch (err) {}
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function onPointerMove(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function endDrag(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          state.dragging = false;
+          state.dragEl = null;
+          state.dragPointerId = null;
+        }
+
+        function attachCompareHandlers() {
+          var compares = carousel.querySelectorAll("[data-rp-compare]");
+          compares.forEach(function (el) {
+            el.addEventListener("pointerdown", onPointerDown);
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", endDrag);
+            el.addEventListener("pointercancel", endDrag);
+          });
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.addEventListener("keydown", function (e) {
+              var step = 2;
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setSplit(state.split - step);
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setSplit(state.split + step);
+              } else if (e.key === "Home") {
+                e.preventDefault();
+                setSplit(0);
+              } else if (e.key === "End") {
+                e.preventDefault();
+                setSplit(100);
+              }
+            });
+          });
+        }
+
+        // Nav controls
+        if (prevBtn) {
+          prevBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base - 1);
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base + 1);
+          });
+        }
+
+        hideControlsIfSingle();
+        attachCompareHandlers();
+        setSplit(state.split);
+        buildDots();
+        setIndex(0, { immediate: true });
+      }
+
+      function initDatasetVideoTiles() {
+        // Homepage-only: dataset bento tiles with hover overlay + loading fallback
+        var home = document.querySelector(".content-wrapper.real-homepage");
+        if (!home) return;
+
+        var tiles = Array.prototype.slice.call(home.querySelectorAll("#datasets [data-rp-video-tile]"));
+        if (!tiles || tiles.length === 0) return;
+
+        tiles.forEach(function (tile) {
+          var video = tile.querySelector("video");
+          if (!video) return;
+
+          function markLoaded() {
+            tile.classList.add("is-loaded");
+            tile.classList.remove("is-error");
+          }
+
+          function markError() {
+            tile.classList.add("is-error");
+            tile.classList.remove("is-loaded");
+          }
+
+          function onLoaded() {
+            markLoaded();
+            try {
+              video.removeEventListener("loadeddata", onLoaded);
+            } catch (e) {}
+          }
+
+          // If the first frame is already available, mark immediately (e.g., cache hit).
+          if (video.readyState >= 2) {
+            markLoaded();
+          } else {
+            video.addEventListener("loadeddata", onLoaded);
+          }
+
+          video.addEventListener("error", markError);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          initSidebarToggle();
+          initMobileNav();
+          initHeroVideoCarousel();
+          initDatasetVideoTiles();
+          fitPageTitle();
+
+          var resizeTimer;
+          window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+              fitPageTitle();
+            }, 100);
+          });
+        });
+      } else {
+        initSidebarToggle();
+        initMobileNav();
+        initHeroVideoCarousel();
+        initDatasetVideoTiles();
+        fitPageTitle();
+      }
+    })();
+  </script>
+{% endblock %}

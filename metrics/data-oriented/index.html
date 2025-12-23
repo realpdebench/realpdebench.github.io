@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        <link rel="canonical" href="https://realpdebench.github.io/metrics/data-oriented/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Data-oriented - RealPDEBench</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../stylesheets/custom.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Apply collapsed-sidebar state early to avoid flash on refresh.
+    (function () {
+      try {
+        
+        if (localStorage.getItem("rp_sidebar_collapsed") === "1") {
+          document.documentElement.classList.add("sidebar-collapsed");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">RealPDEBench</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+<!-- Custom Apple-style Navigation Bar -->
+<nav class="apple-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="https://realpdebench.github.io/">RealPDEBench</a>
+    </div>
+    <div class="navbar-links" id="rp-nav-menu">
+      <a href="https://realpdebench.github.io/">Home</a>
+      <a href="https://realpdebench.github.io/getting-started/">Getting Started</a>
+      <a href="https://realpdebench.github.io/datasets/">Datasets</a>
+      <a href="https://realpdebench.github.io/models/">Models</a>
+      <a href="https://realpdebench.github.io/metrics/">Metrics</a>
+      <a href="https://github.com/realpdebench/realpdebench.github.io" target="_blank">GitHub</a>
+    </div>
+    <div class="navbar-search">
+      <button class="search-btn" aria-label="Search" type="button" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+          <circle cx="8" cy="8" r="6" stroke-width="2"/>
+          <path d="M12.5 12.5L16 16" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button type="button" class="rp-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="rp-nav-menu">
+        <span class="rp-nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="rp-nav-backdrop" aria-hidden="true"></div>
+
+
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../physics-oriented/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/realpdebench/realpdebench.github.io/edit/master/docs/metrics/data-oriented.md" class="nav-link">Edit on realpdebench/realpdebench.github.io
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+<div class="content-wrapper ">
+  
+    <button type="button" class="rp-sidebar-toggle rp-sidebar-toggle-floating" aria-label="Toggle sidebar">
+      <span class="rp-sidebar-toggle-icon" aria-hidden="true"></span>
+    </button>
+  
+  
+                    <div class="col-md-3"><div class="bs-sidebar rp-sidebar" role="complementary" aria-label="Sidebar navigation">
+  
+
+  
+
+  
+  
+
+  <div class="rp-sidebar-section">
+    <div class="rp-sidebar-section-label">METRICS</div>
+    
+      <ul class="nav flex-column rp-sidebar-nav"><li class="nav-item">
+              <a href="../" class="nav-link">Metrics Overview</a>
+            </li><li class="nav-item">
+              <a href="./" class="nav-link active" aria-current="page">Data-oriented</a>
+            </li><li class="nav-item">
+              <a href="../physics-oriented/" class="nav-link">Physics-oriented</a>
+            </li></ul>
+    
+  </div>
+</div>
+
+</div>
+                    <div class="col-md-9" role="main">
+
+
+  
+
+  
+  
+  
+
+  
+
+  
+  
+  
+    <h1 id="data-oriented-metrics">Data-oriented Metrics<a class="headerlink" href="#data-oriented-metrics" title="Permanent link">&para;</a></h1>
+<p>These metrics evaluate <strong>prediction accuracy</strong> directly in data space (or learning efficiency).</p>
+
+<nav class="onpage-toc" aria-label="On this page">
+  <div class="onpage-toc-title">On this page</div>
+  <ul class="onpage-toc-list">
+    <li class="onpage-toc-item level-2">
+          <a href="#rmse-root-mean-square-error">RMSE (Root Mean Square Error)</a></li><li class="onpage-toc-item level-2">
+          <a href="#relative-l_2-error">Relative \(L_2\) Error</a></li><li class="onpage-toc-item level-2">
+          <a href="#r2-coefficient-of-determination">\(R^2\) (Coefficient of Determination)</a></li><li class="onpage-toc-item level-2">
+          <a href="#update-ratio">Update Ratio</a></li>
+  </ul>
+</nav>
+  <h2 id="rmse-root-mean-square-error">RMSE (Root Mean Square Error)<a class="headerlink" href="#rmse-root-mean-square-error" title="Permanent link">&para;</a></h2>
+<div class="arithmatex">\[
+\text{RMSE} = \sqrt{\frac{1}{K}\sum_k (y_k - \hat{y}_k)^2}
+\]</div>
+<p>Measures average prediction error magnitude.</p>
+<h2 id="relative-l_2-error">Relative <span class="arithmatex">\(L_2\)</span> Error<a class="headerlink" href="#relative-l_2-error" title="Permanent link">&para;</a></h2>
+<div class="arithmatex">\[
+\text{Rel }L_2 = \frac{\|y - \hat{y}\|_2}{\|y\|_2}
+\]</div>
+<p>Scale-independent normalized error.</p>
+<h2 id="r2-coefficient-of-determination"><span class="arithmatex">\(R^2\)</span> (Coefficient of Determination)<a class="headerlink" href="#r2-coefficient-of-determination" title="Permanent link">&para;</a></h2>
+<div class="arithmatex">\[
+R^2 = 1 - \frac{\sum_k (y_k - \hat{y}_k)^2}{\sum_k (y_k - \bar{y})^2}
+\]</div>
+<p>Goodness-of-fit measure (<span class="arithmatex">\(1.0\)</span> = perfect fit).</p>
+<h2 id="update-ratio">Update Ratio<a class="headerlink" href="#update-ratio" title="Permanent link">&para;</a></h2>
+<div class="arithmatex">\[
+\text{Update Ratio} = \frac{N_1}{N_2}
+\]</div>
+<p>Measures pretraining efficiency: <span class="arithmatex">\(N_1\)</span> (finetuning updates) / <span class="arithmatex">\(N_2\)</span> (from-scratch updates).</p>
+  
+
+
+</div>
+
+  
+</div>
+
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+  
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="../../search/main.js"></script>
+  <script>
+    (function () {
+      function fitOneLineTitle(el, opts) {
+        if (!el) return;
+
+        var minPx = (opts && opts.minPx) || 18;
+        var maxSteps = (opts && opts.maxSteps) || 120;
+
+        // Reset any previous inline sizing (so it can grow again when more space is available).
+        el.style.removeProperty("font-size");
+        el.style.whiteSpace = "nowrap";
+
+        // Force a reflow after reset so measurements are accurate.
+        // eslint-disable-next-line no-unused-expressions
+        el.offsetWidth;
+
+        var size = parseFloat(window.getComputedStyle(el).fontSize) || 32;
+        var guard = 0;
+
+        while (guard < maxSteps && el.scrollWidth - el.clientWidth > 1 && size > minPx) {
+          size -= 1;
+          el.style.fontSize = size + "px";
+          guard += 1;
+        }
+      }
+
+      function fitPageTitle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper) return;
+
+        // We only support responsive layout down to 768px width. Below that, do not adapt.
+        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+
+        if (wrapper.classList.contains("real-homepage")) {
+          var hero = document.querySelector(".real-homepage .hero-title");
+          if (w < 768) {
+            if (hero) hero.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(hero, { minPx: 28 });
+        } else {
+          var h1 = document.querySelector(".content-wrapper:not(.real-homepage) .col-md-9[role='main'] > h1");
+          if (w < 768) {
+            if (h1) h1.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(h1, { minPx: 20 });
+        }
+      }
+
+      function initSidebarToggle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper || wrapper.classList.contains("real-homepage")) return;
+
+        var btn = document.querySelector(".rp-sidebar-toggle");
+        if (!btn) return;
+
+        btn.addEventListener("click", function () {
+          document.documentElement.classList.toggle("sidebar-collapsed");
+          try {
+            localStorage.setItem(
+              "rp_sidebar_collapsed",
+              document.documentElement.classList.contains("sidebar-collapsed") ? "1" : "0"
+            );
+          } catch (e) {}
+
+          // Sidebar toggle changes available title width; refit after layout updates.
+          window.requestAnimationFrame(function () {
+            fitPageTitle();
+          });
+        });
+      }
+
+      function initMobileNav() {
+        var toggleBtn = document.querySelector(".rp-nav-toggle");
+        var backdrop = document.querySelector(".rp-nav-backdrop");
+        if (!toggleBtn) return;
+
+        function closeMenu() {
+          document.body.classList.remove("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
+
+        function openMenu() {
+          document.body.classList.add("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "true");
+        }
+
+        toggleBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+
+        if (backdrop) {
+          backdrop.addEventListener("click", closeMenu);
+        }
+
+        // Close menu when clicking a nav link
+        var navLinks = document.querySelectorAll(".navbar-links a");
+        navLinks.forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        // Close menu on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+
+        // Close menu if window resizes out of the hamburger breakpoint (>= 768px)
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 768 && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+      }
+
+      function initHeroVideoCarousel() {
+        var carousel = document.querySelector(".real-homepage [data-rp-hero-carousel]");
+        if (!carousel) return;
+
+        var track = carousel.querySelector("[data-rp-carousel-track]");
+        var slides = track ? Array.prototype.slice.call(track.querySelectorAll("[data-rp-carousel-slide]")) : [];
+        if (!track || slides.length === 0) return;
+
+        var prevBtn = carousel.querySelector("[data-rp-carousel-prev]");
+        var nextBtn = carousel.querySelector("[data-rp-carousel-next]");
+        var dotsRoot = carousel.querySelector("[data-rp-carousel-dots]");
+
+        var state = {
+          index: 0,
+          pendingIndex: null,
+          fadeTimer: null,
+          split: 20, // percent (default starts near left)
+          dragging: false,
+          dragEl: null,
+          dragPointerId: null,
+          syncTimer: null,
+        };
+
+        function clamp(n, min, max) {
+          return Math.max(min, Math.min(max, n));
+        }
+
+        function setSplit(pct) {
+          state.split = clamp(pct, 0, 100);
+          carousel.style.setProperty("--rp-split", state.split.toFixed(1) + "%");
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.setAttribute("aria-valuenow", String(Math.round(state.split)));
+          });
+        }
+
+        function activeSlide() {
+          return slides[state.index];
+        }
+
+        function pauseAllVideos() {
+          slides.forEach(function (s) {
+            var vids = s.querySelectorAll("video");
+            vids.forEach(function (v) {
+              try {
+                v.pause();
+              } catch (e) {}
+            });
+          });
+        }
+
+        function playActiveVideos() {
+          var s = activeSlide();
+          if (!s) return;
+          var vids = Array.prototype.slice.call(s.querySelectorAll("video"));
+          vids.forEach(function (v) {
+            v.muted = true;
+            v.playsInline = true;
+            v.loop = true;
+            // Start from the same time (best-effort)
+            try {
+              v.play().catch(function () {});
+            } catch (e) {}
+          });
+
+          // Best-effort sync: keep all vids in the slide close to the first one.
+          if (state.syncTimer) window.clearInterval(state.syncTimer);
+          if (vids.length <= 1) return;
+
+          var master = vids[0];
+          state.syncTimer = window.setInterval(function () {
+            if (!master || master.paused) return;
+            var t = master.currentTime || 0;
+            vids.forEach(function (v) {
+              if (v === master) return;
+              if (Math.abs((v.currentTime || 0) - t) > 0.06) {
+                try {
+                  v.currentTime = t;
+                } catch (e) {}
+              }
+            });
+          }, 250);
+        }
+
+        function buildDots() {
+          if (!dotsRoot) return;
+          dotsRoot.innerHTML = "";
+          slides.forEach(function (s, i) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "rp-carousel-dot" + (i === state.index ? " is-active" : "");
+            btn.setAttribute("aria-label", s.getAttribute("data-title") || "Slide " + (i + 1));
+            btn.addEventListener("click", function () {
+              setIndex(i);
+            });
+            dotsRoot.appendChild(btn);
+          });
+        }
+
+        function normalizeIndex(i) {
+          return ((i % slides.length) + slides.length) % slides.length;
+        }
+
+        function applyIndex() {
+          // Mark active slide (for future extensions)
+          slides.forEach(function (s, idx) {
+            if (idx === state.index) s.classList.add("is-active");
+            else s.classList.remove("is-active");
+          });
+
+          track.style.transform = "translateX(" + -state.index * 100 + "%)";
+          buildDots();
+        }
+
+        function setIndex(i, opts) {
+          if (slides.length <= 0) return;
+          var next = normalizeIndex(i);
+
+          if (opts && opts.immediate) {
+            state.index = next;
+            state.pendingIndex = null;
+            if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+            state.fadeTimer = null;
+
+            applyIndex();
+            pauseAllVideos();
+            playActiveVideos();
+
+            // Ensure visible (in case we were mid-transition).
+            track.style.opacity = "1";
+            return;
+          }
+
+          // If we’re already on this slide (and no pending transition), do nothing.
+          if (state.pendingIndex == null && next === state.index) return;
+
+          state.pendingIndex = next;
+          if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+
+          // Fade out quickly, then swap slides while hidden and fade back in.
+          track.style.opacity = "0";
+          if (state.syncTimer) {
+            window.clearInterval(state.syncTimer);
+            state.syncTimer = null;
+          }
+          pauseAllVideos();
+
+          state.fadeTimer = window.setTimeout(function () {
+            state.index = state.pendingIndex != null ? state.pendingIndex : state.index;
+            state.pendingIndex = null;
+
+            applyIndex();
+            playActiveVideos();
+
+            window.requestAnimationFrame(function () {
+              track.style.opacity = "1";
+            });
+          }, 180);
+        }
+
+        function hideControlsIfSingle() {
+          if (slides.length <= 1) {
+            if (prevBtn) prevBtn.style.display = "none";
+            if (nextBtn) nextBtn.style.display = "none";
+            if (dotsRoot) dotsRoot.style.display = "none";
+          }
+        }
+
+        function splitFromPointerEvent(e, el) {
+          if (!el) return;
+          var rect = el.getBoundingClientRect();
+          if (!rect.width) return;
+          var x = clamp(e.clientX - rect.left, 0, rect.width);
+          setSplit((x / rect.width) * 100);
+        }
+
+        function onPointerDown(e) {
+          // Only left-click / primary contact
+          if (typeof e.button === "number" && e.button !== 0) return;
+          state.dragging = true;
+          state.dragEl = e.currentTarget;
+          state.dragPointerId = e.pointerId;
+          try {
+            state.dragEl.setPointerCapture(state.dragPointerId);
+          } catch (err) {}
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function onPointerMove(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function endDrag(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          state.dragging = false;
+          state.dragEl = null;
+          state.dragPointerId = null;
+        }
+
+        function attachCompareHandlers() {
+          var compares = carousel.querySelectorAll("[data-rp-compare]");
+          compares.forEach(function (el) {
+            el.addEventListener("pointerdown", onPointerDown);
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", endDrag);
+            el.addEventListener("pointercancel", endDrag);
+          });
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.addEventListener("keydown", function (e) {
+              var step = 2;
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setSplit(state.split - step);
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setSplit(state.split + step);
+              } else if (e.key === "Home") {
+                e.preventDefault();
+                setSplit(0);
+              } else if (e.key === "End") {
+                e.preventDefault();
+                setSplit(100);
+              }
+            });
+          });
+        }
+
+        // Nav controls
+        if (prevBtn) {
+          prevBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base - 1);
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base + 1);
+          });
+        }
+
+        hideControlsIfSingle();
+        attachCompareHandlers();
+        setSplit(state.split);
+        buildDots();
+        setIndex(0, { immediate: true });
+      }
+
+      function initDatasetVideoTiles() {
+        // Homepage-only: dataset bento tiles with hover overlay + loading fallback
+        var home = document.querySelector(".content-wrapper.real-homepage");
+        if (!home) return;
+
+        var tiles = Array.prototype.slice.call(home.querySelectorAll("#datasets [data-rp-video-tile]"));
+        if (!tiles || tiles.length === 0) return;
+
+        tiles.forEach(function (tile) {
+          var video = tile.querySelector("video");
+          if (!video) return;
+
+          function markLoaded() {
+            tile.classList.add("is-loaded");
+            tile.classList.remove("is-error");
+          }
+
+          function markError() {
+            tile.classList.add("is-error");
+            tile.classList.remove("is-loaded");
+          }
+
+          function onLoaded() {
+            markLoaded();
+            try {
+              video.removeEventListener("loadeddata", onLoaded);
+            } catch (e) {}
+          }
+
+          // If the first frame is already available, mark immediately (e.g., cache hit).
+          if (video.readyState >= 2) {
+            markLoaded();
+          } else {
+            video.addEventListener("loadeddata", onLoaded);
+          }
+
+          video.addEventListener("error", markError);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          initSidebarToggle();
+          initMobileNav();
+          initHeroVideoCarousel();
+          initDatasetVideoTiles();
+          fitPageTitle();
+
+          var resizeTimer;
+          window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+              fitPageTitle();
+            }, 100);
+          });
+        });
+      } else {
+        initSidebarToggle();
+        initMobileNav();
+        initHeroVideoCarousel();
+        initDatasetVideoTiles();
+        fitPageTitle();
+      }
+    })();
+  </script>
+
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

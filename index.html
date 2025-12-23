@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="First Scientific ML Benchmark with Paired Real-World and Simulated Data">
+        
+        <link rel="canonical" href="https://realpdebench.github.io/">
+        <link rel="shortcut icon" href="img/favicon.ico">
+        <title>RealPDEBench</title>
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/fontawesome.min.css" rel="stylesheet">
+        <link href="css/brands.min.css" rel="stylesheet">
+        <link href="css/solid.min.css" rel="stylesheet">
+        <link href="css/v4-font-face.min.css" rel="stylesheet">
+        <link href="css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="stylesheets/custom.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script>
+   
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    // Apply collapsed-sidebar state early to avoid flash on refresh.
+    (function () {
+      try {
+        
+        document.documentElement.classList.add("rp-site-home");
+        
+        if (localStorage.getItem("rp_sidebar_collapsed") === "1") {
+          document.documentElement.classList.add("sidebar-collapsed");
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+    </head>
+
+    <body class="homepage">
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href=".">RealPDEBench</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+<!-- Custom Apple-style Navigation Bar -->
+<nav class="apple-navbar">
+  <div class="navbar-container">
+    <div class="navbar-brand">
+      <a href="https://realpdebench.github.io/">RealPDEBench</a>
+    </div>
+    <div class="navbar-links" id="rp-nav-menu">
+      <a href="https://realpdebench.github.io/">Home</a>
+      <a href="https://realpdebench.github.io/getting-started/">Getting Started</a>
+      <a href="https://realpdebench.github.io/datasets/">Datasets</a>
+      <a href="https://realpdebench.github.io/models/">Models</a>
+      <a href="https://realpdebench.github.io/metrics/">Metrics</a>
+      <a href="https://github.com/realpdebench/realpdebench.github.io" target="_blank">GitHub</a>
+    </div>
+    <div class="navbar-search">
+      <button class="search-btn" aria-label="Search" type="button" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+          <circle cx="8" cy="8" r="6" stroke-width="2"/>
+          <path d="M12.5 12.5L16 16" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button type="button" class="rp-nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="rp-nav-menu">
+        <span class="rp-nav-toggle-icon" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+<div class="rp-nav-backdrop" aria-hidden="true"></div>
+
+
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" class="nav-link disabled">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="datasets/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/realpdebench/realpdebench.github.io/edit/master/docs/index.md" class="nav-link">Edit on realpdebench/realpdebench.github.io
+                                    </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+<div class="content-wrapper real-homepage">
+  
+  
+                    <div class="col-md-3"><div class="bs-sidebar rp-sidebar" role="complementary" aria-label="Sidebar navigation">
+  
+
+  
+
+  
+  
+
+  <div class="rp-sidebar-section">
+    <div class="rp-sidebar-section-label">HOME</div>
+    
+      <ul class="nav flex-column rp-sidebar-nav"><li class="nav-item">
+            <a href="." class="nav-link active" aria-current="page">Home</a>
+          </li></ul>
+    
+  </div>
+</div>
+
+</div>
+                    <div class="col-md-9" role="main">
+
+
+  <!-- Hero Section -->
+<section class="section rp-fullbleed rp-fullbleed--hero">
+  <div class="container">
+    <!-- Hero media: synced Real↔Sim comparison carousel (per-dataset) -->
+    <div class="rp-hero-carousel" data-rp-hero-carousel style="--rp-split: 20%;">
+      <div class="rp-carousel-viewport" data-rp-carousel-viewport>
+        <div class="rp-carousel-track" data-rp-carousel-track>
+          <!-- Slide: Combustion -->
+          <div class="rp-carousel-slide is-active" data-rp-carousel-slide data-title="Combustion">
+            <div class="rp-compare-grid">
+              <!-- Left card: Real base, Sim overlay (drag → becomes Sim) -->
+              <div class="rp-compare" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/combusion/combusion_real.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">REAL</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/combusion/combusion_sim.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">SIM</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Real to Sim" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+
+              <!-- Right card: Sim base, Real overlay (drag → becomes Real) -->
+              <div class="rp-compare rp-compare--mirror" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/combusion/combusion_sim.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">SIM</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/combusion/combusion_real.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">REAL</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Sim to Real" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+            </div>
+
+            <div class="rp-carousel-meta" aria-hidden="true">
+              <span class="rp-carousel-kicker">Combustion</span>
+            </div>
+          </div>
+
+          <!-- Slide: FSI -->
+          <div class="rp-carousel-slide" data-rp-carousel-slide data-title="FSI">
+            <div class="rp-compare-grid">
+              <!-- Left card: Real base, Sim overlay (drag → becomes Sim) -->
+              <div class="rp-compare" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/fsi/fsi_real.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">REAL</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/fsi/fsi_sim.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">SIM</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Real to Sim" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+
+              <!-- Right card: Sim base, Real overlay (drag → becomes Real) -->
+              <div class="rp-compare rp-compare--mirror" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/fsi/fsi_sim.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">SIM</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/fsi/fsi_real.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">REAL</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Sim to Real" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+            </div>
+
+            <div class="rp-carousel-meta" aria-hidden="true">
+              <span class="rp-carousel-kicker">FSI</span>
+            </div>
+          </div>
+
+          <!-- Slide: Cylinder -->
+          <div class="rp-carousel-slide" data-rp-carousel-slide data-title="Cylinder">
+            <div class="rp-compare-grid">
+              <!-- Left card: Real base, Sim overlay (drag → becomes Sim) -->
+              <div class="rp-compare" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/cylinder/cylinder_real.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">REAL</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/cylinder/cylinder_sim.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">SIM</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Real to Sim" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+
+              <!-- Right card: Sim base, Real overlay (drag → becomes Real) -->
+              <div class="rp-compare rp-compare--mirror" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/cylinder/cylinder_sim.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">SIM</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/cylinder/cylinder_real.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">REAL</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Sim to Real" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+            </div>
+
+            <div class="rp-carousel-meta" aria-hidden="true">
+              <span class="rp-carousel-kicker">Cylinder</span>
+            </div>
+          </div>
+
+          <!-- Slide: Controlled Cylinder -->
+          <div class="rp-carousel-slide" data-rp-carousel-slide data-title="Controlled Cylinder">
+            <div class="rp-compare-grid">
+              <!-- Left card: Real base, Sim overlay (drag → becomes Sim) -->
+              <div class="rp-compare" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/controlled_cylinder/controlled_cylinder_real.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">REAL</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/controlled_cylinder/controlled_cylinder_sim.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">SIM</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Real to Sim" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+
+              <!-- Right card: Sim base, Real overlay (drag → becomes Real) -->
+              <div class="rp-compare rp-compare--mirror" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/controlled_cylinder/controlled_cylinder_sim.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">SIM</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/controlled_cylinder/controlled_cylinder_real.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">REAL</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Sim to Real" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+            </div>
+
+            <div class="rp-carousel-meta" aria-hidden="true">
+              <span class="rp-carousel-kicker">Controlled Cylinder</span>
+            </div>
+          </div>
+
+          <!-- Slide: Foil -->
+          <div class="rp-carousel-slide" data-rp-carousel-slide data-title="Foil">
+            <div class="rp-compare-grid">
+              <!-- Left card: Real base, Sim overlay (drag → becomes Sim) -->
+              <div class="rp-compare" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/foil/foil_real.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">REAL</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/foil/foil_sim.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">SIM</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Real to Sim" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+
+              <!-- Right card: Sim base, Real overlay (drag → becomes Real) -->
+              <div class="rp-compare rp-compare--mirror" data-rp-compare>
+                <video class="rp-compare-base" muted playsinline loop preload="metadata">
+                  <source src="assets/videos/foil/foil_sim.mp4" type="video/mp4">
+                </video>
+                <div class="rp-compare-label rp-compare-label--base" aria-hidden="true">SIM</div>
+                <div class="rp-compare-overlay" aria-hidden="true">
+                  <video class="rp-compare-over" muted playsinline loop preload="metadata">
+                    <source src="assets/videos/foil/foil_real.mp4" type="video/mp4">
+                  </video>
+                  <div class="rp-compare-label rp-compare-label--overlay" aria-hidden="true">REAL</div>
+                </div>
+                <div class="rp-compare-handle" role="slider" tabindex="0" aria-label="Compare Sim to Real" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20"></div>
+              </div>
+            </div>
+
+            <div class="rp-carousel-meta" aria-hidden="true">
+              <span class="rp-carousel-kicker">Foil</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="rp-carousel-nav rp-carousel-prev" data-rp-carousel-prev aria-label="Previous dataset"></button>
+      <button type="button" class="rp-carousel-nav rp-carousel-next" data-rp-carousel-next aria-label="Next dataset"></button>
+      <div class="rp-carousel-dots" data-rp-carousel-dots aria-label="Dataset selector"></div>
+    </div>
+
+    <div class="rp-hero-inner">
+      <h1 class="hero-title">
+        <span class="hero-gradient-mint">RealPDE</span>Bench:<br>
+        Bridging the <span class="hero-gradient">Sim-to-Real</span> Gap
+      </h1>
+      <p class="rp-hero-subtitle">
+        The first scientific ML benchmark with <strong style="font-weight: 600;">paired real-world and simulated data</strong> for complex physical systems
+      </p>
+      <div class="rp-hero-authors" aria-label="Authors">
+        <p class="rp-hero-authors-names">
+          Peiyan Hu<sup>*</sup>, Haodong Feng<sup>*</sup>, Yue Wang, Zhiming Ma, Tailin Wu<sup>†</sup>
+        </p>
+        <p class="rp-hero-authors-note"><sup>*</sup> Equal contribution · <sup>†</sup> Corresponding author</p>
+      </div>
+      <div class="rp-hero-cta">
+        <a href="#datasets" class="btn-primary">Explore Datasets</a>
+        <a href="#download" class="btn-secondary">Paper</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="spacer-lg"></div>
+
+<!-- Dataset Visualization -->
+<section class="section rp-dataset-showcase">
+  <div class="container">
+    <div class="rp-showcase-grid">
+      <div class="rp-showcase-item">
+        <p class="rp-showcase-label">Real-World Experiments</p>
+        <img src="assets/images/all_real.png" alt="All real-world experimental data" class="rp-showcase-img">
+      </div>
+      <div class="rp-showcase-item">
+        <p class="rp-showcase-label">CFD Simulations</p>
+        <img src="assets/images/all_sim.png" alt="All CFD simulation data" class="rp-showcase-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Key Stats -->
+<section class="section-sm">
+  <div class="container">
+    <div class="rp-home-stats">
+      <div class="rp-home-stat">
+        <span class="stat-number">5</span>
+        <span class="stat-label">Datasets</span>
+      </div>
+      <div class="rp-home-stat">
+        <span class="stat-number">700+</span>
+        <span class="stat-label">Trajectories</span>
+      </div>
+      <div class="rp-home-stat">
+        <span class="stat-number">10</span>
+        <span class="stat-label">Baseline Models</span>
+      </div>
+      <div class="rp-home-stat">
+        <span class="stat-number">8</span>
+        <span class="stat-label">Evaluation Metrics</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bento Grid - Datasets Showcase -->
+<section id="datasets" class="section">
+  <div class="container">
+    <p class="subtitle">Benchmark Datasets</p>
+    <h2 class="section-title">Five Physical Systems<br/>Real Experiments + CFD Simulations</h2>
+
+    <div class="bento-grid">
+
+      <!-- Large: FSI -->
+      <a class="bento-item bento-large glass-card" href="datasets/fsi/" style="background: linear-gradient(135deg, rgba(216,212,230,0.3) 0%, rgba(255,255,255,0.9) 100%); display: flex; align-items: center;">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: center; width: 100%;">
+          <div>
+            <h3 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">FSI</h3>
+            <p style="color: var(--slate); font-size: 1.125rem; line-height: 1.8;">
+              Two-way fluid–structure interaction with cylinder vibration (vortex-induced vibration), spanning <strong>Re 3272–9068</strong> across varying mass ratio and damping.
+            </p>
+            <div style="margin-top: 1.5rem;">
+              <span class="badge">Fluid-Structure</span>
+              <span class="badge">Two-way Coupling</span>
+              <span class="badge">VIV</span>
+            </div>
+          </div>
+          <div style="border-radius: 16px; overflow: hidden; aspect-ratio: 1 / 1;">
+            <div class="image-placeholder" data-rp-video-tile>
+              <video muted playsinline loop autoplay preload="metadata">
+                <source src="assets/videos/fsi/fsi_real.mp4" type="video/mp4">
+              </video>
+              <div class="rp-video-tile-overlay" aria-hidden="true">
+                <span class="image-placeholder-text">FSI Coupling</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Medium: Controlled Cylinder -->
+      <a class="bento-item bento-medium glass-card card-lavender" href="datasets/controlled-cylinder/">
+        <div style="height: 50%; margin-bottom: 1rem; border-radius: 12px; overflow: hidden;">
+          <div class="image-placeholder" data-rp-video-tile>
+            <video muted playsinline loop autoplay preload="metadata">
+              <source src="assets/videos/controlled_cylinder/controlled_cylinder_real.mp4" type="video/mp4">
+            </video>
+            <div class="rp-video-tile-overlay" aria-hidden="true">
+              <span class="image-placeholder-text">Active Control</span>
+            </div>
+          </div>
+        </div>
+        <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem;">Controlled Cylinder</h3>
+        <p style="font-size: 1rem; color: var(--slate);">
+          Active control via forced vibration (f 0.5–1.4 Hz, Re 1781–9843).
+        </p>
+      </a>
+
+      <!-- Medium: Cylinder -->
+      <a class="bento-item bento-medium glass-card" href="datasets/cylinder/">
+        <div style="height: 50%; margin-bottom: 1rem; border-radius: 12px; overflow: hidden;">
+          <div class="image-placeholder" data-rp-video-tile>
+            <video muted playsinline loop autoplay preload="metadata">
+              <source src="assets/videos/cylinder/cylinder_real.mp4" type="video/mp4">
+            </video>
+            <div class="rp-video-tile-overlay" aria-hidden="true">
+              <span class="image-placeholder-text">Cylinder Wake Dynamics<br/>PIV Visualization</span>
+            </div>
+          </div>
+        </div>
+        <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem;">Cylinder</h3>
+        <p style="font-size: 1rem; color: var(--slate);">
+          Stationary cylinder wake (Re 1800–12000) measured by PIV.
+        </p>
+      </a>
+
+      <!-- Medium: Foil -->
+      <a class="bento-item bento-small glass-card" href="datasets/foil/">
+        <div style="height: 50%; margin-bottom: 1rem; border-radius: 12px; overflow: hidden;">
+          <div class="image-placeholder" data-rp-video-tile>
+            <video muted playsinline loop autoplay preload="metadata">
+              <source src="assets/videos/foil/foil_real.mp4" type="video/mp4">
+            </video>
+            <div class="rp-video-tile-overlay" aria-hidden="true">
+              <span class="image-placeholder-text">NACA0025 Foil</span>
+            </div>
+          </div>
+        </div>
+        <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.75rem;">Foil</h3>
+        <p style="font-size: 1rem; color: var(--slate);">
+          NACA0025 airfoil: 2D slices of 3D flow (AoA 0°–20°, Re 2968–17031).
+        </p>
+      </a>
+
+      <!-- Wide: Combustion -->
+      <a class="bento-item bento-wide glass-card" href="datasets/combustion/" style="background: linear-gradient(90deg, var(--platinum) 0%, var(--lavender-light) 100%);">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; align-items: center;">
+          <div>
+            <h3 style="font-size: 2rem; font-weight: 600; margin-bottom: 1rem;">Combustion</h3>
+            <p style="font-size: 1.125rem; color: var(--slate); line-height: 1.8; margin-bottom: 1.5rem;">
+              3D swirl-stabilized NH₃/CH₄/air flames captured with OH* chemiluminescence at <strong>4000 fps</strong>. Large Eddy Simulation with 38 species and 184 reactions.
+            </p>
+            <div>
+              <span class="badge">Combustion</span>
+              <span class="badge">3D LES</span>
+              <span class="badge">Multi-physics</span>
+            </div>
+          </div>
+          <div style="height: 300px; border-radius: 16px; overflow: hidden;">
+            <div class="image-placeholder" data-rp-video-tile>
+              <video muted playsinline loop autoplay preload="metadata">
+                <source src="assets/videos/combusion/combusion_real.mp4" type="video/mp4">
+              </video>
+              <div class="rp-video-tile-overlay" aria-hidden="true">
+                <span class="image-placeholder-text">Flame OH* Chemiluminescence<br/>4000 FPS High-Speed Imaging</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<div class="spacer-lg"></div>
+
+<!-- Core Problem Section -->
+<section id="challenge" class="section rp-challenge-section">
+  <div class="container">
+    <div class="rp-challenge-header">
+      <p class="subtitle">The Challenge</p>
+      <h2 class="section-title">Why Real-World Data Matters</h2>
+      <p class="rp-challenge-lead">
+        Most scientific ML models are only validated on simulated data, creating a <strong>critical gap</strong> between theory and practice.
+      </p>
+    </div>
+
+    <div class="rp-challenge-grid" aria-label="Key sources of the sim-to-real gap">
+      <div class="glass-card rp-challenge-card">
+        <h3 class="rp-challenge-title">Numerical Errors</h3>
+        <p class="rp-challenge-text">Discretization and modeling assumptions in CFD simulations</p>
+      </div>
+
+      <div class="glass-card rp-challenge-card">
+        <h3 class="rp-challenge-title">Measurement Noise</h3>
+        <p class="rp-challenge-text">Camera sensors and particle tracking introduce real-world noise</p>
+      </div>
+
+      <div class="glass-card rp-challenge-card">
+        <h3 class="rp-challenge-title">Unmeasured Modalities</h3>
+        <p class="rp-challenge-text">Pressure fields and 3D velocities cannot be fully measured</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="spacer-lg"></div>
+
+<!-- Key Findings -->
+<section class="section">
+  <div class="container">
+    <p class="subtitle">Research Findings</p>
+    <h2 class="section-title">Significant Sim-to-Real Gap</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+
+      <div class="glass-card card-lavender">
+        <div style="padding: 2rem;">
+          <div style="font-size: 3rem; font-weight: 700; color: var(--carbon); margin-bottom: 0.5rem;">9-79%</div>
+          <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Performance Improvement</h4>
+          <p style="color: var(--slate);">Real-world training achieves 9.39% to 78.91% better accuracy than simulated-only training</p>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div style="padding: 2rem;">
+          <div style="font-size: 3rem; font-weight: 700; color: var(--carbon); margin-bottom: 0.5rem;">3</div>
+          <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Training Paradigms</h4>
+          <p style="color: var(--slate);">Simulated training, real-world training, and sim-pretrain + real-finetune evaluated</p>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div style="padding: 2rem;">
+          <div style="font-size: 3rem; font-weight: 700; color: var(--carbon); margin-bottom: 0.5rem;">&lt; 1.0</div>
+          <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Update Ratio</h4>
+          <p style="color: var(--slate);">Pretraining on simulated data accelerates convergence on real-world data</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="spacer-lg"></div>
+
+<!-- Baseline Models -->
+<section id="baseline-models" class="section rp-fullbleed rp-fullbleed--platinum">
+  <div class="container">
+    <p class="subtitle">Benchmark</p>
+    <h2 class="section-title">10 Baseline Models Evaluated</h2>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem;">
+
+      <div class="card">
+        <h4 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--slate); font-size: 0.875rem;">FOUNDATION MODELS</h4>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">DPOT-L (509M params)</li>
+          <li style="padding: 0.5rem 0;">DPOT-S (30M params)</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--slate); font-size: 0.875rem;">NEURAL OPERATORS</h4>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">FNO</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">CNO</li>
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">DeepONet</li>
+          <li style="padding: 0.5rem 0;">MWT, GK-Transformer, Transolver, WDNO</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h4 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--slate); font-size: 0.875rem;">TRADITIONAL & CNN</h4>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">DMD</li>
+          <li style="padding: 0.5rem 0;">U-Net</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="spacer-lg"></div>
+
+<!-- Evaluation Metrics -->
+<section id="evaluation-metrics" class="section">
+  <div class="container">
+    <p class="subtitle">Comprehensive Evaluation</p>
+    <h2 class="section-title">8 Evaluation Metrics</h2>
+    <p style="font-size: 1.125rem; color: var(--slate); max-width: 700px; margin-bottom: 3rem;">
+      Both data-oriented and physics-oriented metrics provide comprehensive model assessment
+    </p>
+
+    <div class="rp-eval-grid">
+
+      <div class="glass-card">
+        <div class="rp-eval-card-body">
+          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">Data-Oriented</h3>
+          <ul class="rp-metrics-list" aria-label="Data-oriented metrics (hover for definitions)">
+            <li class="rp-metric-item" data-desc="Root Mean Square Error">
+              <span class="rp-metric-abbr" tabindex="0">RMSE</span>
+            </li>
+            <li class="rp-metric-item" data-desc="Mean Absolute Error">
+              <span class="rp-metric-abbr" tabindex="0">MAE</span>
+            </li>
+            <li class="rp-metric-item" data-desc="Relative L₂ Error">
+              <span class="rp-metric-abbr" tabindex="0">Rel L₂</span>
+            </li>
+            <li class="rp-metric-item" data-desc="Coefficient of Determination">
+              <span class="rp-metric-abbr" tabindex="0">R²</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="glass-card card-lavender">
+        <div class="rp-eval-card-body">
+          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">Physics-Oriented</h3>
+          <ul class="rp-metrics-list" aria-label="Physics-oriented metrics (hover for definitions)">
+            <li class="rp-metric-item" data-desc="Fourier Space Error">
+              <span class="rp-metric-abbr" tabindex="0">fRMSE</span>
+            </li>
+            <li class="rp-metric-item" data-desc="Frequency Error (Periodicity)">
+              <span class="rp-metric-abbr" tabindex="0">FE</span>
+            </li>
+            <li class="rp-metric-item" data-desc="Kinetic Energy Error">
+              <span class="rp-metric-abbr" tabindex="0">KE</span>
+            </li>
+            <li class="rp-metric-item" data-desc="Mean Velocity Profile Error">
+              <span class="rp-metric-abbr" tabindex="0">MVPE</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="spacer-lg"></div>
+
+<!-- CTA Section -->
+<section id="download" class="section rp-fullbleed rp-fullbleed--download">
+  <div class="rp-download-blobs" aria-hidden="true">
+    <div style="position: absolute; top: 18%; right: 8%; width: 380px; height: 380px; background: rgba(255,255,255,0.10); border-radius: 50%; filter: blur(90px);"></div>
+    <div style="position: absolute; bottom: 12%; left: 10%; width: 320px; height: 320px; background: rgba(255,255,255,0.12); border-radius: 50%; filter: blur(70px);"></div>
+  </div>
+
+  <div class="container" style="position: relative; z-index: 1;">
+    <p class="subtitle">Resources</p>
+    <h2 class="section-title">Data, Code, and Reproducibility</h2>
+    <p style="font-size: 1.25rem; color: var(--slate); margin-bottom: 2.25rem; max-width: 760px;">
+      Access datasets, baselines, and evaluation scripts to reproduce results and benchmark new models on paired experiments and CFD simulations.
+    </p>
+
+    <div style="display: flex; gap: 1rem; justify-content: flex-start; flex-wrap: wrap;">
+      <a href="getting-started/" class="btn-primary" style="font-size: 1.05rem; padding: 14px 32px;">
+        Getting Started
+      </a>
+      <a href="datasets/" class="btn-secondary" style="font-size: 1.05rem; padding: 14px 28px; background: rgba(255,255,255,0.92);">
+        Browse Datasets
+      </a>
+      <a href="https://github.com/realpdebench/realpdebench.github.io" class="btn-secondary" style="font-size: 1.05rem; padding: 14px 28px; background: rgba(255,255,255,0.92);">
+        Code & Baselines
+      </a>
+    </div>
+
+    <!-- Inline Citation (BibTeX) -->
+    <div id="citation" class="rp-citation-inline">
+      <div class="rp-citation-inline-header">
+        <span class="rp-citation-inline-kicker">Citation</span>
+      </div>
+      <p class="rp-citation-inline-lead">If you find RealPDEBench useful in your research, please cite:</p>
+      <div class="rp-citation-inline-code-meta">
+        <span class="rp-citation-inline-hint">BibTeX</span>
+      </div>
+      <pre class="rp-code-block"><code class="language-plaintext">@article{realpdebench2025,
+  title={RealPDEBench: A Benchmark for Complex Physical Systems with Real-World Data},
+  author={Authors},
+  year={2025}
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+
+</div>
+
+  
+    <!-- Homepage Footer -->
+    <footer class="rp-footer">
+      <div class="container">
+        <div class="rp-footer-content">
+          <p class="rp-footer-copyright">© 2025 AI for Scientific Simulation and Discovery Lab, Westlake University. All rights reserved.</p>
+          <div class="rp-footer-links">
+            <a href="https://ai4s.lab.westlake.edu.cn/" target="_blank">Lab Website</a> | 
+            <a href="mailto:wutailin@westlake.edu.cn">Contact</a>
+          </div>
+          <p class="rp-footer-note">
+            For questions and collaborations, please reach out via email or 
+            <a href="https://github.com/realpdebench/realpdebench.github.io/issues" target="_blank">GitHub Issues</a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  
+</div>
+
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+  
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = ".",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="js/base.js"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script src="search/main.js"></script>
+  <script>
+    (function () {
+      function fitOneLineTitle(el, opts) {
+        if (!el) return;
+
+        var minPx = (opts && opts.minPx) || 18;
+        var maxSteps = (opts && opts.maxSteps) || 120;
+
+        // Reset any previous inline sizing (so it can grow again when more space is available).
+        el.style.removeProperty("font-size");
+        el.style.whiteSpace = "nowrap";
+
+        // Force a reflow after reset so measurements are accurate.
+        // eslint-disable-next-line no-unused-expressions
+        el.offsetWidth;
+
+        var size = parseFloat(window.getComputedStyle(el).fontSize) || 32;
+        var guard = 0;
+
+        while (guard < maxSteps && el.scrollWidth - el.clientWidth > 1 && size > minPx) {
+          size -= 1;
+          el.style.fontSize = size + "px";
+          guard += 1;
+        }
+      }
+
+      function fitPageTitle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper) return;
+
+        // We only support responsive layout down to 768px width. Below that, do not adapt.
+        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+
+        if (wrapper.classList.contains("real-homepage")) {
+          var hero = document.querySelector(".real-homepage .hero-title");
+          if (w < 768) {
+            if (hero) hero.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(hero, { minPx: 28 });
+        } else {
+          var h1 = document.querySelector(".content-wrapper:not(.real-homepage) .col-md-9[role='main'] > h1");
+          if (w < 768) {
+            if (h1) h1.style.removeProperty("font-size");
+            return;
+          }
+          fitOneLineTitle(h1, { minPx: 20 });
+        }
+      }
+
+      function initSidebarToggle() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper || wrapper.classList.contains("real-homepage")) return;
+
+        var btn = document.querySelector(".rp-sidebar-toggle");
+        if (!btn) return;
+
+        btn.addEventListener("click", function () {
+          document.documentElement.classList.toggle("sidebar-collapsed");
+          try {
+            localStorage.setItem(
+              "rp_sidebar_collapsed",
+              document.documentElement.classList.contains("sidebar-collapsed") ? "1" : "0"
+            );
+          } catch (e) {}
+
+          // Sidebar toggle changes available title width; refit after layout updates.
+          window.requestAnimationFrame(function () {
+            fitPageTitle();
+          });
+        });
+      }
+
+      function initMobileNav() {
+        var toggleBtn = document.querySelector(".rp-nav-toggle");
+        var backdrop = document.querySelector(".rp-nav-backdrop");
+        if (!toggleBtn) return;
+
+        function closeMenu() {
+          document.body.classList.remove("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "false");
+        }
+
+        function openMenu() {
+          document.body.classList.add("rp-nav-open");
+          toggleBtn.setAttribute("aria-expanded", "true");
+        }
+
+        toggleBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          if (document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          } else {
+            openMenu();
+          }
+        });
+
+        if (backdrop) {
+          backdrop.addEventListener("click", closeMenu);
+        }
+
+        // Close menu when clicking a nav link
+        var navLinks = document.querySelectorAll(".navbar-links a");
+        navLinks.forEach(function (link) {
+          link.addEventListener("click", closeMenu);
+        });
+
+        // Close menu on Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+
+        // Close menu if window resizes out of the hamburger breakpoint (>= 768px)
+        window.addEventListener("resize", function () {
+          if (window.innerWidth >= 768 && document.body.classList.contains("rp-nav-open")) {
+            closeMenu();
+          }
+        });
+      }
+
+      function initHeroVideoCarousel() {
+        var carousel = document.querySelector(".real-homepage [data-rp-hero-carousel]");
+        if (!carousel) return;
+
+        var track = carousel.querySelector("[data-rp-carousel-track]");
+        var slides = track ? Array.prototype.slice.call(track.querySelectorAll("[data-rp-carousel-slide]")) : [];
+        if (!track || slides.length === 0) return;
+
+        var prevBtn = carousel.querySelector("[data-rp-carousel-prev]");
+        var nextBtn = carousel.querySelector("[data-rp-carousel-next]");
+        var dotsRoot = carousel.querySelector("[data-rp-carousel-dots]");
+
+        var state = {
+          index: 0,
+          pendingIndex: null,
+          fadeTimer: null,
+          split: 20, // percent (default starts near left)
+          dragging: false,
+          dragEl: null,
+          dragPointerId: null,
+          syncTimer: null,
+        };
+
+        function clamp(n, min, max) {
+          return Math.max(min, Math.min(max, n));
+        }
+
+        function setSplit(pct) {
+          state.split = clamp(pct, 0, 100);
+          carousel.style.setProperty("--rp-split", state.split.toFixed(1) + "%");
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.setAttribute("aria-valuenow", String(Math.round(state.split)));
+          });
+        }
+
+        function activeSlide() {
+          return slides[state.index];
+        }
+
+        function pauseAllVideos() {
+          slides.forEach(function (s) {
+            var vids = s.querySelectorAll("video");
+            vids.forEach(function (v) {
+              try {
+                v.pause();
+              } catch (e) {}
+            });
+          });
+        }
+
+        function playActiveVideos() {
+          var s = activeSlide();
+          if (!s) return;
+          var vids = Array.prototype.slice.call(s.querySelectorAll("video"));
+          vids.forEach(function (v) {
+            v.muted = true;
+            v.playsInline = true;
+            v.loop = true;
+            // Start from the same time (best-effort)
+            try {
+              v.play().catch(function () {});
+            } catch (e) {}
+          });
+
+          // Best-effort sync: keep all vids in the slide close to the first one.
+          if (state.syncTimer) window.clearInterval(state.syncTimer);
+          if (vids.length <= 1) return;
+
+          var master = vids[0];
+          state.syncTimer = window.setInterval(function () {
+            if (!master || master.paused) return;
+            var t = master.currentTime || 0;
+            vids.forEach(function (v) {
+              if (v === master) return;
+              if (Math.abs((v.currentTime || 0) - t) > 0.06) {
+                try {
+                  v.currentTime = t;
+                } catch (e) {}
+              }
+            });
+          }, 250);
+        }
+
+        function buildDots() {
+          if (!dotsRoot) return;
+          dotsRoot.innerHTML = "";
+          slides.forEach(function (s, i) {
+            var btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = "rp-carousel-dot" + (i === state.index ? " is-active" : "");
+            btn.setAttribute("aria-label", s.getAttribute("data-title") || "Slide " + (i + 1));
+            btn.addEventListener("click", function () {
+              setIndex(i);
+            });
+            dotsRoot.appendChild(btn);
+          });
+        }
+
+        function normalizeIndex(i) {
+          return ((i % slides.length) + slides.length) % slides.length;
+        }
+
+        function applyIndex() {
+          // Mark active slide (for future extensions)
+          slides.forEach(function (s, idx) {
+            if (idx === state.index) s.classList.add("is-active");
+            else s.classList.remove("is-active");
+          });
+
+          track.style.transform = "translateX(" + -state.index * 100 + "%)";
+          buildDots();
+        }
+
+        function setIndex(i, opts) {
+          if (slides.length <= 0) return;
+          var next = normalizeIndex(i);
+
+          if (opts && opts.immediate) {
+            state.index = next;
+            state.pendingIndex = null;
+            if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+            state.fadeTimer = null;
+
+            applyIndex();
+            pauseAllVideos();
+            playActiveVideos();
+
+            // Ensure visible (in case we were mid-transition).
+            track.style.opacity = "1";
+            return;
+          }
+
+          // If we’re already on this slide (and no pending transition), do nothing.
+          if (state.pendingIndex == null && next === state.index) return;
+
+          state.pendingIndex = next;
+          if (state.fadeTimer) window.clearTimeout(state.fadeTimer);
+
+          // Fade out quickly, then swap slides while hidden and fade back in.
+          track.style.opacity = "0";
+          if (state.syncTimer) {
+            window.clearInterval(state.syncTimer);
+            state.syncTimer = null;
+          }
+          pauseAllVideos();
+
+          state.fadeTimer = window.setTimeout(function () {
+            state.index = state.pendingIndex != null ? state.pendingIndex : state.index;
+            state.pendingIndex = null;
+
+            applyIndex();
+            playActiveVideos();
+
+            window.requestAnimationFrame(function () {
+              track.style.opacity = "1";
+            });
+          }, 180);
+        }
+
+        function hideControlsIfSingle() {
+          if (slides.length <= 1) {
+            if (prevBtn) prevBtn.style.display = "none";
+            if (nextBtn) nextBtn.style.display = "none";
+            if (dotsRoot) dotsRoot.style.display = "none";
+          }
+        }
+
+        function splitFromPointerEvent(e, el) {
+          if (!el) return;
+          var rect = el.getBoundingClientRect();
+          if (!rect.width) return;
+          var x = clamp(e.clientX - rect.left, 0, rect.width);
+          setSplit((x / rect.width) * 100);
+        }
+
+        function onPointerDown(e) {
+          // Only left-click / primary contact
+          if (typeof e.button === "number" && e.button !== 0) return;
+          state.dragging = true;
+          state.dragEl = e.currentTarget;
+          state.dragPointerId = e.pointerId;
+          try {
+            state.dragEl.setPointerCapture(state.dragPointerId);
+          } catch (err) {}
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function onPointerMove(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          splitFromPointerEvent(e, state.dragEl);
+        }
+
+        function endDrag(e) {
+          if (!state.dragging) return;
+          if (state.dragPointerId != null && e.pointerId !== state.dragPointerId) return;
+          state.dragging = false;
+          state.dragEl = null;
+          state.dragPointerId = null;
+        }
+
+        function attachCompareHandlers() {
+          var compares = carousel.querySelectorAll("[data-rp-compare]");
+          compares.forEach(function (el) {
+            el.addEventListener("pointerdown", onPointerDown);
+            el.addEventListener("pointermove", onPointerMove);
+            el.addEventListener("pointerup", endDrag);
+            el.addEventListener("pointercancel", endDrag);
+          });
+
+          var handles = carousel.querySelectorAll(".rp-compare-handle[role='slider']");
+          handles.forEach(function (h) {
+            h.addEventListener("keydown", function (e) {
+              var step = 2;
+              if (e.key === "ArrowLeft") {
+                e.preventDefault();
+                setSplit(state.split - step);
+              } else if (e.key === "ArrowRight") {
+                e.preventDefault();
+                setSplit(state.split + step);
+              } else if (e.key === "Home") {
+                e.preventDefault();
+                setSplit(0);
+              } else if (e.key === "End") {
+                e.preventDefault();
+                setSplit(100);
+              }
+            });
+          });
+        }
+
+        // Nav controls
+        if (prevBtn) {
+          prevBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base - 1);
+          });
+        }
+        if (nextBtn) {
+          nextBtn.addEventListener("click", function () {
+            var base = state.pendingIndex != null ? state.pendingIndex : state.index;
+            setIndex(base + 1);
+          });
+        }
+
+        hideControlsIfSingle();
+        attachCompareHandlers();
+        setSplit(state.split);
+        buildDots();
+        setIndex(0, { immediate: true });
+      }
+
+      function initDatasetVideoTiles() {
+        // Homepage-only: dataset bento tiles with hover overlay + loading fallback
+        var home = document.querySelector(".content-wrapper.real-homepage");
+        if (!home) return;
+
+        var tiles = Array.prototype.slice.call(home.querySelectorAll("#datasets [data-rp-video-tile]"));
+        if (!tiles || tiles.length === 0) return;
+
+        tiles.forEach(function (tile) {
+          var video = tile.querySelector("video");
+          if (!video) return;
+
+          function markLoaded() {
+            tile.classList.add("is-loaded");
+            tile.classList.remove("is-error");
+          }
+
+          function markError() {
+            tile.classList.add("is-error");
+            tile.classList.remove("is-loaded");
+          }
+
+          function onLoaded() {
+            markLoaded();
+            try {
+              video.removeEventListener("loadeddata", onLoaded);
+            } catch (e) {}
+          }
+
+          // If the first frame is already available, mark immediately (e.g., cache hit).
+          if (video.readyState >= 2) {
+            markLoaded();
+          } else {
+            video.addEventListener("loadeddata", onLoaded);
+          }
+
+          video.addEventListener("error", markError);
+        });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", function () {
+          initSidebarToggle();
+          initMobileNav();
+          initHeroVideoCarousel();
+          initDatasetVideoTiles();
+          fitPageTitle();
+
+          var resizeTimer;
+          window.addEventListener("resize", function () {
+            window.clearTimeout(resizeTimer);
+            resizeTimer = window.setTimeout(function () {
+              fitPageTitle();
+            }, 100);
+          });
+        });
+      } else {
+        initSidebarToggle();
+        initMobileNav();
+        initHeroVideoCarousel();
+        initDatasetVideoTiles();
+        fitPageTitle();
+      }
+    })();
+  </script>
+
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2025-12-23 01:05:07.564599+00:00
+-->

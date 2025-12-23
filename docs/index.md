@@ -209,7 +209,7 @@
 
     <div class="rp-hero-inner">
       <h1 class="hero-title">
-        RealPDEBench:<br>
+        <span class="hero-gradient-mint">RealPDE</span>Bench:<br>
         Bridging the <span class="hero-gradient">Sim-to-Real</span> Gap
       </h1>
       <p class="rp-hero-subtitle">
@@ -250,20 +250,20 @@
 <!-- Key Stats -->
 <section class="section-sm">
   <div class="container">
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; text-align: center;">
-      <div>
+    <div class="rp-home-stats">
+      <div class="rp-home-stat">
         <span class="stat-number">5</span>
         <span class="stat-label">Datasets</span>
       </div>
-      <div>
+      <div class="rp-home-stat">
         <span class="stat-number">700+</span>
         <span class="stat-label">Trajectories</span>
       </div>
-      <div>
+      <div class="rp-home-stat">
         <span class="stat-number">10</span>
         <span class="stat-label">Baseline Models</span>
       </div>
-      <div>
+      <div class="rp-home-stat">
         <span class="stat-number">8</span>
         <span class="stat-label">Evaluation Metrics</span>
       </div>

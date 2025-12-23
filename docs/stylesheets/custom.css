@@ -12,8 +12,10 @@
   --platinum: #F5F5F7;
 
   /* Accent (low-saturation mint) */
-  --mint-light: #D9EAE3;
-  --mint-dark: #7E9F92;
+  /* Tuned to stay low-sat but avoid washing out on the lavender-tinted background */
+  --mint-light: #C7DED4;
+  --mint-mid: #A8C6BA;
+  --mint-dark: #6C9084;
 
   /* Typography */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -729,7 +731,12 @@ html {
 
 /* Hero gradient text for "RealPDE" (muted mint so it doesn't fight the lavender palette) */
 .real-homepage .hero-gradient-mint {
-  background: linear-gradient(135deg, var(--mint-dark) 0%, var(--mint-light) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--mint-dark) 0%,
+    var(--mint-mid) 55%,
+    var(--mint-light) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

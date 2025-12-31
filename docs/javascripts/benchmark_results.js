@@ -183,14 +183,14 @@
     },
     {
       key: "update_eff",
-      label: "Update Efficiency",
+      label: "Update\nEfficiency",
       metrics: [{ key: "update_ratio", direction: "lower", label: "Update Ratio" }],
       help: "Update Ratio (↓, finetuning only)",
       missingNote: "Update Ratio is only reported for Real-world finetuning (sim-pretraining → real finetuning).",
     },
     {
       key: "param_eff",
-      label: "Parameter Efficiency",
+      label: "Parameter\nEfficiency",
       metrics: [{ key: "params_m", direction: "lower", label: "Params (M)" }],
       help: "fewer parameters (↓)",
       missingNote: "Parameter counts are not available for this selection.",
@@ -640,7 +640,26 @@
       text.setAttribute("class", "rp-radar-label");
       text.setAttribute("x", lx.toFixed(2));
       text.setAttribute("y", ly.toFixed(2));
-      text.textContent = axes[i].label;
+      var rawLabel = axes[i].label == null ? "" : String(axes[i].label);
+      var lines = rawLabel
+        .split("\n")
+        .map(function (s) {
+          return s.trim();
+        })
+        .filter(Boolean);
+
+      if (lines.length <= 1) {
+        text.textContent = rawLabel;
+      } else {
+        // Multi-line labels via <tspan> so long axis names don't get clipped.
+        lines.forEach(function (line, idx) {
+          var tspan = svgEl("tspan");
+          tspan.setAttribute("x", lx.toFixed(2));
+          tspan.setAttribute("dy", idx === 0 ? "0" : "1.15em");
+          tspan.textContent = line;
+          text.appendChild(tspan);
+        });
+      }
 
       // Better anchoring depending on side.
       var cos = Math.cos(ang);

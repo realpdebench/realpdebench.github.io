@@ -2737,19 +2737,52 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-sidebar-toggle-f
   left: 16px;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 992px) {
+/* Mobile Responsiveness (match top-nav breakpoint to avoid “in-between” layout glitches) */
+@media (max-width: 991.98px) {
   .content-wrapper:not(.real-homepage) .col-md-3 {
     position: relative !important;
     width: 100% !important;
     top: 0 !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    transform: none !important;
+    transition: none !important;
     border-right: none !important;
     border-bottom: 1px solid #eee !important;
   }
   .content-wrapper:not(.real-homepage) .col-md-9 {
     margin-left: 0 !important;
     width: 100% !important;
+    max-width: 100% !important;
+    margin-right: 0 !important;
+    float: none !important;
+    transition: none !important;
     padding: 24px !important;
+  }
+
+  /* If the sidebar was collapsed on desktop, don’t let the “slide-away” transform
+     reserve space on mobile/tablet widths (it causes blank columns while resizing). */
+  html.sidebar-collapsed .content-wrapper:not(.real-homepage) {
+    display: block !important;
+    justify-content: initial !important;
+  }
+
+  html.sidebar-collapsed .content-wrapper:not(.real-homepage) .col-md-3 {
+    display: none !important;
+  }
+
+  html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-sidebar-section {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  html.sidebar-collapsed .content-wrapper:not(.real-homepage) .col-md-9 {
+    max-width: 100% !important;
+    margin: 0 !important;
   }
 }
 

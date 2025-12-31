@@ -672,7 +672,7 @@
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">2</span>
-          <span class="rp-takeaway-headline">Simulation is cheap and information-rich (but imperfect).</span>
+          <span class="rp-takeaway-headline">Simulation is cheap and information-rich, but imperfect.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
@@ -684,7 +684,7 @@
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">3</span>
-          <span class="rp-takeaway-headline">Simulation-only training doesn’t transfer cleanly to real tests.</span>
+          <span class="rp-takeaway-headline">Simulation-only training doesn't transfer cleanly to real tests.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
@@ -696,7 +696,7 @@
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">4</span>
-          <span class="rp-takeaway-headline">Training on real data closes much of the gap (Rel \(L_2\): 9.39–78.91%).</span>
+          <span class="rp-takeaway-headline">Training on real data closes much of the gap.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
@@ -720,7 +720,7 @@
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">6</span>
-          <span class="rp-takeaway-headline">Pretraining saves updates (Update Ratio is usually &lt; 1).</span>
+          <span class="rp-takeaway-headline">Pretraining saves updates.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
@@ -737,7 +737,7 @@
         </summary>
         <div class="rp-takeaway-body">
           Convolution-based models (e.g., U-Net, CNO) tend to do well on pointwise errors like RMSE.
-          Models with operator / wavelet structure (e.g., MWT) can better preserve periodicity and other global features—so “best model” depends on the metric you care about.
+          Models with operator / wavelet structure (e.g., MWT) can better preserve periodicity and other global features—so "best model" depends on the metric you care about.
         </div>
       </details>
 

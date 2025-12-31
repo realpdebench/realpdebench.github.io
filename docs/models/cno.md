@@ -42,7 +42,7 @@ This baseline is enabled by `model_name: "cno"` in the training YAML.
 
 In the current reference implementation, `realpdebench.model.load_model.load_model()` constructs `realpdebench.model.cno.CNO3d` and only wires through:
 
-- **`N_layers`** (`int`): Number of downsampling/upsampling stages (operator “depth”).
+- **`N_layers`** (`int`): Number of downsampling/upsampling stages (operator "depth").
 
 !!! note
     The `cno.yaml` files may contain many additional CNO hyperparameters (e.g., `N_res`, `cutoff_den`, `filter_size`, ...). These correspond to optional arguments of `CNO3d`, but they are **not currently passed** by the RealPDEBench `load_model()` wrapper, so changing them in YAML may have **no effect** unless the wrapper is extended.

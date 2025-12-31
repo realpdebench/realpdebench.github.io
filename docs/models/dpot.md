@@ -66,12 +66,12 @@ These keys are consumed by `realpdebench.model.load_model.load_model()` and `rea
 
 - **`checkpoint_path`** (`str`): Path to the **pretrained DPOT checkpoint** (loaded during model construction).
 - **`model_type`** (`str`): DPOT backbone type: `"dpot"` or `"dpot3d"` (selects which DPOT network class is constructed).
-- **`img_size`** (`int`): Pretrained model’s native spatial resolution. The wrapper FFT-resizes inputs/outputs to/from this resolution.
+- **`img_size`** (`int`): Pretrained model's native spatial resolution. The wrapper FFT-resizes inputs/outputs to/from this resolution.
 - **`patch_size`** (`int`): Patch size used by the DPOT patch embedding.
 - **`in_channels`** (`int`): DPOT model input channels for the pretrained backbone (commonly 4). RealPDEBench pads data channels up to this number if needed.
 - **`out_channels`** (`int`): DPOT model output channels for the pretrained backbone (commonly 4). Outputs are sliced back to dataset channels after inference.
-- **`in_timesteps`** (`int`): Number of input timesteps expected by DPOT (must equal the dataset’s \(T_\text{in}\) in RealPDEBench).
-- **`out_timesteps`** (`int`): Number of timesteps predicted per DPOT forward call. If smaller than the dataset’s \(T_\text{out}\), the wrapper rolls out with a sliding window.
+- **`in_timesteps`** (`int`): Number of input timesteps expected by DPOT (must equal the dataset's \(T_\text{in}\) in RealPDEBench).
+- **`out_timesteps`** (`int`): Number of timesteps predicted per DPOT forward call. If smaller than the dataset's \(T_\text{out}\), the wrapper rolls out with a sliding window.
 - **`embed_dim`** (`int`): Transformer embedding dimension of the pretrained DPOT backbone.
 - **`depth`** (`int`): Number of transformer layers in the pretrained backbone.
 - **`n_blocks`** (`int`): Number of AFNO blocks (as defined by the original DPOT implementation).
@@ -81,7 +81,7 @@ These keys are consumed by `realpdebench.model.load_model.load_model()` and `rea
 - **`normalize`** (`bool`): Whether DPOT uses normalization in the backbone (checkpoint-dependent).
 - **`act`** (`str`): Activation function name used by the pretrained backbone (e.g., `"gelu"`).
 - **`time_agg`** (`str`): Temporal aggregation strategy used by the DPOT implementation (checkpoint-dependent).
-- **`n_cls`** (`int`): Number of pretraining “classes / datasets” encoded in the checkpoint; must match the checkpoint.
+- **`n_cls`** (`int`): Number of pretraining "classes / datasets" encoded in the checkpoint; must match the checkpoint.
 
 !!! note
     **Finetuning vs pretrained checkpoint**:

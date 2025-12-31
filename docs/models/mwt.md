@@ -45,7 +45,7 @@ These keys are consumed by `realpdebench.model.load_model.load_model()` and `rea
 - **`k`** (`int`): Wavelet filter size (controls the local basis size).
 - **`alpha`** (`int`): Fourier filter parameter in MWT blocks (typically constrained by the time dimension).
 - **`c`** (`int`): Channel expansion factor used by the wavelet mixing blocks.
-- **`nCZ`** (`int`): Number of MWT “CZ” blocks (depth of the operator).
+- **`nCZ`** (`int`): Number of MWT "CZ" blocks (depth of the operator).
 - **`L`** (`int`): Coarsest wavelet level used by the hierarchy.
 - **`base`** (`str`): Wavelet basis type (e.g., `"legendre"` or `"chebyshev"`).
 

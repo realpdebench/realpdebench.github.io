@@ -5,14 +5,14 @@ RealPDEBench contains **5 scenarios** with **paired real-world measurements** an
 - **Real-world (`real`)**: experimentally measured fields (often incomplete)
 - **Simulated (`numerical`)**: CFD/LES fields (often includes **unmeasured modalities**, e.g. pressure)
 
-## What “paired” means in RealPDEBench
+## What "paired" means in RealPDEBench
 
 A scenario provides two branches:
 
 - **`real/`**: experimentally measured fields (may be incomplete)
 - **`numerical/`**: simulation fields (can include additional, unmeasured modalities)
 
-“Paired” means that the real and numerical trajectories correspond to the **same physical conditions** (e.g., Reynolds number, control frequency, mixture ratio), enabling sim→real transfer and modality-mismatch evaluation.
+"Paired" means that the real and numerical trajectories correspond to the **same physical conditions** (e.g., Reynolds number, control frequency, mixture ratio), enabling sim→real transfer and modality-mismatch evaluation.
 
 ## Dataset inventory
 

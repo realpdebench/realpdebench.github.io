@@ -1,109 +1,98 @@
-# FSI (Fluid-Structure Interaction) Dataset
+# FSI (Fluid–Structure Interaction)
 
-Coupled dynamics of cylinder vibration induced by fluid forces.
+Vortex-induced vibration in a **tandem-cylinder** setup: flow fields measured with time-resolved PIV and paired with matched numerical simulations.
 
-## Overview
+## Visualizations
 
-The **FSI dataset** captures **vortex-induced vibration (VIV)** where the cylinder is free to vibrate in the transverse direction, creating a two-way coupled fluid-structure system.
+<div class="rp-dataset-videos">
+  <div class="rp-dataset-video-grid">
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Real-world</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/fsi/fsi_real.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Simulated</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/fsi/fsi_sim.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
 
-## Physical Parameters
+## Key stats
 
-| Parameter | Range | Description |
-|-----------|-------|-------------|
-| **Reynolds Number (Re)** | 3272 - 9068 | Flow conditions |
-| **Mass Ratio (m*)** | 18.2 - 20.8 | Cylinder mass / displaced fluid mass |
-| **Damping Ratio (ζ)** | 0.01 - 0.05 | Structural damping coefficient |
-| **Natural Frequency (f_n)** | Variable | Structure's natural frequency |
-| **Reduced Velocity (U*)** | 3 - 12 | U∞ / (f_n × D) |
+| Item | Value |
+|---|---|
+| `n_traj` | 51 × 2 (paired real + numerical) |
+| `n_frame` | 2173 |
+| \(\Delta t\) | \(2.0\times 10^{-3}\) s |
+| Resolution (real) | 128×128 |
+| Resolution (sim) | 128×128 |
+| Modalities (real) | \(u,v\) |
+| Modalities (sim) | \(u,v,p\) |
+| Memory | 94.73 GB |
 
-## Data Collection
+!!! note
+    We use `n_traj = X × 2` to indicate paired trajectories: **X real-world** and **X numerical** trajectories for the same scenario.
 
-### Real-World (PIV + Motion Tracking)
+## Physical parameters
 
-- **Flow Method:** Particle Image Velocimetry
-- **Structure Tracking:** High-speed motion capture (cylinder position)
-- **Frame Rate:** 400-500 fps synchronized
-- **DOF:** 1 (transverse vibration only)
-- **Measured:** u, v (flow) + y_c, ẏ_c (structure)
+- **Reynolds numbers**: {3272, 3545, 3955, 4091, 4636, 5045, 5318, 6682, 9068}
+- **Mass ratios**: {18.2, 20.8}
+- **Damping ratio**: fixed at 0.8
 
-### Simulation (FSI CFD)
+## HF Datasets format
 
-- **Solver:** Coupled Lilypad + structural solver
-- **Coupling:** Two-way partitioned scheme
-- **Structure Model:** Spring-mass-damper (1-DOF)
-- **Fluid Forces:** Integrated on cylinder surface
-- **Output:** u, v, p (fluid) + y_c, ẏ_c, F_y (structure)
+This scenario is distributed as **Hugging Face Datasets (Arrow)** under `fsi/hf_dataset/`.
 
-## Dataset Statistics
+### Splits
 
-- **Trajectories:** 120+
-- **Coupling Type:** 2-way
-- **Flow Resolution:** 128×128
+- `real_{train|val|test}`
+- `numerical_{train|val|test}`
 
-## Physical Phenomena
+### Schema (high level)
 
-### Vortex-Induced Vibration Regimes
+- `sim_id` (string): trajectory identifier
+- `time_id` (int): window start index
+- `u` (bytes), `v` (bytes): float32 arrays encoded as bytes
+- `p` (bytes; numerical only): pressure channel
+- `shape_t`, `shape_h`, `shape_w` (int): shape metadata for decoding
 
-1. **Initial Branch:** Small amplitude oscillations
-2. **Upper Branch:** Maximum amplitude (lock-in)
-3. **Lower Branch:** Reduced amplitude
-4. **Desynchronization:** Irregular motion
+## Eval splits & subsets
 
-### Key Features
+We provide two layers of splitting:
 
-- **Lock-in Region:** Synchronization of shedding and vibration
-- **Hysteresis:** Different response for increasing/decreasing velocity
-- **Figure-8 Trajectory:** Complex cylinder motion patterns
-- **Energy Transfer:** Fluid → structure coupling
+- **Dataset split (`train/val/test`)**: the standard split in `hf_dataset/*_{train|val|test}`.
+- **Eval subset (`test_mode`)**: an optional filter inside `val/test` to select trajectories by parameter regime.
 
-## Governing Equations
+The subset membership is defined by JSON mapping files (downloaded as "metadata"):
 
-**Fluid (Navier-Stokes):**
+- `fsi/in_dist_test_params_real.json`
+- `fsi/out_dist_test_params_real.json`
+- `fsi/remain_params_real.json`
+- `fsi/in_dist_test_params_numerical.json`
+- `fsi/out_dist_test_params_numerical.json`
+- `fsi/remain_params_numerical.json`
 
-$$
-\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho_f}\nabla p + \nu \nabla^2 \mathbf{u}
-$$
+How to interpret these files and `test_mode`:
 
-**Structure (1-DOF oscillator):**
-
-$$
-m^* \ddot{y}_c + 2\zeta \omega_n \dot{y}_c + \omega_n^2 y_c = \frac{F_y}{\rho_f D^2 U_\infty^2}
-$$
-
-Where $F_y$ is the transverse fluid force.
-
-## Benchmark Tasks
-
-1. **Coupled Prediction:** Forecast coupled fluid-structure dynamics
-2. **Amplitude Prediction:** Predict VIV amplitude from parameters
-3. **Regime Classification:** Identify VIV branch from flow data
-4. **Force Estimation:** Infer fluid forces from cylinder motion
-
-## Data Loading Example
-
-```python
-import h5py
-
-with h5py.File('fsi_dataset.h5', 'r') as f:
-    # Flow fields
-    u = f['real_data/trajectory_001/u'][:]
-    v = f['real_data/trajectory_001/v'][:]
-
-    # Structure motion
-    y_c = f['real_data/trajectory_001/cylinder_position'][:]
-    v_c = f['real_data/trajectory_001/cylinder_velocity'][:]
-
-    # Parameters
-    Re = f['real_data/trajectory_001/metadata'].attrs['reynolds_number']
-    m_star = f['real_data/trajectory_001/metadata'].attrs['mass_ratio']
-```
+- **`in_dist`**: in-distribution parameter settings (held out for evaluation).
+- **`out_dist`**: out-of-distribution / boundary parameter settings (OOD generalization).
+- **`seen`**: parameter settings used for training (defined by `remain_params_*`).
+- **`unseen`**: parameter settings not used for training (union of `in_dist` + `out_dist`).
 
 ## Download
 
-- [Download FSI Dataset (XX GB)](#)
-- [Sample Data](#)
+See [Getting Started](../getting-started.md) for full setup. Quick commands:
 
-## References
+```bash
+# Evaluation metadata (small; includes the JSON mapping files)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario fsi --what metadata
 
-- Williamson, C. H. K., & Govardhan, R. (2004). Vortex-induced vibrations. *Annual Review of Fluid Mechanics*.
-- Sarpkaya, T. (2004). A critical review of the intrinsic nature of vortex-induced vibrations. *Journal of Fluids and Structures*.
+# HF dataset shards (large)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario fsi --what hf_dataset
+```
+
+

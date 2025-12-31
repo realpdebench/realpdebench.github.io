@@ -1,39 +1,17 @@
-# Neural Operators
+# Neural Operators (Index)
 
-Neural operators aim to learn mappings between **function spaces** (e.g., input fields \(\to\) output fields), which makes them natural baselines for PDE-related tasks.
+Neural operators learn **field-to-field mappings** (operators) and are natural baselines for spatiotemporal PDE dynamics.
 
-## Operator Learning Baselines
+This page is an index that links to the per-model pages.
 
-### FNO (Fourier Neural Operator)
+For shared interface + tensor conventions, see [Models Overview](../models.md).
 
-Learns global interactions via Fourier-domain convolution.
+## Baselines
 
-### CNO (Convolutional Neural Operator)
-
-Combines convolutional representations with operator-learning objectives.
-
-### DeepONet (Deep Operator Network)
-
-Represents operators using a **branch** network (inputs) and a **trunk** network (query points), combining them to predict outputs.
-
-### MWT (Multi-Wavelet Transform)
-
-Uses wavelet transforms to represent multi-scale interactions.
-
-### GK-Transformer (Galerkin Transformer)
-
-Applies transformer-style attention with Galerkin-inspired formulations for PDE operators.
-
-### Transolver
-
-Transformer-based solver model tailored for PDE dynamics.
-
-### WDNO (Wavelet-Decomposed Neural Operator)
-
-Wavelet-decomposed formulation to capture multi-resolution structure.
-
-## Notes
-
-- Within RealPDEBench, neural operators are evaluated consistently across datasets/metrics.
-
-
+- **FNO** (Fourier Neural Operator): [FNO →](fno.md)
+- **CNO** (Convolutional Neural Operator): [CNO →](cno.md)
+- **DeepONet** (Deep Operator Network): [DeepONet →](deeponet.md)
+- **MWT** (Multiwavelet Transform Neural Operator): [MWT →](mwt.md)
+- **GK-Transformer** (Galerkin Transformer): [GK-Transformer →](gk-transformer.md)
+- **Transolver** (Transformer-based Solver): [Transolver →](transolver.md)
+- **WDNO** (Wavelet Diffusion Neural Operator): [WDNO →](wdno.md)

@@ -1,21 +1,9 @@
-# Foundation Models
+# Foundation Models (Index)
 
-Foundation models in RealPDEBench refer to large-scale pretrained models that can be adapted to operator-learning tasks.
+In RealPDEBench, **foundation models** refer to large-scale **pretrained** operator learners that can be adapted (finetuned) to new physical systems and data modalities.
 
-## DPOT (Diffusion Pre-trained Operator Transformer)
+For shared interface + tensor conventions, see [Models Overview](../models.md).
 
-**DPOT** is a diffusion-based foundation model for operator learning, pretrained on diverse PDE datasets.
+## Baselines
 
-### DPOT-L
-
-- **Parameters**: 509M
-
-### DPOT-S
-
-- **Parameters**: 30M
-
-## Notes
-
-- We report both large and small variants to study scaling behavior vs. efficiency.
-
-
+- **DPOT** (Auto-Regressive Denoising Operator Transformer): [DPOT →](dpot.md)

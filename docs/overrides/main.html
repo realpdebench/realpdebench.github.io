@@ -12,8 +12,16 @@
     // Apply collapsed-sidebar state early to avoid flash on refresh.
     (function () {
       try {
+        // JS-enabled marker (lets CSS avoid hiding content when JS is disabled).
+        document.documentElement.classList.add("rp-js");
         {% if is_site_home %}
         document.documentElement.classList.add("rp-site-home");
+        {% else %}
+        // Prevent H1 auto-fit "flash": keep the title invisible until we fit it.
+        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+        if (w >= 768) {
+          document.documentElement.classList.add("rp-title-pending");
+        }
         {% endif %}
         if (localStorage.getItem("rp_sidebar_collapsed") === "1") {
           document.documentElement.classList.add("sidebar-collapsed");
@@ -36,6 +44,7 @@
       <a href="{{ config.site_url or '/' }}datasets/">Datasets</a>
       <a href="{{ config.site_url or '/' }}models/">Models</a>
       <a href="{{ config.site_url or '/' }}metrics/">Metrics</a>
+      <a href="https://huggingface.co/datasets/AI4Science-WestlakeU/RealPDEBench" target="_blank" rel="noopener noreferrer">Hugging Face</a>
       <a href="{{ config.repo_url }}" target="_blank">GitHub</a>
     </div>
     <div class="navbar-search">
@@ -503,13 +512,43 @@
         });
       }
 
+      function initTableScrollWrappers() {
+        // Doc pages only (exclude homepage).
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper || wrapper.classList.contains("real-homepage")) return;
+
+        var main = document.querySelector(".content-wrapper:not(.real-homepage) .col-md-9[role='main']");
+        if (!main) return;
+
+        var tables = Array.prototype.slice.call(main.querySelectorAll("table"));
+        tables.forEach(function (table) {
+          try {
+            // Skip tables already wrapped manually.
+            if (table.closest && table.closest(".rp-table-scroll")) return;
+
+            var scroll = document.createElement("div");
+            scroll.className = "rp-table-scroll";
+
+            var parent = table.parentNode;
+            if (!parent) return;
+
+            parent.insertBefore(scroll, table);
+            scroll.appendChild(table);
+          } catch (e) {}
+        });
+      }
+
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {
           initSidebarToggle();
           initMobileNav();
           initHeroVideoCarousel();
           initDatasetVideoTiles();
+          initTableScrollWrappers();
           fitPageTitle();
+          try {
+            document.documentElement.classList.remove("rp-title-pending");
+          } catch (e) {}
 
           var resizeTimer;
           window.addEventListener("resize", function () {
@@ -524,7 +563,11 @@
         initMobileNav();
         initHeroVideoCarousel();
         initDatasetVideoTiles();
+        initTableScrollWrappers();
         fitPageTitle();
+        try {
+          document.documentElement.classList.remove("rp-title-pending");
+        } catch (e) {}
       }
     })();
   </script>

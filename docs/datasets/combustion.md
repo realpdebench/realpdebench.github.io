@@ -1,152 +1,111 @@
-# Combustion Dataset
+# Combustion
 
-3D swirl-stabilized NH₃/CH₄/air flames with multi-species chemistry.
+Swirl-stabilized **NH\(_3\)/CH\(_4\)/air** flames: real-world OH* chemiluminescence intensity \(I\) paired with multi-modal numerical simulations.
 
-## Overview
+## Visualizations
 
-The **Combustion dataset** captures **turbulent reactive flow** in 3D swirl-stabilized burners with ammonia/methane co-firing, representing the most complex multi-physics system in RealPDEBench.
+<div class="rp-dataset-videos">
+  <div class="rp-dataset-video-grid">
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Real-world</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/combusion/combusion_real.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Simulated</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/combusion/combusion_sim.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
 
-## Physical Parameters
+## Key stats
 
-| Parameter | Range | Description |
-|-----------|-------|-------------|
-| **CH₄ Ratio** | 20% - 100% | Methane fraction in fuel blend |
-| **Equivalence Ratio (φ)** | 0.75 - 1.3 | Fuel-to-air ratio (1.0 = stoichiometric) |
-| **Thermal Power** | Variable | Heat release rate |
-| **Swirl Number (S)** | 0.6 - 1.2 | Tangential-to-axial velocity ratio |
-| **Reynolds Number** | ~10,000 | Turbulent regime |
+| Item | Value |
+|---|---|
+| `n_traj` | 30 × 2 (paired real + numerical) |
+| `n_frame` | 2001 |
+| \(\Delta t\) | \(2.5\times 10^{-4}\) s |
+| Resolution (real) | 128×128 |
+| Resolution (sim) | 128×128 |
+| Modalities (real) | \(I\) |
+| Modalities (sim) | 15-channel multi-modal tensor (see below) |
+| Memory | 110.12 GB |
 
-## Data Collection
+!!! note
+    We use `n_traj = X × 2` to indicate paired trajectories: **X real-world** and **X numerical** trajectories for the same scenario.
 
-### Real-World (OH* Chemiluminescence)
+## Physical parameters
 
-- **Method:** High-speed OH* imaging (4000 fps)
-- **Duration:** 1 second per trajectory
-- **Species:** OH radical emission (excited state)
-- **Frames:** 4000 images per run
-- **Camera:** Intensified high-speed CMOS
-- **Measured:** Intensity field I (heat release marker)
+- **Sampling**: 4000 Hz for 1 s (`n_frame = 2001`)
+- **Fuel composition**: CH\(_4\) ratios {100%, 80%, 60%, 40%, 20%} (NH\(_3\) ratios {0%, 20%, 40%, 60%, 80%})
+- **Equivalence ratios**: {0.75, 0.85, 0.9, 1.0, 1.05, 1.1, 1.2, 1.25, 1.3}
 
-### Simulation (3D LES + Chemistry)
+## Modalities
 
-- **Solver:** STAR-CCM+ Large Eddy Simulation
-- **Chemistry:** Eddy Dissipation Concept (EDC)
-- **Mechanism:** Detailed NH₃/CH₄ kinetics
-  - **38 species**
-  - **184 reactions**
-- **Turbulence:** Smagorinsky SGS model
-- **Output:** T, ρ, Y_i (temperature, density, 38 species mass fractions)
+- **Real-world observed**: intensity \(I\) (OH* chemiluminescence)
+- **Numerical unobserved channels (15 total)**:
+  - absolute pressure
+  - chemistry heat release rate
+  - mole fractions: CH\(_4\), CO, CO\(_2\), H\(_2\)O, NH\(_2\), NH\(_3\), OH
+  - temperature
+  - \(u, v, w, p\)
+  - velocity magnitude
 
-## Dataset Statistics
+## HF Datasets format
 
-- **Trajectories:** 80+
-- **Chemical Species:** 38
-- **FPS (Real Data):** 4000
+This scenario is distributed as **Hugging Face Datasets (Arrow)** under `combustion/hf_dataset/`.
 
-## Physical Phenomena
+### Splits
 
-### Flame Dynamics
+- `real_{train|val|test}`
+- `numerical_{train|val|test}`
+- (optional) `surrogate_train` (download with `--include-surrogate-train`)
 
-1. **Swirl Stabilization:** Vortex breakdown creates recirculation zone
-2. **Flame Anchoring:** Hot products recirculate to ignite fresh mixture
-3. **Turbulent Wrinkling:** Flame surface area amplification
-4. **Extinction-Reignition:** Local flame quenching events
-5. **Thermoacoustic Oscillations:** Pressure-heat release coupling
+### Schema (high level)
 
-### Multi-Scale Physics
+- `sim_id` (string): trajectory identifier
+- `time_id` (int): window start index
+- `observed` (bytes): float32 array encoded as bytes (real-world \(I\) or surrogate \(I\))
+- `numerical` (bytes; numerical only): float32 multi-channel tensor encoded as bytes
+- `numerical_channels` (int; numerical only): channel count for decoding
+- `shape_t`, `shape_h`, `shape_w` (int): shape metadata for decoding
 
-- **Kolmogorov Scale:** ~100 μm (turbulence)
-- **Flame Thickness:** ~1 mm (reaction zone)
-- **Integral Length:** ~10 mm (large eddies)
-- **Domain Size:** ~100 mm (burner scale)
+## Eval splits & subsets
 
-### NH₃/CH₄ Co-firing
+We provide two layers of splitting:
 
-Ammonia reduces carbon emissions but introduces challenges:
+- **Dataset split (`train/val/test`)**: the standard split in `hf_dataset/*_{train|val|test}`.
+- **Eval subset (`test_mode`)**: an optional filter inside `val/test` to select trajectories by parameter regime.
 
-- **Slower burning velocity**
-- **Higher NOx emissions**
-- **Flame instabilities**
-- **Narrow flammability limits**
+The subset membership is defined by JSON mapping files (downloaded as "metadata"):
 
-## Governing Equations
+- `combustion/in_dist_test_params_real.json`
+- `combustion/out_dist_test_params_real.json`
+- `combustion/remain_params_real.json`
+- `combustion/in_dist_test_params_numerical.json`
+- `combustion/out_dist_test_params_numerical.json`
+- `combustion/remain_params_numerical.json`
 
-**Reactive Navier-Stokes:**
+How to interpret these files and `test_mode`:
 
-$$
-\frac{\partial \rho \mathbf{u}}{\partial t} + \nabla \cdot (\rho \mathbf{u} \mathbf{u}) = -\nabla p + \nabla \cdot \boldsymbol{\tau} + \rho \mathbf{g}
-$$
-
-**Species Transport (for each i = 1...38):**
-
-$$
-\frac{\partial \rho Y_i}{\partial t} + \nabla \cdot (\rho \mathbf{u} Y_i) = \nabla \cdot (\rho D_i \nabla Y_i) + \dot{\omega}_i
-$$
-
-**Energy Equation:**
-
-$$
-\frac{\partial \rho h}{\partial t} + \nabla \cdot (\rho \mathbf{u} h) = \nabla \cdot (k \nabla T) + \sum_i \dot{\omega}_i h_i
-$$
-
-Where $\dot{\omega}_i$ are chemical reaction rates (184 reactions!).
-
-## Chemical Mechanism
-
-Simplified NH₃/CH₄ reaction pathways:
-
-```
-CH₄ + 2O₂ → CO₂ + 2H₂O        (complete combustion)
-NH₃ + O₂ → NO + H₂O + N₂       (ammonia oxidation)
-NO + CO → N₂ + CO₂              (NO reduction)
-```
-
-Full mechanism includes intermediates: H, O, OH, HO₂, H₂O₂, CO, HCN, N₂O, etc.
-
-## Benchmark Tasks
-
-1. **Flame Prediction:** Forecast flame dynamics from initial conditions
-2. **Unmeasured Modality:** Predict temperature/species from OH* intensity
-3. **Surrogate Modeling:** Map simulation species to real measurements
-4. **Emissions Prediction:** Infer NOx/CO from flow conditions
-
-## Challenges
-
-This dataset is the **most difficult** in RealPDEBench:
-
-- **Lowest R² values** among all datasets
-- **Complex multi-physics:** Turbulence + chemistry + heat transfer
-- **High dimensionality:** 38 species in simulation
-- **Measurement mismatch:** OH* (real) vs. full species (sim)
-
-## Data Loading Example
-
-```python
-import h5py
-
-with h5py.File('combustion_dataset.h5', 'r') as f:
-    # Real-world OH* chemiluminescence
-    real_intensity = f['real_data/trajectory_001/OH_star'][:]  # (T, X, Y)
-
-    # Simulated fields (many modalities)
-    sim_T = f['sim_data/trajectory_001/temperature'][:]
-    sim_rho = f['sim_data/trajectory_001/density'][:]
-    sim_OH = f['sim_data/trajectory_001/species/OH'][:]
-    sim_NO = f['sim_data/trajectory_001/species/NO'][:]
-    # ... 36 more species
-
-    # Parameters
-    phi = f['real_data/trajectory_001/metadata'].attrs['equivalence_ratio']
-    CH4_ratio = f['real_data/trajectory_001/metadata'].attrs['methane_ratio']
-```
+- **`in_dist`**: in-distribution parameter settings (held out for evaluation).
+- **`out_dist`**: out-of-distribution / boundary parameter settings (OOD generalization).
+- **`seen`**: parameter settings used for training (defined by `remain_params_*`).
+- **`unseen`**: parameter settings not used for training (union of `in_dist` + `out_dist`).
 
 ## Download
 
-- [Download Combustion Dataset (XX GB)](#)
-- [Sample Data](#)
+See [Getting Started](../getting-started.md) for full setup. Quick commands:
 
-## References
+```bash
+# Evaluation metadata (small; includes the JSON mapping files)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario combustion --what metadata
 
-- Kobayashi, H., et al. (2019). Science and technology of ammonia combustion. *Proceedings of the Combustion Institute*.
-- Valera-Medina, A., et al. (2018). Ammonia for power. *Progress in Energy and Combustion Science*.
-- Poinsot, T., & Veynante, D. (2005). *Theoretical and Numerical Combustion*. RT Edwards, Inc.
+# HF dataset shards (large)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario combustion --what hf_dataset
+```
+
+

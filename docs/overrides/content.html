@@ -1,7 +1,7 @@
 {# Override mkdocs theme content renderer to inject "On this page" server-side
    (avoids flash from client-side JS insertion). #}
 
-{% if page and page.file and page.file.src_path != 'index.md' and page.file.src_path != 'getting-started.md' and page.toc %}
+{% if page and page.file and page.file.src_path != 'index.md' and page.toc %}
   {% macro render_onpage(items) -%}
     {%- for item in items -%}
       {%- if item.level >= 2 and item.level <= 5 -%}

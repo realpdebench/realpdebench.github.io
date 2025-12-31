@@ -217,35 +217,20 @@
       </p>
       <div class="rp-hero-authors" aria-label="Authors">
         <p class="rp-hero-authors-names">
-          Peiyan Hu<sup>*</sup>, Haodong Feng<sup>*</sup>, Yue Wang, Zhiming Ma, Tailin Wu<sup>†</sup>
+          AI for Scientific Simulation and Discovery Lab, Westlake University
         </p>
-        <p class="rp-hero-authors-note"><sup>*</sup> Equal contribution · <sup>†</sup> Corresponding author</p>
+        <p class="rp-hero-authors-note">Corresponding author: Tailin Wu</p>
       </div>
       <div class="rp-hero-cta">
         <a href="#datasets" class="btn-primary">Explore Datasets</a>
         <a href="#download" class="btn-secondary">Paper</a>
+        <a href="https://huggingface.co/datasets/AI4Science-WestlakeU/RealPDEBench" class="btn-secondary" target="_blank" rel="noopener noreferrer">Hugging Face</a>
       </div>
     </div>
   </div>
 </section>
 
 <div class="spacer-lg"></div>
-
-<!-- Dataset Visualization -->
-<section class="section rp-dataset-showcase">
-  <div class="container">
-    <div class="rp-showcase-grid">
-      <div class="rp-showcase-item">
-        <p class="rp-showcase-label">Real-World Experiments</p>
-        <img src="assets/images/all_real.png" alt="All real-world experimental data" class="rp-showcase-img">
-      </div>
-      <div class="rp-showcase-item">
-        <p class="rp-showcase-label">CFD Simulations</p>
-        <img src="assets/images/all_sim.png" alt="All CFD simulation data" class="rp-showcase-img">
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- Key Stats -->
 <section class="section-sm">
@@ -271,11 +256,60 @@
   </div>
 </section>
 
+<!-- Dataset Visualization -->
+<section class="section rp-dataset-showcase">
+  <div class="container">
+    <div class="rp-showcase-grid">
+      <div class="rp-showcase-item">
+        <p class="rp-showcase-label">Real-World Experiments</p>
+        <img src="assets/images/all_real.png" alt="All real-world experimental data" class="rp-showcase-img">
+      </div>
+      <div class="rp-showcase-item">
+        <p class="rp-showcase-label">CFD Simulations</p>
+        <img src="assets/images/all_sim.png" alt="All CFD simulation data" class="rp-showcase-img">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="spacer-lg"></div>
+
+<!-- Core Problem Section -->
+<section id="challenge" class="section rp-challenge-section">
+  <div class="container">
+    <div class="rp-challenge-header">
+      <p class="subtitle">The Challenge</p>
+      <h2 class="section-title">Why Real-World Data Matters</h2>
+      <p class="rp-challenge-lead">
+        Most scientific ML models are only validated on simulated data, creating a <strong>critical gap</strong> between theory and practice.
+      </p>
+    </div>
+
+    <div class="rp-challenge-grid" aria-label="Key sources of the sim-to-real gap">
+      <div class="glass-card rp-challenge-card">
+        <h3 class="rp-challenge-title">Numerical Errors</h3>
+        <p class="rp-challenge-text">Discretization and modeling assumptions in CFD simulations</p>
+      </div>
+
+      <div class="glass-card rp-challenge-card">
+        <h3 class="rp-challenge-title">Measurement Noise</h3>
+        <p class="rp-challenge-text">Camera sensors and particle tracking introduce real-world noise</p>
+      </div>
+
+      <div class="glass-card rp-challenge-card">
+        <h3 class="rp-challenge-title">Unmeasured Modalities</h3>
+        <p class="rp-challenge-text">Pressure fields and 3D velocities cannot be fully measured</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Bento Grid - Datasets Showcase -->
 <section id="datasets" class="section">
   <div class="container">
     <p class="subtitle">Benchmark Datasets</p>
     <h2 class="section-title">Five Physical Systems<br/>Real Experiments + CFD Simulations</h2>
+    <p class="rp-section-hint">Click a dataset card to open the scenario page (data format, downloads, and examples).</p>
 
     <div class="bento-grid">
 
@@ -391,169 +425,315 @@
   </div>
 </section>
 
-<div class="spacer-lg"></div>
-
-<!-- Core Problem Section -->
-<section id="challenge" class="section rp-challenge-section">
-  <div class="container">
-    <div class="rp-challenge-header">
-      <p class="subtitle">The Challenge</p>
-      <h2 class="section-title">Why Real-World Data Matters</h2>
-      <p class="rp-challenge-lead">
-        Most scientific ML models are only validated on simulated data, creating a <strong>critical gap</strong> between theory and practice.
-      </p>
-    </div>
-
-    <div class="rp-challenge-grid" aria-label="Key sources of the sim-to-real gap">
-      <div class="glass-card rp-challenge-card">
-        <h3 class="rp-challenge-title">Numerical Errors</h3>
-        <p class="rp-challenge-text">Discretization and modeling assumptions in CFD simulations</p>
-      </div>
-
-      <div class="glass-card rp-challenge-card">
-        <h3 class="rp-challenge-title">Measurement Noise</h3>
-        <p class="rp-challenge-text">Camera sensors and particle tracking introduce real-world noise</p>
-      </div>
-
-      <div class="glass-card rp-challenge-card">
-        <h3 class="rp-challenge-title">Unmeasured Modalities</h3>
-        <p class="rp-challenge-text">Pressure fields and 3D velocities cannot be fully measured</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="spacer-lg"></div>
-
-<!-- Key Findings -->
-<section class="section">
-  <div class="container">
-    <p class="subtitle">Research Findings</p>
-    <h2 class="section-title">Significant Sim-to-Real Gap</h2>
-
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
-
-      <div class="glass-card card-lavender">
-        <div style="padding: 2rem;">
-          <div style="font-size: 3rem; font-weight: 700; color: var(--carbon); margin-bottom: 0.5rem;">9-79%</div>
-          <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Performance Improvement</h4>
-          <p style="color: var(--slate);">Real-world training achieves 9.39% to 78.91% better accuracy than simulated-only training</p>
-        </div>
-      </div>
-
-      <div class="glass-card">
-        <div style="padding: 2rem;">
-          <div style="font-size: 3rem; font-weight: 700; color: var(--carbon); margin-bottom: 0.5rem;">3</div>
-          <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Training Paradigms</h4>
-          <p style="color: var(--slate);">Simulated training, real-world training, and sim-pretrain + real-finetune evaluated</p>
-        </div>
-      </div>
-
-      <div class="glass-card">
-        <div style="padding: 2rem;">
-          <div style="font-size: 3rem; font-weight: 700; color: var(--carbon); margin-bottom: 0.5rem;">&lt; 1.0</div>
-          <h4 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Update Ratio</h4>
-          <p style="color: var(--slate);">Pretraining on simulated data accelerates convergence on real-world data</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<div class="spacer-lg"></div>
-
-<!-- Baseline Models -->
-<section id="baseline-models" class="section rp-fullbleed rp-fullbleed--platinum">
+<!-- Benchmark Overview (Baselines + Metrics) -->
+<section id="benchmark" class="section section-sm">
   <div class="container">
     <p class="subtitle">Benchmark</p>
-    <h2 class="section-title">10 Baseline Models Evaluated</h2>
+    <h2 class="section-title">Baselines & Evaluation</h2>
+    <p class="rp-section-hint">Click a model or metric to open its detail page.</p>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 3rem;">
+    <div class="rp-overview-grid" aria-label="Benchmark overview">
+      <div class="rp-overview-panel" id="baseline-models">
+        <h3 class="rp-overview-heading">10 Baseline Models</h3>
 
-      <div class="card">
-        <h4 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--slate); font-size: 0.875rem;">FOUNDATION MODELS</h4>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">DPOT-L (509M params)</li>
-          <li style="padding: 0.5rem 0;">DPOT-S (30M params)</li>
-        </ul>
+        <div class="rp-overview-subgrid rp-overview-subgrid--baseline" aria-label="Baseline model families">
+          <div class="rp-overview-group rp-overview-group--foundation">
+            <div class="rp-overview-kicker">Foundation Models</div>
+            <ul class="rp-overview-list">
+              <li><a class="rp-overview-link" href="models/dpot/#variants-in-realpdebench">DPOT-L (509M)</a></li>
+              <li><a class="rp-overview-link" href="models/dpot/#variants-in-realpdebench">DPOT-S (30M)</a></li>
+            </ul>
+          </div>
+
+          <div class="rp-overview-group rp-overview-group--traditional">
+            <div class="rp-overview-kicker">Traditional & CNN</div>
+            <ul class="rp-overview-list">
+              <li><a class="rp-overview-link" href="models/dmd/">DMD</a></li>
+              <li><a class="rp-overview-link" href="models/unet/">U-Net</a></li>
+            </ul>
+          </div>
+
+          <div class="rp-overview-group rp-overview-group--operators">
+            <div class="rp-overview-kicker">Neural Operators</div>
+            <ul class="rp-overview-list">
+              <li><a class="rp-overview-link" href="models/fno/">FNO</a></li>
+              <li><a class="rp-overview-link" href="models/cno/">CNO</a></li>
+              <li><a class="rp-overview-link" href="models/deeponet/">DeepONet</a></li>
+              <li><a class="rp-overview-link" href="models/mwt/">MWT</a></li>
+              <li><a class="rp-overview-link" href="models/gk-transformer/">GK-Transformer</a></li>
+              <li><a class="rp-overview-link" href="models/transolver/">Transolver</a></li>
+              <li><a class="rp-overview-link" href="models/wdno/">WDNO</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
 
-      <div class="card">
-        <h4 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--slate); font-size: 0.875rem;">NEURAL OPERATORS</h4>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">FNO</li>
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">CNO</li>
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">DeepONet</li>
-          <li style="padding: 0.5rem 0;">MWT, GK-Transformer, Transolver, WDNO</li>
-        </ul>
+      <div class="rp-overview-panel" id="evaluation-metrics">
+        <h3 class="rp-overview-heading">8 Evaluation Metrics</h3>
+
+        <div class="rp-overview-subgrid rp-overview-subgrid--2" aria-label="Metric families">
+          <div class="rp-overview-group">
+            <div class="rp-overview-kicker">Data-oriented</div>
+            <ul class="rp-metrics-list" aria-label="Data-oriented metrics (hover for definitions)">
+              <li class="rp-metric-item" data-desc="Root Mean Square Error">
+                <a class="rp-metric-link" href="metrics/data-oriented/#rmse">RMSE</a>
+              </li>
+              <li class="rp-metric-item" data-desc="Mean Absolute Error">
+                <a class="rp-metric-link" href="metrics/data-oriented/#mae">MAE</a>
+              </li>
+              <li class="rp-metric-item" data-desc="Relative L₂ Error">
+                <a class="rp-metric-link" href="metrics/data-oriented/#rel-l2">Rel L₂</a>
+              </li>
+              <li class="rp-metric-item" data-desc="Coefficient of Determination">
+                <a class="rp-metric-link" href="metrics/data-oriented/#r2">R²</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="rp-overview-group">
+            <div class="rp-overview-kicker">Physics-oriented</div>
+            <ul class="rp-metrics-list" aria-label="Physics-oriented metrics (hover for definitions)">
+              <li class="rp-metric-item" data-desc="Fourier Space Error">
+                <a class="rp-metric-link" href="metrics/physics-oriented/#frmse">fRMSE</a>
+              </li>
+              <li class="rp-metric-item" data-desc="Frequency Error (Periodicity)">
+                <a class="rp-metric-link" href="metrics/physics-oriented/#fe">FE</a>
+              </li>
+              <li class="rp-metric-item" data-desc="Kinetic Energy Error">
+                <a class="rp-metric-link" href="metrics/physics-oriented/#ke">KE</a>
+              </li>
+              <li class="rp-metric-item" data-desc="Mean Velocity Profile Error">
+                <a class="rp-metric-link" href="metrics/physics-oriented/#mvpe">MVPE</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Benchmark Results -->
+<section id="benchmark-results" class="section rp-fullbleed rp-fullbleed--platinum">
+  <div class="container">
+    <p class="subtitle">Results Explorer</p>
+    <h2 class="section-title">Explore Results</h2>
+    <p class="rp-benchmark-lead">
+      Baseline ranking on real-world test data, stratified by dataset and training paradigm.
+    </p>
+
+    <div class="glass-card rp-benchmark" data-rp-benchmark>
+      <div class="rp-benchmark-howto" aria-label="How to read the bar ranking">
+        <div class="rp-radar-kicker">SINGLE-METRIC COMPARISON</div>
+        <div class="rp-benchmark-howto-title">Bar Chart</div>
+        <div class="rp-benchmark-howto-subtitle">
+          Bars are sorted best → worst (longest → shortest) for the selected metric.
+          <strong>Bar length is min–max normalized across all models in the current dataset + training paradigm</strong>
+          (best = 100% / full bar; worst = 0%).
+          <strong>
+            For error metrics (↓), smaller raw values correspond to longer bars; for R² (↑), larger values correspond to longer bars.
+          </strong>
+        </div>
       </div>
 
-      <div class="card">
-        <h4 style="font-weight: 600; margin-bottom: 0.5rem; color: var(--slate); font-size: 0.875rem;">TRADITIONAL & CNN</h4>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-          <li style="padding: 0.5rem 0; border-bottom: 1px solid var(--lavender-light);">DMD</li>
-          <li style="padding: 0.5rem 0;">U-Net</li>
-        </ul>
+      <div class="rp-benchmark-controls" aria-label="Benchmark controls">
+        <div class="rp-benchmark-control">
+          <label class="rp-benchmark-label" for="rp-benchmark-dataset">Dataset</label>
+          <select id="rp-benchmark-dataset" class="rp-select" aria-label="Dataset"></select>
+        </div>
+
+        <div class="rp-benchmark-control">
+          <span class="rp-benchmark-label">Training paradigm</span>
+          <div class="rp-seg" role="radiogroup" aria-label="Training paradigm">
+            <button type="button" class="rp-seg-btn is-active" data-paradigm="simulated_training" aria-checked="true" role="radio" title="Trained on simulated (numerical/CFD) data; evaluated on real-world test data.">Simulated training</button>
+            <button type="button" class="rp-seg-btn" data-paradigm="real_training" aria-checked="false" role="radio" title="Trained on real-world data; evaluated on real-world test data.">Real-world training</button>
+            <button type="button" class="rp-seg-btn" data-paradigm="real_finetuning" aria-checked="false" role="radio" title="Simulated pretraining, then real-world finetuning; evaluated on real-world test data.">Real-world finetuning</button>
+          </div>
+        </div>
+
+        <div class="rp-benchmark-control">
+          <label class="rp-benchmark-label" for="rp-benchmark-metric">Metric</label>
+          <select id="rp-benchmark-metric" class="rp-select" aria-label="Metric">
+            <option value="rmse">RMSE (↓)</option>
+            <option value="mae">MAE (↓)</option>
+            <option value="rel_l2">Rel L₂ (↓)</option>
+            <option value="r2">R² (↑)</option>
+            <option value="frmse">fRMSE (↓)</option>
+            <option value="fe">FE (↓)</option>
+            <option value="ke">KE (↓)</option>
+            <option value="mvpe">MVPE (↓)</option>
+          </select>
+        </div>
+
+        <div class="rp-benchmark-control">
+          <label class="rp-benchmark-label" for="rp-benchmark-topk">Show</label>
+          <select id="rp-benchmark-topk" class="rp-select" aria-label="How many models to show">
+            <option value="5">Top 5</option>
+            <option value="999">All</option>
+          </select>
+        </div>
       </div>
 
+      <div class="rp-benchmark-metric-help" data-rp-benchmark-metric-help aria-live="polite">
+        <div class="rp-benchmark-paradigm-inline" data-rp-benchmark-paradigm-help>
+          <div class="rp-benchmark-paradigm-inline-title">
+            <span class="rp-benchmark-paradigm-inline-kicker">Training paradigm</span>
+            <span class="rp-benchmark-paradigm-inline-label" data-rp-benchmark-paradigm-label>Simulated training</span>
+          </div>
+          <div class="rp-benchmark-paradigm-inline-desc" data-rp-benchmark-paradigm-desc>
+            trained on simulated (numerical/CFD) data.
+          </div>
+        </div>
+        <div class="rp-benchmark-metric-help-title">
+          <span class="rp-benchmark-metric-help-kicker">Metric</span>
+          <span class="rp-benchmark-metric-help-abbr" data-rp-benchmark-metric-abbr>RMSE</span>
+          <span class="rp-benchmark-metric-help-sep" aria-hidden="true">—</span>
+          <span class="rp-benchmark-metric-help-full" data-rp-benchmark-metric-full>Root Mean Square Error</span>
+          <span class="rp-benchmark-metric-help-dir" data-rp-benchmark-metric-dir>(↓ lower is better)</span>
+        </div>
+        <div class="rp-benchmark-metric-help-desc" data-rp-benchmark-metric-desc>
+          Pointwise error between predicted and ground-truth fields.
+        </div>
+      </div>
+
+      <div class="rp-benchmark-chart" data-rp-benchmark-chart aria-live="polite">
+        <div class="rp-benchmark-loading">Loading benchmark data…</div>
+      </div>
+
+      <div class="rp-benchmark-divider" aria-hidden="true"></div>
+
+      <!-- Multi-metric radar comparison -->
+      <div class="rp-radar" data-rp-radar>
+        <div class="rp-radar-head">
+          <div class="rp-radar-head-copy">
+            <div class="rp-radar-kicker">Multi-metric comparison</div>
+            <div class="rp-radar-title">Radar chart across performance dimensions</div>
+            <div class="rp-radar-subtitle">
+              Scores are min–max normalized to <strong>0–100</strong> within the current dataset + training paradigm.
+              <strong>Higher is better</strong>. Axes are computed from the reported benchmark metrics (no extra measurements).
+            </div>
+          </div>
+        </div>
+
+        <div class="rp-radar-models" data-rp-radar-models aria-label="Select models to compare"></div>
+
+        <div class="rp-radar-layout">
+          <div class="rp-radar-chart" data-rp-radar-chart aria-label="Radar chart"></div>
+          <div class="rp-radar-notes-wrap">
+            <div class="rp-radar-actions rp-radar-actions--notes" aria-label="Radar selection actions">
+              <button type="button" class="rp-chip-btn" data-rp-radar-top5>Top 5</button>
+              <button type="button" class="rp-chip-btn" data-rp-radar-all>All models</button>
+              <button type="button" class="rp-chip-btn" data-rp-radar-clear>Clear</button>
+            </div>
+            <div class="rp-radar-notes" data-rp-radar-notes aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rp-benchmark-footnote">
+        <span class="rp-benchmark-footnote-label">Notes:</span>
+        Reported metrics are evaluated on real-world test data. DMD has no training stage; where unavailable, values are omitted.
+      </div>
     </div>
   </div>
 </section>
 
 <div class="spacer-lg"></div>
 
-<!-- Evaluation Metrics -->
-<section id="evaluation-metrics" class="section">
+<!-- Key Takeaways -->
+<section class="section">
   <div class="container">
-    <p class="subtitle">Comprehensive Evaluation</p>
-    <h2 class="section-title">8 Evaluation Metrics</h2>
-    <p style="font-size: 1.125rem; color: var(--slate); max-width: 700px; margin-bottom: 3rem;">
-      Both data-oriented and physics-oriented metrics provide comprehensive model assessment
-    </p>
+    <p class="subtitle">Key Takeaways</p>
+    <h2 class="section-title">Key Findings</h2>
 
-    <div class="rp-eval-grid">
-
-      <div class="glass-card">
-        <div class="rp-eval-card-body">
-          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">Data-Oriented</h3>
-          <ul class="rp-metrics-list" aria-label="Data-oriented metrics (hover for definitions)">
-            <li class="rp-metric-item" data-desc="Root Mean Square Error">
-              <span class="rp-metric-abbr" tabindex="0">RMSE</span>
-            </li>
-            <li class="rp-metric-item" data-desc="Mean Absolute Error">
-              <span class="rp-metric-abbr" tabindex="0">MAE</span>
-            </li>
-            <li class="rp-metric-item" data-desc="Relative L₂ Error">
-              <span class="rp-metric-abbr" tabindex="0">Rel L₂</span>
-            </li>
-            <li class="rp-metric-item" data-desc="Coefficient of Determination">
-              <span class="rp-metric-abbr" tabindex="0">R²</span>
-            </li>
-          </ul>
+    <div class="rp-takeaways" aria-label="Key takeaways (click to expand)">
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">1</span>
+          <span class="rp-takeaway-headline">A consistent sim-to-real gap across datasets.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          When evaluated on real measurements, models trained only on simulated data systematically underperform those trained with real-world data. This gap is consistent across both fluid dynamics and combustion scenarios.
         </div>
-      </div>
+      </details>
 
-      <div class="glass-card card-lavender">
-        <div class="rp-eval-card-body">
-          <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem;">Physics-Oriented</h3>
-          <ul class="rp-metrics-list" aria-label="Physics-oriented metrics (hover for definitions)">
-            <li class="rp-metric-item" data-desc="Fourier Space Error">
-              <span class="rp-metric-abbr" tabindex="0">fRMSE</span>
-            </li>
-            <li class="rp-metric-item" data-desc="Frequency Error (Periodicity)">
-              <span class="rp-metric-abbr" tabindex="0">FE</span>
-            </li>
-            <li class="rp-metric-item" data-desc="Kinetic Energy Error">
-              <span class="rp-metric-abbr" tabindex="0">KE</span>
-            </li>
-            <li class="rp-metric-item" data-desc="Mean Velocity Profile Error">
-              <span class="rp-metric-abbr" tabindex="0">MVPE</span>
-            </li>
-          </ul>
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">2</span>
+          <span class="rp-takeaway-headline">Real-world training reduces Rel \(L_2\) by 9.39–78.91%.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          Training directly on real-world data yields substantially lower errors than simulated-only training on real-world benchmarks. The relative \(L_2\) improvements range from <strong>9.39% to 78.91%</strong>.
         </div>
-      </div>
+      </details>
 
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">3</span>
+          <span class="rp-takeaway-headline">Real vs. simulated data have fundamentally different error sources.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          Real-world datasets are primarily affected by sensor/measurement noise, while simulated datasets are dominated by numerical and modeling errors. This mismatch leads to different error distributions between domains and is a key driver of sim-to-real transfer challenges.
+        </div>
+      </details>
+
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">4</span>
+          <span class="rp-takeaway-headline">Simulation data is cheaper, richer, and noise-free.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          Simulated datasets are comparatively low-cost, offer access to additional modalities (e.g., pressure), and are free from measurement-induced noise—making them valuable despite the sim-to-real gap.
+        </div>
+      </details>
+
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">5</span>
+          <span class="rp-takeaway-headline">Sim-pretraining + real-finetuning improves performance.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          Models initialized with simulation pretraining and finetuned on real data achieve lower errors than models trained solely on real data, showing simulation’s value as a pretraining source.
+        </div>
+      </details>
+
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">6</span>
+          <span class="rp-takeaway-headline">Pretraining accelerates real-data convergence.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          Finetuned models reach comparable or better performance with fewer training updates, indicating faster convergence when starting from simulation-pretrained weights.
+        </div>
+      </details>
+
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">7</span>
+          <span class="rp-takeaway-headline">Architectures trade off pointwise vs. global behavior.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          Convolution-based models can excel on pointwise errors (e.g., RMSE), while operator/spectral models can better preserve periodicity and global physical structure—highlighting metric-dependent trade-offs.
+        </div>
+      </details>
+
+      <details class="rp-takeaway">
+        <summary class="rp-takeaway-summary">
+          <span class="rp-takeaway-num" aria-hidden="true">8</span>
+          <span class="rp-takeaway-headline">Long-horizon rollouts reveal different error accumulation.</span>
+          <span class="rp-takeaway-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="rp-takeaway-body">
+          Autoregressive evaluation shows errors can compound over rollout steps: some methods degrade quickly, while large pretrained operator models tend to maintain more stable long-term predictions.
+        </div>
+      </details>
     </div>
   </div>
 </section>
@@ -569,7 +749,7 @@
 
   <div class="container" style="position: relative; z-index: 1;">
     <p class="subtitle">Resources</p>
-    <h2 class="section-title">Data, Code, and Reproducibility</h2>
+    <h2 class="section-title">Reproducibility</h2>
     <p style="font-size: 1.25rem; color: var(--slate); margin-bottom: 2.25rem; max-width: 760px;">
       Access datasets, baselines, and evaluation scripts to reproduce results and benchmark new models on paired experiments and CFD simulations.
     </p>
@@ -578,10 +758,7 @@
       <a href="getting-started/" class="btn-primary" style="font-size: 1.05rem; padding: 14px 32px;">
         Getting Started
       </a>
-      <a href="datasets/" class="btn-secondary" style="font-size: 1.05rem; padding: 14px 28px; background: rgba(255,255,255,0.92);">
-        Browse Datasets
-      </a>
-      <a href="https://github.com/realpdebench/realpdebench.github.io" class="btn-secondary" style="font-size: 1.05rem; padding: 14px 28px; background: rgba(255,255,255,0.92);">
+      <a href="https://github.com/AI4Science-WestlakeU/RealPDEBench" class="btn-secondary" style="font-size: 1.05rem; padding: 14px 28px; background: rgba(255,255,255,0.92);">
         Code & Baselines
       </a>
     </div>

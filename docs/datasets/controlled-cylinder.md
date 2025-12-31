@@ -1,89 +1,97 @@
-# Controlled Cylinder Dataset
+# Controlled Cylinder
 
-Active flow control with forced cylinder vibration.
+Active flow control via **forced cylinder vibration**, measured with time-resolved PIV and paired with matched CFD simulations.
 
-## Overview
+## Visualizations
 
-The **Controlled Cylinder dataset** extends the cylinder wake problem by introducing **active control** through forced transverse vibration of the cylinder. This enables study of flow control strategies and closed-loop dynamics.
+<div class="rp-dataset-videos">
+  <div class="rp-dataset-video-grid">
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Real-world</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/controlled_cylinder/controlled_cylinder_real.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Simulated</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/controlled_cylinder/controlled_cylinder_sim.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
 
-## Physical Parameters
+## Key stats
 
-| Parameter | Range | Description |
-|-----------|-------|-------------|
-| **Reynolds Number (Re)** | 1781 - 9843 | Flow regime variation |
-| **Control Frequency (f)** | 0.5 - 1.4 Hz | Cylinder vibration frequency |
-| **Amplitude (A)** | Variable | Transverse displacement amplitude |
-| **Cylinder Diameter (D)** | 10 mm | Fixed geometry |
-| **Phase (φ)** | 0° - 360° | Control phase relative to shedding |
+| Item | Value |
+|---|---|
+| `n_traj` | 96 × 2 (paired real + numerical) |
+| `n_frame` | 3990 |
+| \(\Delta t\) | \(2.5\times 10^{-3}\) s |
+| Resolution (real) | 128×256 |
+| Resolution (sim) | 64×128 |
+| Modalities (real) | \(u,v\) |
+| Modalities (sim) | \(u,v,p\) |
+| Memory | 187.08 GB |
 
-## Data Collection
+!!! note
+    We use `n_traj = X × 2` to indicate paired trajectories: **X real-world** and **X numerical** trajectories for the same scenario.
 
-### Real-World (PIV)
+## Physical parameters
 
-- **Method:** Particle Image Velocimetry with actuated cylinder
-- **Frame Rate:** 400-500 fps
-- **Duration:** 20 seconds per trajectory
-- **Actuation:** Motorized linear stage for cylinder vibration
-- **Measured Fields:** u, v (velocity components)
+- **Reynolds numbers**: {1781, 2625, 3562, 4406, 5343, 6281, 7125, 8062, 9000, 9843}
+- **Control frequencies** (forced vibration): 0.5–1.4 Hz (step 0.1 Hz)
 
-### Simulation (CFD)
+## HF Datasets format
 
-- **Solver:** Lilypad with moving boundary conditions
-- **Cylinder Motion:** Prescribed sinusoidal motion
-- **Grid:** Adaptive mesh following cylinder motion
-- **Output Fields:** u, v, p (velocity + pressure)
-- **Coupling:** Fluid forces computed on moving cylinder
+This scenario is distributed as **Hugging Face Datasets (Arrow)** under `controlled_cylinder/hf_dataset/`.
 
-## Dataset Statistics
+### Splits
 
-- **Trajectories:** 150+
-- **Control Frequencies:** 6
-- **Spatial Resolution:** 128×128
+- `real_{train|val|test}`
+- `numerical_{train|val|test}`
 
-## Physical Phenomena
+### Schema (high level)
 
-### Flow Control Mechanisms
+- `sim_id` (string): trajectory identifier
+- `time_id` (int): window start index
+- `u` (bytes), `v` (bytes): float32 arrays encoded as bytes
+- `p` (bytes; numerical only): pressure channel
+- `shape_t`, `shape_h`, `shape_w` (int): shape metadata for decoding
 
-1. **Lock-in:** Synchronization of vortex shedding with cylinder motion
-2. **Drag Reduction:** Up to 30% reduction at optimal frequencies
-3. **Wake Stabilization:** Suppression of vortex street
-4. **Phase Dynamics:** Critical role of control phase
+## Eval splits & subsets
 
-### Control Regimes
+We provide two layers of splitting:
 
-- **Sub-harmonic:** f < f_natural (frequency ratio < 1)
-- **Resonant:** f ≈ f_natural (lock-in region)
-- **Super-harmonic:** f > f_natural (frequency ratio > 1)
+- **Dataset split (`train/val/test`)**: the standard split in `hf_dataset/*_{train|val|test}`.
+- **Eval subset (`test_mode`)**: an optional filter inside `val/test` to select trajectories by parameter regime.
 
-## Governing Equations
+The subset membership is defined by JSON mapping files (downloaded as "metadata"):
 
-Modified Navier-Stokes with moving boundary:
+- `controlled_cylinder/in_dist_test_params_real.json`
+- `controlled_cylinder/out_dist_test_params_real.json`
+- `controlled_cylinder/remain_params_real.json`
+- `controlled_cylinder/in_dist_test_params_numerical.json`
+- `controlled_cylinder/out_dist_test_params_numerical.json`
+- `controlled_cylinder/remain_params_numerical.json`
 
-$$
-\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho}\nabla p + \nu \nabla^2 \mathbf{u}
-$$
+How to interpret these files and `test_mode`:
 
-Cylinder motion:
-
-$$
-y_c(t) = A \sin(2\pi f t + \phi)
-$$
-
-Where $y_c$ is cylinder center position.
-
-## Benchmark Tasks
-
-1. **Control Prediction:** Predict optimal control parameters for drag reduction
-2. **Closed-loop Learning:** Learn control policies from data
-3. **Sim-to-Real Transfer:** Transfer control strategies from simulation
-4. **Phase Estimation:** Infer optimal control phase from flow state
+- **`in_dist`**: in-distribution parameter settings (held out for evaluation).
+- **`out_dist`**: out-of-distribution / boundary parameter settings (OOD generalization).
+- **`seen`**: parameter settings used for training (defined by `remain_params_*`).
+- **`unseen`**: parameter settings not used for training (union of `in_dist` + `out_dist`).
 
 ## Download
 
-- [Download Controlled Cylinder Dataset (XX GB)](#)
-- [Sample Data](#)
+See [Getting Started](../getting-started.md) for full setup. Quick commands:
 
-## References
+```bash
+# Evaluation metadata (small; includes the JSON mapping files)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario controlled_cylinder --what metadata
 
-- Choi, H., Jeon, W. P., & Kim, J. (2008). Control of flow over a bluff body. *Annual Review of Fluid Mechanics*.
-- Fujisawa, N., & Takeda, G. (2003). Flow control around a circular cylinder by internal acoustic excitation. *Journal of Fluids and Structures*.
+# HF dataset shards (large)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario controlled_cylinder --what hf_dataset
+```
+
+

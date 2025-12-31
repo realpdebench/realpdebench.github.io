@@ -1,134 +1,99 @@
-# Foil Dataset
+# Foil
 
-3D cross-sectional flow around NACA0025 airfoil.
+Flow around a tapered **NACA0025 hydrofoil**: planar PIV measurements on a fixed cross-section, paired with matched numerical simulations.
 
-## Overview
+## Visualizations
 
-The **Foil dataset** captures flow around a **NACA0025 symmetric airfoil** at various angles of attack, representing 3D flow physics in a cross-sectional plane.
+<div class="rp-dataset-videos">
+  <div class="rp-dataset-video-grid">
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Real-world</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/foil/foil_real.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="rp-dataset-video-card">
+      <div class="rp-dataset-video-title">Simulated</div>
+      <video autoplay loop muted playsinline preload="metadata">
+        <source src="../../assets/videos/foil/foil_sim.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</div>
 
-## Physical Parameters
+## Key stats
 
-| Parameter | Range | Description |
-|-----------|-------|-------------|
-| **Angle of Attack (α)** | 0° - 20° | Airfoil inclination |
-| **Reynolds Number (Re)** | 2968 - 17031 | Based on chord length |
-| **Chord Length (c)** | 50 mm | Airfoil chord |
-| **Aspect Ratio (AR)** | Finite span | 3D effects present |
-| **Flow Velocity (U∞)** | Variable | Free-stream velocity |
+| Item | Value |
+|---|---|
+| `n_traj` | 99 × 2 (paired real + numerical) |
+| `n_frame` | 3990 |
+| \(\Delta t\) | \(2.5\times 10^{-3}\) s |
+| Resolution (real) | 128×256 |
+| Resolution (sim) | 128×256 |
+| Modalities (real) | \(u,v\) |
+| Modalities (sim) | \(u,v,p\) |
+| Memory | 335.64 GB |
 
-## Data Collection
+!!! note
+    We use `n_traj = X × 2` to indicate paired trajectories: **X real-world** and **X numerical** trajectories for the same scenario.
 
-### Real-World (PIV)
+## Physical parameters
 
-- **Method:** Planar PIV at mid-span cross-section
-- **Frame Rate:** 400-500 fps
-- **Plane:** 2D slice through 3D flow
-- **Measured Fields:** u, v (in-plane velocity)
-- **3D Effects:** Tip vortices, spanwise flow captured indirectly
+- **Airfoil**: NACA0025 tapered hydrofoil (root chord 100 mm, tip chord 20 mm)
+- **Measurement plane**: cross-section at \(z=50\) mm
+- **Angles of attack**: {0°, 5°, 10°, 15°, 20°}
+- **Reynolds numbers**: 19 discrete values spanning 2968–17031
 
-### Simulation (3D CFD)
+## HF Datasets format
 
-- **Solver:** Waterlily (GPU-accelerated 3D solver)
-- **Domain:** Full 3D with airfoil geometry
-- **Extraction:** Mid-span cross-section for comparison
-- **Output Fields:** u, v, w, p (full 3D + pressure)
-- **Resolution:** High near airfoil surface
+This scenario is distributed as **Hugging Face Datasets (Arrow)** under `foil/hf_dataset/`.
 
-## Dataset Statistics
+### Splits
 
-- **Trajectories:** 100+
-- **Angles of Attack:** 21
-- **Flow Dimension:** 3D
+- `real_{train|val|test}`
+- `numerical_{train|val|test}`
 
-## Physical Phenomena
+### Schema (high level)
 
-### Flow Regimes
+- `sim_id` (string): trajectory identifier
+- `time_id` (int): window start index
+- `u` (bytes), `v` (bytes): float32 arrays encoded as bytes
+- `p` (bytes; numerical only): pressure channel
+- `shape_t`, `shape_h`, `shape_w` (int): shape metadata for decoding
 
-**Low α (0° - 5°):**
-- Attached flow
-- Thin boundary layer
-- Minimal separation
+## Eval splits & subsets
 
-**Medium α (5° - 12°):**
-- Leading-edge vortex formation
-- Partial separation
-- Transition to turbulence
+We provide two layers of splitting:
 
-**High α (12° - 20°):**
-- Massive separation
-- Dynamic stall
-- Wake instabilities
+- **Dataset split (`train/val/test`)**: the standard split in `hf_dataset/*_{train|val|test}`.
+- **Eval subset (`test_mode`)**: an optional filter inside `val/test` to select trajectories by parameter regime.
 
-### Aerodynamic Forces
+The subset membership is defined by JSON mapping files (downloaded as "metadata"):
 
-Lift and drag vary nonlinearly with angle of attack:
+- `foil/in_dist_test_params_real.json`
+- `foil/out_dist_test_params_real.json`
+- `foil/remain_params_real.json`
+- `foil/in_dist_test_params_numerical.json`
+- `foil/out_dist_test_params_numerical.json`
+- `foil/remain_params_numerical.json`
 
-- **Lift:** Increases then plateaus/drops (stall)
-- **Drag:** Quadratic increase with α
-- **Stall Angle:** ~12-15° for NACA0025
+How to interpret these files and `test_mode`:
 
-## Governing Equations
-
-3D incompressible Navier-Stokes:
-
-$$
-\frac{\partial \mathbf{u}}{\partial t} + (\mathbf{u} \cdot \nabla)\mathbf{u} = -\frac{1}{\rho}\nabla p + \nu \nabla^2 \mathbf{u}
-$$
-
-$$
-\nabla \cdot \mathbf{u} = 0
-$$
-
-Where $\mathbf{u} = (u, v, w)$ in 3D.
-
-## Benchmark Tasks
-
-1. **Stall Prediction:** Detect onset of flow separation
-2. **Force Estimation:** Infer lift/drag from flow fields
-3. **3D Effects Modeling:** Account for spanwise variations
-4. **Angle Classification:** Identify α from flow patterns
-
-## Data Loading Example
-
-```python
-import h5py
-import numpy as np
-
-with h5py.File('foil_dataset.h5', 'r') as f:
-    # Real-world 2D cross-section
-    real_u = f['real_data/trajectory_001/u'][:]  # (T, X, Y)
-    real_v = f['real_data/trajectory_001/v'][:]
-
-    # Simulated 3D (mid-span slice)
-    sim_u = f['sim_data/trajectory_001/u'][:]
-    sim_v = f['sim_data/trajectory_001/v'][:]
-    sim_w = f['sim_data/trajectory_001/w'][:]  # Spanwise velocity
-    sim_p = f['sim_data/trajectory_001/p'][:]
-
-    # Parameters
-    alpha = f['real_data/trajectory_001/metadata'].attrs['angle_of_attack']
-    Re = f['real_data/trajectory_001/metadata'].attrs['reynolds_number']
-
-    print(f"Angle of Attack: {alpha}°, Re: {Re}")
-```
-
-## NACA0025 Profile
-
-The NACA 4-digit series airfoil with maximum thickness at 25% chord:
-
-```
-Thickness = 0.25 × chord
-Symmetric (zero camber)
-Smooth leading edge
-Sharp trailing edge
-```
+- **`in_dist`**: in-distribution parameter settings (held out for evaluation).
+- **`out_dist`**: out-of-distribution / boundary parameter settings (OOD generalization).
+- **`seen`**: parameter settings used for training (defined by `remain_params_*`).
+- **`unseen`**: parameter settings not used for training (union of `in_dist` + `out_dist`).
 
 ## Download
 
-- [Download Foil Dataset (XX GB)](#)
-- [Sample Data](#)
+See [Getting Started](../getting-started.md) for full setup. Quick commands:
 
-## References
+```bash
+# Evaluation metadata (small; includes the JSON mapping files)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario foil --what metadata
 
-- Abbott, I. H., & Von Doenhoff, A. E. (1959). *Theory of Wing Sections*. Dover Publications.
-- McCroskey, W. J. (1982). Unsteady airfoils. *Annual Review of Fluid Mechanics*.
+# HF dataset shards (large)
+realpdebench download --dataset-root <DATASET_ROOT> --scenario foil --what hf_dataset
+```
+
+

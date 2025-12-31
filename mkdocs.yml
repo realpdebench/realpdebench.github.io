@@ -3,8 +3,8 @@ site_url: https://realpdebench.github.io
 site_description: First Scientific ML Benchmark with Paired Real-World and Simulated Data
 
 # Repository
-repo_name: realpdebench/realpdebench.github.io
-repo_url: https://github.com/realpdebench/realpdebench.github.io
+repo_name: AI4Science-WestlakeU/RealPDEBench
+repo_url: https://github.com/AI4Science-WestlakeU/RealPDEBench
 
 # Theme - Bootstrap with custom overrides
 theme:
@@ -46,6 +46,7 @@ markdown_extensions:
 extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es6
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - javascripts/benchmark_results.js
 
 # Custom CSS
 extra_css:
@@ -63,9 +64,23 @@ nav:
     - Combustion: datasets/combustion.md
   - Models:
     - Models Overview: models.md
-    - Trad & CNN: models/trad-cnn.md
-    - Neural Operators: models/neural-operators.md
-    - Foundation Models: models/foundation-models.md
+    - Add Your Model: models/add-your-model.md
+    - Traditional & CNN:
+      - Index: models/trad-cnn.md
+      - DMD: models/dmd.md
+      - U-Net: models/unet.md
+    - Neural Operators:
+      - Index: models/neural-operators.md
+      - FNO: models/fno.md
+      - CNO: models/cno.md
+      - DeepONet: models/deeponet.md
+      - MWT: models/mwt.md
+      - GK-Transformer: models/gk-transformer.md
+      - Transolver: models/transolver.md
+      - WDNO: models/wdno.md
+    - Foundation Models:
+      - Index: models/foundation-models.md
+      - DPOT: models/dpot.md
   - Metrics:
     - Metrics Overview: metrics.md
     - Data-oriented: metrics/data-oriented.md

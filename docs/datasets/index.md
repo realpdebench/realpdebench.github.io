@@ -1,227 +1,153 @@
-# Datasets Overview
-
-RealPDEBench provides **5 comprehensive datasets** spanning fluid dynamics and combustion systems. Each dataset contains paired real-world measurements and CFD simulations.
-
-## Dataset Summary
-
-| Dataset | Domain | Re Range | Measured Fields | Simulated Fields | Trajectories |
-|---------|--------|----------|-----------------|------------------|--------------|
-| **Cylinder** | Fluid Dynamics | 1800-12000 | u, v (PIV) | u, v, p (CFD) | 250+ |
-| **Controlled Cylinder** | Flow Control | 1781-9843 | u, v (PIV) | u, v, p (CFD) | 150+ |
-| **FSI** | Fluid-Structure | 3272-9068 | u, v, y_c, ẏ_c | u, v, p, F_y | 120+ |
-| **Foil** | Aerodynamics | 2968-17031 | u, v (2D slice) | u, v, w, p (3D) | 100+ |
-| **Combustion** | Reactive Flow | ~10000 | OH* intensity | T, ρ, 38 species | 80+ |
-
-**Total:** 700+ trajectories with 2000+ frames each.
-
-## Data Collection Methods
-
-### Real-World Measurements
-
-All fluid dynamics datasets (Cylinder, Controlled Cylinder, FSI, Foil) use **Particle Image Velocimetry (PIV)**:
-
-- **Technique:** Fluorescent particle tracking (10μm hollow-glass microspheres)
-- **Frame Rate:** 400-500 fps
-- **Duration:** 20 seconds per trajectory
-- **Setup:** Circulating water tunnel with high-speed cameras
-
-The Combustion dataset uses **OH* Chemiluminescence Imaging**:
-
-- **Technique:** High-speed imaging of OH radical emission
-- **Frame Rate:** 4000 fps
-- **Duration:** 1 second per trajectory
-- **Setup:** Swirl-stabilized burner with intensified CMOS camera
-
-### Computational Simulations
-
-**Fluid Dynamics (2D):**
-- **Solver:** Lilypad (Finite Volume + Immersed Boundary Method)
-- **Grid:** Adaptive mesh refinement
-- **Output:** u, v, p fields
-
-**Aerodynamics (3D):**
-- **Solver:** Waterlily (GPU-accelerated)
-- **Domain:** Full 3D simulation
-- **Output:** u, v, w, p fields
-
-**Combustion (3D LES):**
-- **Solver:** STAR-CCM+ with LES turbulence model
-- **Chemistry:** Eddy Dissipation Concept (EDC)
-- **Mechanism:** 38 species, 184 reactions for NH₃/CH₄ co-firing
-- **Output:** Temperature, density, species mass fractions
-
-## Data Format
-
-All datasets are provided in **HDF5 format** with the following structure:
-
-```
-dataset.h5
-├── real_data/
-│   ├── trajectory_001/
-│   │   ├── u                    # Velocity component x (T, X, Y)
-│   │   ├── v                    # Velocity component y (T, X, Y)
-│   │   └── metadata             # Parameters (Re, geometry, etc.)
-│   ├── trajectory_002/
-│   └── ...
-└── sim_data/
-    ├── trajectory_001/
-    │   ├── u                    # Velocity component x (T, X, Y)
-    │   ├── v                    # Velocity component y (T, X, Y)
-    │   ├── p                    # Pressure field (T, X, Y)
-    │   └── metadata
-    ├── trajectory_002/
-    └── ...
-```
-
-**Array Dimensions:**
-- `T` = Time steps (2000+ frames)
-- `X, Y` = Spatial dimensions (typically 128×128 or 256×256)
-- All arrays are NumPy-compatible
-
-## Detailed Dataset Descriptions
-
-### 1. Cylinder
-
-Wake dynamics behind a stationary circular cylinder.
-
-**Key Features:**
-- Von Kármán vortex street
-- Reynolds numbers from transitional to turbulent regime
-- Classical fluid dynamics benchmark
-
-**Use Cases:**
-- Vortex shedding prediction
-- Frequency analysis
-- Wake structure learning
-
-[View Cylinder Dataset Details →](cylinder.md)
-
----
-
-### 2. Controlled Cylinder
-
-Active flow control with forced cylinder vibration.
-
-**Key Features:**
-- Prescribed sinusoidal motion
-- Control frequencies: 0.5-1.4 Hz
-- Lock-in and drag reduction phenomena
-
-**Use Cases:**
-- Flow control optimization
-- Closed-loop learning
-- Control phase prediction
-
-[View Controlled Cylinder Details →](controlled-cylinder.md)
-
----
-
-### 3. FSI (Fluid-Structure Interaction)
-
-Vortex-induced vibration with two-way coupling.
-
-**Key Features:**
-- Free cylinder oscillation
-- Coupled fluid-structure dynamics
-- Mass ratio and damping variations
-
-**Use Cases:**
-- Coupled system prediction
-- VIV amplitude forecasting
-- Force-motion relationship learning
-
-[View FSI Dataset Details →](fsi.md)
-
----
-
-### 4. Foil
-
-NACA0025 symmetric airfoil at various angles of attack.
-
-**Key Features:**
-- 3D flow with 2D cross-sectional measurements
-- Angles of attack: 0°-20°
-- Stall and separation dynamics
-
-**Use Cases:**
-- Stall prediction
-- Lift/drag estimation from flow fields
-- 3D effects modeling
-
-[View Foil Dataset Details →](foil.md)
-
----
-
-### 5. Combustion
-
-3D swirl-stabilized NH₃/CH₄/air flames.
-
-**Key Features:**
-- Multi-species reactive flow
-- 38 chemical species, 184 reactions
-- OH* chemiluminescence vs. full LES output
-
-**Use Cases:**
-- Flame dynamics prediction
-- Emissions estimation
-- Surrogate modeling (map sim species → real measurements)
-
-**Note:** This is the most challenging dataset with the lowest R² values due to complex multi-physics coupling.
-
-[View Combustion Dataset Details →](combustion.md)
-
----
-
-## Sim-to-Real Gap
-
-A key feature of RealPDEBench is the **explicit sim-to-real gap**:
-
-### Sources of Discrepancy
-
-1. **Numerical Errors:** Discretization, modeling assumptions in CFD
-2. **Measurement Noise:** Camera sensors, particle tracking errors
-3. **Unmeasured Modalities:** Pressure fields not measurable in PIV
-4. **Boundary Conditions:** Idealized (sim) vs. imperfect (real) inflow
-5. **3D Effects:** 2D simulations vs. 3D real flows
-
-### Quantitative Gap
-
-Training on real-world data achieves **9.39% to 78.91% improvement** in Relative L₂ Error compared to training on simulated data alone.
-
-## Download Instructions
-
-### Individual Datasets
-
-Each dataset can be downloaded separately:
-
-- [Cylinder Dataset (XX GB)](#)
-- [Controlled Cylinder Dataset (XX GB)](#)
-- [FSI Dataset (XX GB)](#)
-- [Foil Dataset (XX GB)](#)
-- [Combustion Dataset (XX GB)](#)
-
-### Full Benchmark
-
-Download the complete benchmark including all datasets, baseline model checkpoints, and evaluation scripts:
-
-```bash
-# Using wget
-wget https://zenodo.org/record/XXXXX/realpdebench_full.tar.gz
-
-# Or using Python API
-pip install realpdebench
-python -m realpdebench.download --all
+# Datasets
+
+RealPDEBench contains **5 scenarios** with **paired real-world measurements** and **matched numerical simulations**. Each scenario provides two branches:
+
+- **Real-world (`real`)**: experimentally measured fields (often incomplete)
+- **Simulated (`numerical`)**: CFD/LES fields (often includes **unmeasured modalities**, e.g. pressure)
+
+## What “paired” means in RealPDEBench
+
+A scenario provides two branches:
+
+- **`real/`**: experimentally measured fields (may be incomplete)
+- **`numerical/`**: simulation fields (can include additional, unmeasured modalities)
+
+“Paired” means that the real and numerical trajectories correspond to the **same physical conditions** (e.g., Reynolds number, control frequency, mixture ratio), enabling sim→real transfer and modality-mismatch evaluation.
+
+## Dataset inventory
+
+The table below summarizes dataset sizes, temporal resolution, spatial resolution, and observed modalities.
+
+<div class="rp-table-scroll">
+<table class="rp-table">
+  <thead>
+    <tr>
+      <th>Dataset</th>
+      <th><code>n_traj</code></th>
+      <th><code>n_frame</code></th>
+      <th>\(\Delta t\) (s)</th>
+      <th>Resolution (sim)</th>
+      <th>Resolution (real)</th>
+      <th>Memory (GB)</th>
+      <th>Modalities (sim)</th>
+      <th>Modalities (real)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="cylinder/">Cylinder</a></td>
+      <td>92 × 2</td>
+      <td>3990</td>
+      <td>\(2.5\times 10^{-3}\)</td>
+      <td>64×128</td>
+      <td>128×256</td>
+      <td>190.50</td>
+      <td>\(u,v,p\)</td>
+      <td>\(u,v\)</td>
+    </tr>
+    <tr>
+      <td><a href="controlled-cylinder/">Controlled Cylinder</a></td>
+      <td>96 × 2</td>
+      <td>3990</td>
+      <td>\(2.5\times 10^{-3}\)</td>
+      <td>64×128</td>
+      <td>128×256</td>
+      <td>187.08</td>
+      <td>\(u,v,p\)</td>
+      <td>\(u,v\)</td>
+    </tr>
+    <tr>
+      <td><a href="fsi/">FSI</a></td>
+      <td>51 × 2</td>
+      <td>2173</td>
+      <td>\(2.0\times 10^{-3}\)</td>
+      <td>128×128</td>
+      <td>128×128</td>
+      <td>94.73</td>
+      <td>\(u,v,p\)</td>
+      <td>\(u,v\)</td>
+    </tr>
+    <tr>
+      <td><a href="foil/">Foil</a></td>
+      <td>99 × 2</td>
+      <td>3990</td>
+      <td>\(2.5\times 10^{-3}\)</td>
+      <td>128×256</td>
+      <td>128×256</td>
+      <td>335.64</td>
+      <td>\(u,v,p\)</td>
+      <td>\(u,v\)</td>
+    </tr>
+    <tr>
+      <td><a href="combustion/">Combustion</a></td>
+      <td>30 × 2</td>
+      <td>2001</td>
+      <td>\(2.5\times 10^{-4}\)</td>
+      <td>128×128</td>
+      <td>128×128</td>
+      <td>110.12</td>
+      <td>multi-modal (15 channels)</td>
+      <td>\(I\)</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+!!! note
+    We use `n_traj = X × 2` to indicate **paired** trajectories: **X real-world** and **X numerical** trajectories for the same scenario.
+
+## Windowing: `sim_id` + `time_id`
+
+RealPDEBench evaluates forecasting on short spatiotemporal windows sampled from long trajectories:
+
+- **Trajectory ID (`sim_id`)**: trajectory identifier string (e.g., `1800`, `1781_0.5`, `40NH3_1.1`)
+- **Window start (`time_id`)**: integer time index
+- **One sample**: a contiguous window `data[time_id : time_id + T]`, where \(T\) is the window length (`in_step` + `out_step`)
+
+## Public distribution format (Hugging Face snapshot)
+
+We distribute data as **Hugging Face Datasets (Arrow)** shards. On disk, a downloaded snapshot is organized as:
+
+```text
+{dataset_root}/
+  {scenario}/
+    hf_dataset/
+      real_train/ ...
+      real_val/ ...
+      real_test/ ...
+      numerical_train/ ...
+      numerical_val/ ...
+      numerical_test/ ...
+    in_dist_test_params_real.json
+    out_dist_test_params_real.json
+    remain_params_real.json
+    in_dist_test_params_numerical.json
+    out_dist_test_params_numerical.json
+    remain_params_numerical.json
 ```
 
-### Sample Data
+The `*_test_params_*.json` files are used for `test_mode` filtering ("in_dist/out_dist/seen/unseen") during validation/testing.
 
-For quick experimentation, sample data (10% of each dataset) is available:
+## Evaluation subsets (JSON mappings)
 
-```bash
-python -m realpdebench.download --sample
-```
+The `*_test_params_*.json` files define evaluation subsets used by `test_mode` filters:
 
-## Support
+- **`in_dist`**: in-distribution parameter settings
+- **`out_dist`**: out-of-distribution parameter settings
+- **`seen`**: settings used for training (held-out time windows)
+- **`unseen`**: settings not used for training
 
-- **GitHub Issues:** [Report bugs or request features](https://github.com/realpdebench/realpdebench.github.io/issues)
-- **Discussions:** [Ask questions](https://github.com/realpdebench/realpdebench.github.io/discussions)
+### HF Arrow schema (high level)
+
+- **Fluid scenarios (Cylinder / Controlled Cylinder / FSI / Foil)**
+  - `sim_id` (string), `time_id` (int)
+  - `u` (bytes), `v` (bytes), `p` (bytes; numerical only)
+  - `shape_t`, `shape_h`, `shape_w` (int)
+
+- **Combustion**
+  - `sim_id` (string), `time_id` (int)
+  - `observed` (bytes) — real-world intensity \(I\) (real) or surrogate intensity (numerical)
+  - `numerical` (bytes; numerical only), `numerical_channels` (int; numerical only)
+  - `shape_t`, `shape_h`, `shape_w` (int)
+
+

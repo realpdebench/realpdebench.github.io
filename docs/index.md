@@ -660,88 +660,96 @@
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">1</span>
-          <span class="rp-takeaway-headline">A consistent sim-to-real gap across datasets.</span>
+          <span class="rp-takeaway-headline">Real data and simulation fail in different ways.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          When evaluated on real measurements, models trained only on simulated data systematically underperform those trained with real-world data. This gap is consistent across both fluid dynamics and combustion scenarios.
+          Real-world measurements are dominated by sensor and measurement noise, while simulated data are dominated by numerical and modeling error (e.g., discretization, LES closures, idealized conditions).
+          That mismatch changes the error distribution—and is a key reason sim-to-real transfer is hard.
         </div>
       </details>
 
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">2</span>
-          <span class="rp-takeaway-headline">Real-world training reduces Rel \(L_2\) by 9.39–78.91%.</span>
+          <span class="rp-takeaway-headline">Simulation is cheap and information-rich (but imperfect).</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          Training directly on real-world data yields substantially lower errors than simulated-only training on real-world benchmarks. The relative \(L_2\) improvements range from <strong>9.39% to 78.91%</strong>.
+          Simulated data are cheaper to generate at scale, can expose additional modalities (e.g., pressure), and avoid measurement-induced noise.
+          This makes simulation valuable for coverage and pretraining, even though it cannot perfectly match reality.
         </div>
       </details>
 
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">3</span>
-          <span class="rp-takeaway-headline">Real vs. simulated data have fundamentally different error sources.</span>
+          <span class="rp-takeaway-headline">Simulation-only training doesn’t transfer cleanly to real tests.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          Real-world datasets are primarily affected by sensor/measurement noise, while simulated datasets are dominated by numerical and modeling errors. This mismatch leads to different error distributions between domains and is a key driver of sim-to-real transfer challenges.
+          Across datasets, models trained on simulated trajectories show a clear performance gap when evaluated on real-world measurements.
+          Even when physical parameters are matched, learning only from simulation tends to miss real-world effects.
         </div>
       </details>
 
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">4</span>
-          <span class="rp-takeaway-headline">Simulation data is cheaper, richer, and noise-free.</span>
+          <span class="rp-takeaway-headline">Training on real data closes much of the gap (Rel \(L_2\): 9.39–78.91%).</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          Simulated datasets are comparatively low-cost, offer access to additional modalities (e.g., pressure), and are free from measurement-induced noise—making them valuable despite the sim-to-real gap.
+          On real-world benchmarks, training directly on real measurements yields substantially lower errors than training on simulated data only.
+          In our main results, real-world training improves Rel \(L_2\) by <strong>9.39% to 78.91%</strong> (depending on dataset and model).
         </div>
       </details>
 
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">5</span>
-          <span class="rp-takeaway-headline">Sim-pretraining + real-finetuning improves performance.</span>
+          <span class="rp-takeaway-headline">Pretrain on simulation, finetune on real: best of both.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          Models initialized with simulation pretraining and finetuned on real data achieve lower errors than models trained solely on real data, showing simulation’s value as a pretraining source.
+          Simulated pretraining followed by real-world finetuning often outperforms training on real-world data from scratch with the same real-data budget.
+          Pretraining helps models pick up broad dynamics from large simulated corpora, then adapt to real measurement artifacts during finetuning.
         </div>
       </details>
 
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">6</span>
-          <span class="rp-takeaway-headline">Pretraining accelerates real-data convergence.</span>
+          <span class="rp-takeaway-headline">Pretraining saves updates (Update Ratio is usually &lt; 1).</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          Finetuned models reach comparable or better performance with fewer training updates, indicating faster convergence when starting from simulation-pretrained weights.
+          Finetuned models reach the same (or better) performance with fewer real-data update steps—reflected by Update Ratios below one for most settings.
+          On Combustion, the validation RMSE curve drops faster under finetuning than training from scratch.
         </div>
       </details>
 
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">7</span>
-          <span class="rp-takeaway-headline">Architectures trade off pointwise vs. global behavior.</span>
+          <span class="rp-takeaway-headline">Architectures trade off pointwise accuracy vs. global structure.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          Convolution-based models can excel on pointwise errors (e.g., RMSE), while operator/spectral models can better preserve periodicity and global physical structure—highlighting metric-dependent trade-offs.
+          Convolution-based models (e.g., U-Net, CNO) tend to do well on pointwise errors like RMSE.
+          Models with operator / wavelet structure (e.g., MWT) can better preserve periodicity and other global features—so “best model” depends on the metric you care about.
         </div>
       </details>
 
       <details class="rp-takeaway">
         <summary class="rp-takeaway-summary">
           <span class="rp-takeaway-num" aria-hidden="true">8</span>
-          <span class="rp-takeaway-headline">Long-horizon rollouts reveal different error accumulation.</span>
+          <span class="rp-takeaway-headline">Long-horizon rollouts separate short-term wins from stable dynamics.</span>
           <span class="rp-takeaway-chevron" aria-hidden="true"></span>
         </summary>
         <div class="rp-takeaway-body">
-          Autoregressive evaluation shows errors can compound over rollout steps: some methods degrade quickly, while large pretrained operator models tend to maintain more stable long-term predictions.
+          Autoregressive evaluation makes error accumulation obvious: a model that looks great at one-step prediction can drift quickly over multiple rollouts.
+          In our Cylinder long-horizon analysis, the large pretrained DPOT model is among the most stable under multi-round evaluation.
         </div>
       </details>
     </div>

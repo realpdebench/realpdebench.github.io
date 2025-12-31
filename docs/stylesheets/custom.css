@@ -3045,7 +3045,9 @@ html.rp-js.rp-title-pending .content-wrapper:not(.real-homepage) .col-md-9[role=
 
 /* Dataset pages: paired Sim vs Real videos */
 .content-wrapper:not(.real-homepage) .rp-dataset-videos {
-  margin: 1.25rem 0 2rem;
+  width: 50%;
+  max-width: 50%;
+  margin: 1.25rem auto 2rem;
 }
 
 .content-wrapper:not(.real-homepage) .rp-dataset-video-grid {
@@ -3057,6 +3059,11 @@ html.rp-js.rp-title-pending .content-wrapper:not(.real-homepage) .col-md-9[role=
 @media (max-width: 900px) {
   .content-wrapper:not(.real-homepage) .rp-dataset-video-grid {
     grid-template-columns: 1fr;
+  }
+
+  .content-wrapper:not(.real-homepage) .rp-dataset-videos {
+    width: 100%;
+    max-width: 100%;
   }
 }
 

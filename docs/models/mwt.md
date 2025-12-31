@@ -26,7 +26,7 @@
 - Multi-step outputs use a vectorized reshape and typically assume \(T_\text{out}\) is a multiple of \(T_\text{in}\).
 - Training uses an MSE-style objective on predicted fields.
 
-## YAML config (RealPDEBench)
+## MWT specific YAML config
 
 This baseline is enabled by `model_name: "mwt"` in the training YAML.
 

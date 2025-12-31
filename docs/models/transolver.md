@@ -27,7 +27,7 @@ In the benchmark, Transolver is configured to produce predictions that match the
 - In practice, this baseline is configured for dataset-specific grid sizes (`H`, `W`, `D`) and output feature dimension (`out_dim`) via YAML configs.
 - The model returns per-element squared error in `train_loss()`; the benchmark training loop averages it.
 
-## YAML config (RealPDEBench)
+## Transolver specific YAML config
 
 This baseline is enabled by `model_name: "transolver"` in the training YAML.
 

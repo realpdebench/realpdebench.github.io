@@ -35,7 +35,7 @@ RealPDEBench evaluates two pretrained DPOT variants:
   - If the dataset has more than 4 channels, projection layers must be adapted (reinitialized) to match the dataset.
 - **Long-horizon prediction**: supports single-shot prediction when `out_timesteps == T_out`, otherwise uses a sliding-window auto-regressive rollout.
 
-## YAML config (RealPDEBench)
+## DPOT specific YAML config
 
 DPOT is enabled by `model_name: "dpot"` in the training YAML. RealPDEBench provides two **pretrained** variants with separate configs:
 

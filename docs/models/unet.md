@@ -26,7 +26,7 @@ RealPDEBench uses a **3D U-Net** baseline (encoder–decoder CNN with skip conne
 - If \(T_\text{out} > T_\text{in}\), the baseline repeats the input along the time axis to reach `T_out`, so it assumes \(T_\text{out}\) is a multiple of \(T_\text{in}\).
 - Training uses an MSE-style objective on the predicted fields.
 
-## YAML config (RealPDEBench)
+## U-Net specific YAML config
 
 This baseline is enabled by `model_name: "unet"` in the training YAML.
 

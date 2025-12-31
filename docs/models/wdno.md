@@ -25,7 +25,7 @@ year={2025}
 - Inference is performed by DDPM/DDIM-style sampling and can be slower than deterministic operator baselines due to multiple sampling steps.
 - Conditioning uses wavelet coefficients derived from the input window.
 
-## YAML config (RealPDEBench)
+## WDNO specific YAML config
 
 This baseline is enabled by `model_name: "wdno"` in the training YAML.
 

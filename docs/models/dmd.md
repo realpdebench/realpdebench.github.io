@@ -24,7 +24,7 @@
 - **Main knobs**: `n_modes` (number of retained modes), `n_predict` (prediction horizon), `N_autoregressive` (rollout setting used by the benchmark).
 - **Modalities**: if extra channels are zero-padded (unmeasured modalities), DMD is typically configured to use only the measured channels.
 
-## YAML config (RealPDEBench)
+## DMD specific YAML config
 
 DMD is enabled by `model_name: "dmd"` in the YAML. Since it is a **non-learning** baseline, the YAML mainly controls **how DMD is applied at evaluation time**.
 

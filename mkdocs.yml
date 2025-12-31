@@ -85,4 +85,5 @@ nav:
     - Metrics Overview: metrics.md
     - Data-oriented: metrics/data-oriented.md
     - Physics-oriented: metrics/physics-oriented.md
+  - Leaderboard: leaderboard.md
   - Getting Started: getting-started.md

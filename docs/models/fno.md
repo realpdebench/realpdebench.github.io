@@ -25,7 +25,7 @@ year={2021}
 - It uses a vectorized reshape for multi-step outputs, which assumes \(T_\text{out}\) is a multiple of \(T_\text{in}\).
 - Training uses an MSE-style objective on predicted fields.
 
-## YAML config (RealPDEBench)
+## FNO specific YAML config
 
 This baseline is enabled by `model_name: "fno"` in the training YAML.
 

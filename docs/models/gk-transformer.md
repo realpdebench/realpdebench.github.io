@@ -27,7 +27,7 @@ The **Galerkin Transformer** is an attention-based operator learner that replace
 - Multi-step outputs assume \(T_\text{out}\) is a multiple of \(T_\text{in}\).
 - Training uses an MSE-style objective on predicted fields.
 
-## YAML config (RealPDEBench)
+## GK-Transformer specific YAML config
 
 In RealPDEBench, GK-Transformer is implemented as the **Galerkin Transformer** baseline and is enabled by:
 

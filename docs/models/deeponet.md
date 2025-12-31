@@ -28,7 +28,7 @@
 - Unlike several operator baselines, DeepONet does not require \(T_\text{out}\) to be a multiple of \(T_\text{in}\) (the horizon is defined by the coordinate grid).
 - Training uses an MSE-style objective on predicted fields.
 
-## YAML config (RealPDEBench)
+## DeepONet specific YAML config
 
 This baseline is enabled by `model_name: "deeponet"` in the training YAML.
 

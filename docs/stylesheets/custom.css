@@ -84,6 +84,70 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 !important;
 }
 
+/* Leaderboard - custom layout (no sidebar, wide container like homepage)
+   IMPORTANT: doc-page sidebar rules are very specific + !important, so we must override with higher specificity. */
+.content-wrapper.real-leaderboard:not(.real-homepage) .bs-sidebar,
+.content-wrapper.real-leaderboard:not(.real-homepage) .col-md-3 {
+  display: none !important;
+}
+
+.content-wrapper.real-leaderboard:not(.real-homepage) .col-md-9 {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  float: none !important;
+  background: var(--surface) !important;
+}
+
+.content-wrapper.real-leaderboard:not(.real-homepage) .row {
+  margin: 0 !important;
+}
+
+.content-wrapper.real-leaderboard:not(.real-homepage) .rp-sidebar-toggle-floating {
+  display: none !important;
+}
+
+.real-leaderboard .rp-leaderboard-fullbleed {
+  /* Break out of the theme's outer `.container` max-width, similar to homepage full-bleed sections. */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+.real-leaderboard .rp-leaderboard-container {
+  max-width: 1560px; /* intentionally wider than doc pages */
+  margin: 0 auto;
+  padding: 48px 28px 80px;
+}
+
+@media (max-width: 900px) {
+  .real-leaderboard .rp-leaderboard-container {
+    padding: 32px 18px 64px;
+  }
+}
+
+.real-leaderboard .rp-leaderboard-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 4vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin: 0 0 14px;
+  border: 0;
+  padding: 0;
+  color: var(--carbon);
+}
+
+.real-leaderboard .rp-leaderboard-intro {
+  margin: 0 0 18px;
+  max-width: 980px;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: rgba(29, 29, 31, 0.9);
+}
+
 /* Remove Bootstrap container restrictions */
 .container-fluid {
   padding-left: 0 !important;
@@ -295,8 +359,8 @@ html {
   transition: opacity 0.3s ease;
 }
 
-/* Slightly condense nav so it still fits nicely at our minimum supported width (768px). */
-@media (max-width: 900px) {
+/* Slightly condense nav so it still fits nicely at compact desktop / tablet widths. */
+@media (max-width: 1200px) {
   .navbar-container {
     padding: 0 16px;
   }
@@ -310,13 +374,13 @@ html {
   }
 }
 
-/* Responsive navbar (we only switch to hamburger below 768px; >=768px keeps links visible) */
-@media (max-width: 767px) {
+/* Responsive navbar (switch to hamburger below 992px to avoid overlap in the pre-hamburger range) */
+@media (max-width: 991.98px) {
   .rp-nav-toggle {
     display: block;
   }
 
-  /* Avoid two hamburgers on doc pages below 768px: keep only the top-nav menu. */
+  /* Avoid two hamburgers on doc pages below the top-nav breakpoint: keep only the top-nav menu. */
   .content-wrapper:not(.real-homepage) .rp-sidebar-toggle-floating {
     display: none !important;
   }
@@ -1863,6 +1927,19 @@ html {
   transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
+.real-homepage .rp-chip-btn.is-active,
+.real-homepage .rp-chip-btn[aria-pressed="true"] {
+  background: rgba(105, 98, 133, 0.12);
+  border-color: rgba(105, 98, 133, 0.38);
+  color: rgba(60, 55, 88, 0.96);
+}
+
+.real-homepage .rp-chip-btn[disabled] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
 .real-homepage .rp-chip-btn:hover {
   background: rgba(235, 233, 245, 0.75);
   border-color: rgba(182, 177, 202, 0.8);
@@ -3344,4 +3421,266 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-footer {
   .content-wrapper:not(.real-homepage) .rp-footer {
     margin-left: 0;
   }
+}
+
+/* ========================================
+   LEADERBOARD (Doc Pages)
+   ======================================== */
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard {
+  /* Match homepage Results Explorer bar palette */
+  --rp-benchmark-bar: #34cda3;   /* mint green */
+  --rp-benchmark-track: #d9f7ef; /* very light mint */
+  margin-top: 18px;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-lead {
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border: 1px solid rgba(182, 177, 202, 0.45);
+  border-radius: 10px;
+  background: rgba(245, 245, 247, 0.75);
+  color: rgba(105, 98, 133, 0.92);
+  font-size: 0.98rem;
+  line-height: 1.65;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 18px;
+  align-items: flex-end;
+  margin: 0 0 18px;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-control {
+  display: grid;
+  gap: 8px;
+  /* IMPORTANT: avoid stretching segmented controls (Top 5 / All) to an arbitrary width */
+  justify-items: start;
+  min-width: 0;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-control--dataset {
+  /* Keep dataset selector comfortably wide */
+  min-width: 240px;
+  justify-items: stretch;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-control--dataset .rp-select {
+  width: 100%;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-control--topk {
+  /* Only two buttons: keep it tight */
+  min-width: max-content;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-label {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(105, 98, 133, 0.85);
+  margin: 0;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-select {
+  appearance: none;
+  -webkit-appearance: none;
+  border-radius: 12px;
+  border: 1px solid rgba(182, 177, 202, 0.55);
+  background: rgba(255, 255, 255, 0.96);
+  padding: 10px 12px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  color: var(--carbon);
+  line-height: 1.2;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-select:focus-visible {
+  outline: 3px solid rgba(182, 177, 202, 0.6);
+  outline-offset: 2px;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-seg {
+  display: inline-flex;
+  gap: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(182, 177, 202, 0.55);
+  background: rgba(235, 233, 245, 0.8);
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-seg-btn {
+  border: 0;
+  background: transparent;
+  padding: 10px 14px;
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  font-weight: 650;
+  color: rgba(105, 98, 133, 0.92);
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+  white-space: nowrap;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-seg-btn:hover {
+  background: rgba(216, 212, 230, 0.55);
+  color: var(--carbon);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-seg-btn.is-active {
+  background: var(--carbon);
+  color: white;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-seg-btn:focus-visible {
+  outline: 3px solid rgba(182, 177, 202, 0.6);
+  outline-offset: 2px;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 22px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .content-wrapper:not(.real-homepage) .rp-leaderboard-metric-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric {
+  margin: 0;
+  padding: 10px 10px 8px;
+  border: 1px solid rgba(216, 212, 230, 0.55);
+  border-radius: 12px;
+  background: rgba(245, 245, 247, 0.55);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric-head {
+  margin-bottom: 8px;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-weight: 850;
+  color: var(--carbon);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric-link:hover {
+  text-decoration: underline;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric-dir {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: rgba(105, 98, 133, 0.92);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-metric-sub {
+  margin-top: 3px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  line-height: 1.45;
+  color: rgba(105, 98, 133, 0.92);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-benchmark-loading {
+  padding: 10px 8px;
+  color: var(--slate);
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-row {
+  display: grid;
+  grid-template-columns: 30px minmax(140px, 1.25fr) minmax(140px, 2fr) 86px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 8px;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-row:hover {
+  background: rgba(235, 233, 245, 0.55);
+  border-radius: 10px;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-rank {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  color: rgba(105, 98, 133, 0.95);
+  text-align: right;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-label {
+  min-width: 0;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-model {
+  font-family: var(--font-sans);
+  font-weight: 750;
+  color: var(--carbon);
+  line-height: 1.2;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-params {
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  color: rgba(105, 98, 133, 0.92);
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+/* Bars: slightly thicker than homepage, but keep length moderate by column layout */
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-track {
+  height: 22px;
+  background: var(--rp-benchmark-track);
+  border: 1px solid rgba(52, 205, 163, 0.35);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: var(--rp-benchmark-bar);
+  border-radius: 999px;
+  transition: width 260ms ease;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard .rp-bar-value {
+  font-family: var(--font-sans);
+  font-weight: 750;
+  color: var(--carbon);
+  text-align: right;
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-footnote {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-top: 1px solid rgba(216, 212, 230, 0.55);
+  font-size: 0.95rem;
+  color: var(--slate);
+}
+
+.content-wrapper:not(.real-homepage) .rp-leaderboard-footnote-label {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  color: rgba(105, 98, 133, 0.95);
+  margin-right: 6px;
 }

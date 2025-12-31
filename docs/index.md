@@ -610,6 +610,7 @@
             <div class="rp-radar-title">Radar chart across performance dimensions</div>
             <div class="rp-radar-subtitle">
               Scores are min–max normalized to <strong>0–100</strong> within the current dataset + training paradigm.
+              Use <strong>Zoom</strong> to normalize within the currently selected models for clearer separation.
               <strong>Higher is better</strong>. Axes are computed from the reported benchmark metrics (no extra measurements).
             </div>
           </div>
@@ -624,6 +625,15 @@
               <button type="button" class="rp-chip-btn" data-rp-radar-top5>Top 5</button>
               <button type="button" class="rp-chip-btn" data-rp-radar-all>All models</button>
               <button type="button" class="rp-chip-btn" data-rp-radar-clear>Clear</button>
+              <button
+                type="button"
+                class="rp-chip-btn"
+                data-rp-radar-zoom
+                aria-pressed="false"
+                title="Zoom: normalize axes within the selected models (better separation; not comparable across different selections)."
+              >
+                Zoom
+              </button>
             </div>
             <div class="rp-radar-notes" data-rp-radar-notes aria-live="polite"></div>
           </div>

@@ -43,6 +43,7 @@
   var radarTop5Btn = radarRoot ? qs("[data-rp-radar-top5]", radarRoot) : null;
   var radarAllBtn = radarRoot ? qs("[data-rp-radar-all]", radarRoot) : null;
   var radarClearBtn = radarRoot ? qs("[data-rp-radar-clear]", radarRoot) : null;
+  var radarZoomBtn = radarRoot ? qs("[data-rp-radar-zoom]", radarRoot) : null;
 
   if (!datasetSelect || !metricSelect || !topkSelect || !chartRoot || paradigmBtns.length === 0) return;
 
@@ -150,6 +151,19 @@
     "#D7A28E",
   ];
 
+  var RADAR_METRIC_KEYS = [
+    "r2",
+    "rmse",
+    "mae",
+    "rel_l2",
+    "frmse",
+    "fe",
+    "ke",
+    "mvpe",
+    "update_ratio",
+    "params_m",
+  ];
+
   var RADAR_AXES_BASE = [
     {
       key: "correlation",
@@ -205,6 +219,7 @@
     records: null,
     radar_selected: [],
     radar_hasUserSelection: false,
+    radar_zoom: false,
     model_order: [],
   };
 
@@ -349,21 +364,8 @@
   }
 
   function computeRadarAxes(rows) {
-    var metricKeys = [
-      "r2",
-      "rmse",
-      "mae",
-      "rel_l2",
-      "frmse",
-      "fe",
-      "ke",
-      "mvpe",
-      "update_ratio",
-      "params_m",
-    ];
-
     var statsBy = Object.create(null);
-    metricKeys.forEach(function (k) {
+    RADAR_METRIC_KEYS.forEach(function (k) {
       statsBy[k] = metricStats(rows, k);
     });
 
@@ -389,6 +391,18 @@
     });
 
     return { axes: axes, statsBy: statsBy, notes: notes };
+  }
+
+  function syncRadarZoomBtn(canZoom) {
+    if (!radarZoomBtn) return;
+
+    if (!canZoom && state.radar_zoom) {
+      state.radar_zoom = false;
+    }
+
+    radarZoomBtn.disabled = !canZoom;
+    radarZoomBtn.classList.toggle("is-active", !!state.radar_zoom);
+    radarZoomBtn.setAttribute("aria-pressed", state.radar_zoom ? "true" : "false");
   }
 
   function computeRadarModelScores(rows, axes, statsBy) {
@@ -421,6 +435,48 @@
       .filter(function (x) {
         return x.model;
       });
+  }
+
+  function computeRadarPlotEntries(rows, axes, statsAll, selectedEntries) {
+    // Default: use "all models" normalization (statsAll).
+    if (!state.radar_zoom) return selectedEntries;
+
+    if (!selectedEntries || selectedEntries.length < 2) return selectedEntries;
+
+    // Build a map from model -> raw record for computing normalization stats on selected rows.
+    var rowByModel = Object.create(null);
+    rows.forEach(function (r) {
+      if (r && r.model) rowByModel[r.model] = r;
+    });
+
+    var selectedRows = selectedEntries
+      .map(function (e) {
+        return rowByModel[e.model];
+      })
+      .filter(Boolean);
+
+    // Need at least 2 samples for min–max normalization.
+    if (selectedRows.length < 2) return selectedEntries;
+
+    // Compute stats on selected models; fall back to all-model stats per metric if needed.
+    var statsZoom = Object.create(null);
+    RADAR_METRIC_KEYS.forEach(function (k) {
+      statsZoom[k] = metricStats(selectedRows, k) || statsAll[k];
+    });
+
+    var zoomEntries = computeRadarModelScores(selectedRows, axes, statsZoom);
+    var zoomByModel = Object.create(null);
+    zoomEntries.forEach(function (e) {
+      if (e && e.model) zoomByModel[e.model] = e;
+    });
+
+    // Preserve order + colors from selectedEntries, but use zoomed axis values.
+    return selectedEntries.map(function (e) {
+      var z = zoomByModel[e.model];
+      if (!z) return e;
+      z.color = e.color;
+      return z;
+    });
   }
 
   function setRadarSelected(models) {
@@ -479,6 +535,11 @@
     html += "</ul>";
 
     var extra = [];
+    extra.push(
+      state.radar_zoom
+        ? "Zoom is ON: axes are normalized within the selected models (better separation; not comparable across different selections)."
+        : "Zoom is OFF: axes are normalized within all models in the current dataset + training paradigm."
+    );
     extra.push("Only models with available values on all shown axes are included in the radar.");
     if (notes && notes.length) extra = extra.concat(notes);
 
@@ -771,14 +832,16 @@
     }
 
     ensureRadarSelection(completeEntries);
-
-    renderRadarNotes(axes, notes);
-    renderRadarChips(completeEntries);
-
     var selectedEntries = completeEntries.filter(function (e) {
       return state.radar_selected.indexOf(e.model) >= 0;
     });
-    renderRadarChart(axes, selectedEntries);
+
+    syncRadarZoomBtn(selectedEntries.length >= 2);
+    renderRadarNotes(axes, notes);
+    renderRadarChips(completeEntries);
+
+    var plotEntries = computeRadarPlotEntries(rows, axes, statsBy, selectedEntries);
+    renderRadarChart(axes, plotEntries);
   }
 
   function metricConfig() {
@@ -1059,6 +1122,14 @@
             renderRadar();
           });
         }
+
+        if (radarZoomBtn) {
+          radarZoomBtn.addEventListener("click", function () {
+            // Toggle "zoom" normalization within selected models.
+            state.radar_zoom = !state.radar_zoom;
+            renderRadar();
+          });
+        }
       })
       .catch(function (err) {
         setError("Failed to load benchmark data: " + (err && err.message ? err.message : String(err)));
@@ -1092,6 +1163,456 @@
       if (p) setActiveParadigm(p);
     });
   });
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", load);
+  } else {
+    load();
+  }
+})();
+
+/* RealPDEBench — Leaderboard Module
+ *
+ * Renders all 8 evaluation metrics in a two-column grid, with a Top 5 / All toggle,
+ * using the same ranking + normalization logic as the homepage bar chart.
+ *
+ * Safe on non-leaderboard pages (early exit if module not present).
+ */
+(function () {
+  /** @param {string} sel */
+  function qsa(sel, root) {
+    return Array.prototype.slice.call((root || document).querySelectorAll(sel));
+  }
+
+  /** @param {string} sel */
+  function qs(sel, root) {
+    return (root || document).querySelector(sel);
+  }
+
+  var root = qs("[data-rp-leaderboard]");
+  if (!root) return;
+
+  var datasetSelect = qs("#rp-leaderboard-dataset", root);
+  var paradigmBtns = qsa(".rp-seg-btn[data-paradigm]", root);
+  var topkBtns = qsa(".rp-seg-btn[data-topk]", root);
+  var metricGrid = qs("[data-rp-leaderboard-metric-grid]", root);
+
+  if (!datasetSelect || paradigmBtns.length === 0 || !metricGrid) return;
+
+  var METRICS = {
+    rmse: {
+      key: "rmse",
+      label: "RMSE",
+      full: "Root Mean Square Error",
+      direction: "lower",
+      decimals: 4,
+      href: "/metrics/data-oriented/#rmse",
+    },
+    mae: {
+      key: "mae",
+      label: "MAE",
+      full: "Mean Absolute Error",
+      direction: "lower",
+      decimals: 5,
+      href: "/metrics/data-oriented/#mae",
+    },
+    rel_l2: {
+      key: "rel_l2",
+      label: "Rel L₂",
+      full: "Relative L₂ Error",
+      direction: "lower",
+      decimals: 4,
+      href: "/metrics/data-oriented/#rel-l2",
+    },
+    r2: {
+      key: "r2",
+      label: "R²",
+      full: "Coefficient of Determination",
+      direction: "higher",
+      decimals: 5,
+      href: "/metrics/data-oriented/#r2",
+    },
+    frmse: {
+      key: "frmse",
+      label: "fRMSE",
+      full: "Fourier-space RMSE",
+      direction: "lower",
+      decimals: 4,
+      href: "/metrics/physics-oriented/#frmse",
+    },
+    fe: {
+      key: "fe",
+      label: "FE",
+      full: "Frequency Error",
+      direction: "lower",
+      decimals: 2,
+      href: "/metrics/physics-oriented/#fe",
+    },
+    ke: {
+      key: "ke",
+      label: "KE",
+      full: "Kinetic Energy Error",
+      direction: "lower",
+      decimals: 5,
+      href: "/metrics/physics-oriented/#ke",
+    },
+    mvpe: {
+      key: "mvpe",
+      label: "MVPE",
+      full: "Mean Velocity Profile Error",
+      direction: "lower",
+      decimals: 5,
+      href: "/metrics/physics-oriented/#mvpe",
+    },
+  };
+
+  var METRIC_ORDER = ["rmse", "mae", "rel_l2", "r2", "frmse", "fe", "ke", "mvpe"];
+  var DATASET_ORDER = ["Cylinder", "Controlled Cylinder", "FSI", "Foil", "Combustion"];
+
+  var state = {
+    dataset: null,
+    paradigm: "simulated_training",
+    topk: 5,
+    records: null,
+  };
+
+  function initialTopk() {
+    if (!topkBtns || topkBtns.length === 0) return 5;
+    var picked = null;
+    topkBtns.forEach(function (btn) {
+      if (btn.classList.contains("is-active") || btn.getAttribute("aria-checked") === "true") {
+        var k = Number(btn.getAttribute("data-topk"));
+        if (!Number.isNaN(k)) picked = k;
+      }
+    });
+    return picked != null ? picked : 5;
+  }
+
+  state.topk = initialTopk();
+
+  function uniq(arr) {
+    var seen = Object.create(null);
+    var out = [];
+    arr.forEach(function (x) {
+      if (seen[x]) return;
+      seen[x] = true;
+      out.push(x);
+    });
+    return out;
+  }
+
+  function isNumber(v) {
+    return v != null && typeof v === "number" && !Number.isNaN(v);
+  }
+
+  function sortDatasets(datasets) {
+    return datasets.sort(function (a, b) {
+      var ia = DATASET_ORDER.indexOf(a);
+      var ib = DATASET_ORDER.indexOf(b);
+      if (ia === -1 && ib === -1) return a.localeCompare(b);
+      if (ia === -1) return 1;
+      if (ib === -1) return -1;
+      return ia - ib;
+    });
+  }
+
+  function populateDatasets(records) {
+    var datasets = uniq(
+      records
+        .map(function (r) {
+          return r.dataset;
+        })
+        .filter(Boolean)
+    );
+    sortDatasets(datasets);
+
+    datasetSelect.innerHTML = "";
+    datasets.forEach(function (ds) {
+      var opt = document.createElement("option");
+      opt.value = ds;
+      opt.textContent = ds;
+      datasetSelect.appendChild(opt);
+    });
+
+    state.dataset = state.dataset && datasets.indexOf(state.dataset) >= 0 ? state.dataset : datasets[0] || null;
+    if (state.dataset) datasetSelect.value = state.dataset;
+  }
+
+  function filteredRecords() {
+    if (!state.records || !state.dataset) return [];
+    return state.records.filter(function (r) {
+      return r.dataset === state.dataset && r.paradigm === state.paradigm;
+    });
+  }
+
+  function formatParams(paramsM) {
+    if (paramsM == null || Number.isNaN(paramsM)) return "—";
+    return String(paramsM.toFixed(1)) + "M params";
+  }
+
+  function formatValue(v, decimals) {
+    if (v == null || Number.isNaN(v)) return "—";
+    return Number(v).toFixed(decimals);
+  }
+
+  function metricDirSymbol(direction) {
+    return direction === "higher" ? "↑" : "↓";
+  }
+
+  function metricDirLabel(direction) {
+    return direction === "higher" ? "(↑ higher is better)" : "(↓ lower is better)";
+  }
+
+  function absHref(pathname) {
+    try {
+      return new URL(pathname, window.location.origin).toString();
+    } catch (e) {
+      return pathname;
+    }
+  }
+
+  function setActiveParadigm(p) {
+    state.paradigm = p;
+    paradigmBtns.forEach(function (btn) {
+      var isActive = btn.getAttribute("data-paradigm") === p;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-checked", isActive ? "true" : "false");
+    });
+    renderAll();
+  }
+
+  function setActiveTopk(k) {
+    state.topk = k;
+    if (topkBtns && topkBtns.length) {
+      topkBtns.forEach(function (btn) {
+        var isActive = Number(btn.getAttribute("data-topk")) === k;
+        btn.classList.toggle("is-active", isActive);
+        btn.setAttribute("aria-checked", isActive ? "true" : "false");
+      });
+    }
+    renderAll();
+  }
+
+  function ensureMetricCards() {
+    if (!metricGrid) return;
+    if (metricGrid.getAttribute("data-built") === "1") return;
+
+    metricGrid.innerHTML = "";
+
+    METRIC_ORDER.forEach(function (k) {
+      var m = METRICS[k];
+      if (!m) return;
+
+      var section = document.createElement("section");
+      section.className = "rp-leaderboard-metric";
+      section.setAttribute("data-metric", k);
+
+      var head = document.createElement("div");
+      head.className = "rp-leaderboard-metric-head";
+
+      var title = document.createElement("div");
+      title.className = "rp-leaderboard-metric-title";
+
+      var link = document.createElement("a");
+      link.className = "rp-leaderboard-metric-link";
+      link.href = absHref(m.href || "/metrics/");
+      link.textContent = m.label;
+
+      var dir = document.createElement("span");
+      dir.className = "rp-leaderboard-metric-dir";
+      dir.textContent = metricDirSymbol(m.direction);
+      dir.title = metricDirLabel(m.direction);
+
+      title.appendChild(link);
+      title.appendChild(dir);
+
+      var sub = document.createElement("div");
+      sub.className = "rp-leaderboard-metric-sub";
+      sub.textContent = (m.full || "") + " " + metricDirLabel(m.direction);
+
+      head.appendChild(title);
+      head.appendChild(sub);
+
+      var chart = document.createElement("div");
+      chart.className = "rp-leaderboard-chart";
+      chart.setAttribute("data-rp-leaderboard-chart", "");
+      chart.innerHTML = '<div class="rp-benchmark-loading">Loading…</div>';
+
+      section.appendChild(head);
+      section.appendChild(chart);
+      metricGrid.appendChild(section);
+    });
+
+    metricGrid.setAttribute("data-built", "1");
+  }
+
+  function setError(msg) {
+    if (!metricGrid) return;
+    metricGrid.innerHTML = '<div class="rp-benchmark-loading">' + msg + "</div>";
+  }
+
+  function renderBarChart(chartRoot, metric, topk) {
+    chartRoot.innerHTML = "";
+
+    if (!state.records || !state.dataset) {
+      chartRoot.innerHTML = '<div class="rp-benchmark-loading">Loading…</div>';
+      return;
+    }
+
+    var rows = filteredRecords();
+    var itemsAll = rows
+      .map(function (r) {
+        return {
+          model: r.model,
+          params_m: r.params_m,
+          value: r[metric.key],
+        };
+      })
+      .filter(function (x) {
+        return x.model && isNumber(x.value);
+      });
+
+    // Sort depending on metric direction.
+    if (metric.direction === "higher") {
+      itemsAll.sort(function (a, b) {
+        return b.value - a.value;
+      });
+    } else {
+      itemsAll.sort(function (a, b) {
+        return a.value - b.value;
+      });
+    }
+
+    if (itemsAll.length === 0) {
+      var empty = document.createElement("div");
+      empty.className = "rp-benchmark-loading";
+      empty.textContent = "No data for this selection.";
+      chartRoot.appendChild(empty);
+      return;
+    }
+
+    // Display can be Top-k, but bar normalization should be consistent with "All models"
+    // within the current (dataset, training paradigm, metric) selection.
+    var itemsShown = itemsAll;
+    if (topk && itemsAll.length > topk) {
+      itemsShown = itemsAll.slice(0, topk);
+    }
+
+    // Compute bar widths (best = longest bar), normalized over ALL models in the selection.
+    var values = itemsAll.map(function (x) {
+      return x.value;
+    });
+    var minV = Math.min.apply(null, values);
+    var maxV = Math.max.apply(null, values);
+
+    function widthPct(v) {
+      if (maxV === minV) return 100;
+      if (metric.direction === "higher") {
+        return ((v - minV) / (maxV - minV)) * 100;
+      }
+      return ((maxV - v) / (maxV - minV)) * 100;
+    }
+
+    itemsShown.forEach(function (it, idx) {
+      var row = document.createElement("div");
+      row.className = "rp-bar-row";
+
+      var rank = document.createElement("div");
+      rank.className = "rp-bar-rank";
+      rank.textContent = String(idx + 1);
+
+      var label = document.createElement("div");
+      label.className = "rp-bar-label";
+
+      var model = document.createElement("div");
+      model.className = "rp-bar-model";
+      model.textContent = it.model;
+
+      var params = document.createElement("div");
+      params.className = "rp-bar-params";
+      params.textContent = formatParams(it.params_m);
+
+      label.appendChild(model);
+      label.appendChild(params);
+
+      var track = document.createElement("div");
+      track.className = "rp-bar-track";
+      track.setAttribute("role", "img");
+      track.setAttribute("aria-label", it.model + " " + metric.label + " " + formatValue(it.value, metric.decimals));
+
+      var fill = document.createElement("div");
+      fill.className = "rp-bar-fill";
+      fill.style.width = widthPct(it.value).toFixed(1) + "%";
+      track.appendChild(fill);
+
+      var val = document.createElement("div");
+      val.className = "rp-bar-value";
+      val.textContent = formatValue(it.value, metric.decimals);
+
+      row.appendChild(rank);
+      row.appendChild(label);
+      row.appendChild(track);
+      row.appendChild(val);
+
+      chartRoot.appendChild(row);
+    });
+  }
+
+  function renderAll() {
+    ensureMetricCards();
+
+    METRIC_ORDER.forEach(function (k) {
+      var m = METRICS[k];
+      if (!m) return;
+      var metricSection = qs(".rp-leaderboard-metric[data-metric='" + k + "']", metricGrid);
+      if (!metricSection) return;
+      var chartRoot = qs("[data-rp-leaderboard-chart]", metricSection);
+      if (!chartRoot) return;
+      renderBarChart(chartRoot, m, state.topk);
+    });
+  }
+
+  function load() {
+    var url = new URL("/assets/data/benchmark_results.json", window.location.origin).toString();
+    fetch(url, { cache: "no-store" })
+      .then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (data) {
+        if (!data || !Array.isArray(data.records)) {
+          throw new Error("Invalid benchmark JSON schema.");
+        }
+        state.records = data.records;
+        populateDatasets(state.records);
+        ensureMetricCards();
+        renderAll();
+      })
+      .catch(function (err) {
+        setError("Failed to load benchmark data: " + (err && err.message ? err.message : String(err)));
+      });
+  }
+
+  datasetSelect.addEventListener("change", function () {
+    state.dataset = datasetSelect.value;
+    renderAll();
+  });
+
+  paradigmBtns.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var p = btn.getAttribute("data-paradigm");
+      if (p) setActiveParadigm(p);
+    });
+  });
+
+  if (topkBtns && topkBtns.length) {
+    topkBtns.forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var k = Number(btn.getAttribute("data-topk")) || 5;
+        setActiveTopk(k);
+      });
+    });
+  }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", load);

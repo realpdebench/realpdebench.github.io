@@ -26,7 +26,7 @@
 - If \(T_\text{out} > T_\text{in}\), the implementation expands the output feature dimension and reshapes back into the time dimension, so it assumes \(T_\text{out}\) is a multiple of \(T_\text{in}\).
 - Training uses an MSE-style objective on predicted fields.
 
-## YAML config (RealPDEBench)
+## CNO specific YAML config
 
 This baseline is enabled by `model_name: "cno"` in the training YAML.
 

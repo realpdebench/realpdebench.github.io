@@ -2,6 +2,7 @@
 {# MkDocs marks ALL */index.md pages as page.is_homepage (including /datasets/).
    We only want landing-page behaviors on the site root index.md. #}
 {% set is_site_home = page and page.file and page.file.src_path == 'index.md' %}
+{% set is_leaderboard = page and page.file and page.file.src_path == 'leaderboard.md' %}
 
 {% block extrahead %}
   {{ super() }}
@@ -40,6 +41,7 @@
     </div>
     <div class="navbar-links" id="rp-nav-menu">
       <a href="{{ config.site_url or '/' }}">Home</a>
+      <a href="{{ config.site_url or '/' }}leaderboard/">Leaderboard</a>
       <a href="{{ config.site_url or '/' }}getting-started/">Getting Started</a>
       <a href="{{ config.site_url or '/' }}datasets/">Datasets</a>
       <a href="{{ config.site_url or '/' }}models/">Models</a>
@@ -65,8 +67,8 @@
 {% endblock %}
 
 {% block content %}
-<div class="content-wrapper {% if is_site_home %}real-homepage{% endif %}">
-  {% if not is_site_home %}
+<div class="content-wrapper {% if is_site_home %}real-homepage{% elif is_leaderboard %}real-leaderboard{% endif %}">
+  {% if not is_site_home and not is_leaderboard %}
     <button type="button" class="rp-sidebar-toggle rp-sidebar-toggle-floating" aria-label="Toggle sidebar">
       <span class="rp-sidebar-toggle-icon" aria-hidden="true"></span>
     </button>
@@ -210,9 +212,9 @@
           }
         });
 
-        // Close menu if window resizes out of the hamburger breakpoint (>= 768px)
+        // Close menu if window resizes out of the hamburger breakpoint (>= 992px)
         window.addEventListener("resize", function () {
-          if (window.innerWidth >= 768 && document.body.classList.contains("rp-nav-open")) {
+          if (window.innerWidth >= 992 && document.body.classList.contains("rp-nav-open")) {
             closeMenu();
           }
         });

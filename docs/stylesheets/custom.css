@@ -2724,7 +2724,7 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) {
 html.sidebar-collapsed .content-wrapper:not(.real-homepage) .col-md-9 {
   float: none !important;
   width: 100% !important;
-  max-width: 1320px !important;
+  max-width: 1560px !important;
   margin: 0 auto !important;
 }
 
@@ -2764,6 +2764,23 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-sidebar-toggle-f
 /* ========================================
    DOCUMENTATION PAGES STYLES
    ======================================== */
+
+/* Doc pages: the Bootstrap theme wraps page content in `body > .container > .row`,
+   which otherwise caps width (e.g., 1140px) and creates a huge empty gap next to our fixed sidebar.
+   Make that outer container full-width on doc pages so datasets/models/metrics pages align consistently. */
+html.rp-doc body > .container {
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+html.rp-doc body > .container > .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  --bs-gutter-x: 0;
+}
 
 /* Documentation wrapper */
 .content-wrapper:not(.real-homepage) {

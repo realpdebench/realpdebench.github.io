@@ -18,6 +18,8 @@
         {% if is_site_home %}
         document.documentElement.classList.add("rp-site-home");
         {% else %}
+        // Doc pages (MkDocs content pages)
+        document.documentElement.classList.add("rp-doc");
         // Prevent H1 auto-fit "flash": keep the title invisible until we fit it.
         var w = window.innerWidth || document.documentElement.clientWidth || 0;
         if (w >= 768) {

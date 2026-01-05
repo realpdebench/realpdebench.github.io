@@ -57,6 +57,35 @@ realpdebench download --dataset-root ./data/realpdebench --scenario cylinder --w
     realpdebench download --dataset-root ./data/realpdebench --scenario cylinder --what hf_dataset --dataset-type real --split test --dry-run
     ```
 
+### Download with Python (advanced)
+
+For more control, use `huggingface_hub.snapshot_download` with `allow_patterns` to download only specific folders:
+
+```python
+import os
+from huggingface_hub import snapshot_download
+from datasets import load_from_disk
+
+repo_id = "AI4Science-WestlakeU/RealPDEBench"
+os.environ["HF_HUB_DISABLE_XET"] = "1"
+
+local_dir = snapshot_download(
+    repo_id=repo_id,
+    repo_type="dataset",
+    allow_patterns=["fsi/**"],  # example: download only the FSI folder
+    endpoint="https://hf-mirror.com",  # optional: use mirror for faster access in China
+)
+
+ds = load_from_disk(os.path.join(local_dir, "fsi", "hf_dataset", "numerical_val"))
+row = ds[0]
+print(row.keys())
+```
+
+!!! tip "Pattern examples"
+    - `["fsi/**"]` — download only FSI scenario
+    - `["cylinder/hf_dataset/**"]` — download only Cylinder Arrow datasets
+    - `["*/hf_dataset/*_val/**"]` — download all validation splits
+
 ### Network tips
 
 - **Auth / rate limits**: set env `HF_TOKEN=...` (or pass `--token`).

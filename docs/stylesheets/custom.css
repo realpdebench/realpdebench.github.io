@@ -556,7 +556,9 @@ html {
   font-size: 0.98rem;
   line-height: 1.45;
   font-weight: 400;
-  overflow-wrap: anywhere;
+  /* Prefer natural wrapping at spaces (avoid breaking inside names). */
+  overflow-wrap: normal;
+  word-break: normal;
 }
 
 .real-homepage .rp-hero-authors-meta {

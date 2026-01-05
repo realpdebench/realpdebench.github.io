@@ -241,20 +241,23 @@
     <div class="rp-hero-inner">
       <div class="rp-hero-authors">
         <p class="rp-hero-authors-names">
-          Peiyan Hu*†¹˒³  Haodong Feng*¹  Hongyuan Liu*¹  Tongtong Yan²  Wenhao Deng¹<br>
-          Tianrun Gao†¹˒⁴  Rong Zheng†¹˒⁵  Haoren Zheng†¹˒²  Chenglei Yu¹  Chuanrui Wang¹  Kaiwen Li†¹˒²  Zhi-Ming Ma³  Dezhi Zhou²  Xingcai Lu⁶  Dixia Fan¹  Tailin Wu†¹
+          Peiyan Hu*¹˒³  Haodong Feng*¹  Hongyuan Liu*¹  Tongtong Yan²  Wenhao Deng¹  Tianrun Gao¹˒⁴  Rong Zheng¹˒⁵  Haoren Zheng¹˒²  Chenglei Yu¹  Chuanrui Wang¹  Kaiwen Li¹˒²  Zhi-Ming Ma³  Dezhi Zhou²  Xingcai Lu⁶  Dixia Fan¹  Tailin Wu†¹
         </p>
         <p class="rp-hero-authors-note rp-hero-authors-meta">
-          * co-first authors (equal contribution). † corresponding authors.
+          * co-first authors (equal contribution). † corresponding author.
         </p>
         <p class="rp-hero-authors-emails rp-hero-authors-meta">
           {hupeiyan, fenghaodong, liuhongyuan, wutailin}@westlake.edu.cn
         </p>
         <p class="rp-hero-authors-meta">
-          ¹ School of Engineering, Westlake University; ² Global College, Shanghai Jiao Tong University; ³ Academy of Mathematics and Systems Science, Chinese Academy of Sciences;
+          ¹ School of Engineering, Westlake University<br>
+          ² Global College, Shanghai Jiao Tong University<br>
+          ³ Academy of Mathematics and Systems Science, Chinese Academy of Sciences
         </p>
         <p class="rp-hero-authors-meta">
-          ⁴ Department of Geotechnical Engineering, Tongji University; ⁵ School of Physics, Peking University; ⁶ Key Laboratory for Power Machinery and Engineering of M. O. E., Shanghai Jiao Tong University
+          ⁴ Department of Geotechnical Engineering, Tongji University<br>
+          ⁵ School of Physics, Peking University<br>
+          ⁶ Key Laboratory for Power Machinery and Engineering of M. O. E., Shanghai Jiao Tong University
         </p>
       </div>
     </div>

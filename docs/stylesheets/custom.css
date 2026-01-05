@@ -72,6 +72,55 @@ h1, h2, h3, h4, h5, h6 {
   display: none !important;
 }
 
+/* IMPORTANT: `content-wrapper` is inserted as a direct child of Bootstrap `.row` (a flex container).
+   If we don't force it to take the full row width, the whole homepage can appear "stuck on the left"
+   with a large blank area on the right. */
+.content-wrapper.real-homepage {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+/* Homepage + Leaderboard: scaled-desktop mode (content only).
+   When <768px, we keep a 768px desktop layout and scale it down to fit the screen. */
+.content-wrapper.rp-scale-outer {
+  /* `content-wrapper` is a direct child of Bootstrap `.row` (flex). Keep it full width even
+     when the inner content becomes absolutely positioned during scaling. */
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 100%;
+  min-width: 0;
+  position: relative;
+}
+
+.content-wrapper.rp-scale-outer > .rp-scale-inner {
+  position: relative;
+  width: 100%;
+}
+
+.content-wrapper.rp-scale-outer.rp-scale-active {
+  overflow: hidden;
+}
+
+.content-wrapper.rp-scale-outer.rp-scale-active > .rp-scale-inner {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+  transform: scale(var(--rp-page-scale, 1));
+  will-change: transform;
+}
+
+/* Leaderboard: keep 2-column metric grid in scaled-desktop mode (ignore the 1100px -> 1 column breakpoint). */
+.content-wrapper.real-leaderboard.rp-scale-active .rp-leaderboard-metric-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .real-homepage .col-md-9 {
   width: 100% !important;
   max-width: 100% !important;
@@ -128,7 +177,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 767.98px) {
-  .real-leaderboard .rp-leaderboard-container {
+  /* In scaled-desktop mode (<768px) we keep the >=768 layout and shrink it, so avoid extra
+     "true mobile" padding changes. Keep this rule as a fallback when scaling isn't active. */
+  .content-wrapper.real-leaderboard:not(.rp-scale-active) .rp-leaderboard-container {
     padding: 28px 16px 56px;
   }
 }
@@ -491,6 +542,15 @@ html {
   color: var(--slate);
 }
 
+/* Homepage: author block is separated from the hero/banner by a simple divider section. */
+.real-homepage .rp-home-authors {
+  /* Light full-width band (requested) */
+  background: rgba(235, 233, 245, 0.62);
+  border-top: 1px solid rgba(105, 98, 133, 0.14);
+  border-bottom: 1px solid rgba(105, 98, 133, 0.08);
+  padding: 18px 0 20px;
+}
+
 .real-homepage .rp-hero-authors-names {
   margin: 0;
   font-size: 0.98rem;
@@ -525,12 +585,12 @@ html {
   vertical-align: super;
 }
 
-@media (max-width: 768px) {
-  .real-homepage .rp-hero-authors-names {
+@media (max-width: 767.98px) {
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-hero-authors-names {
     font-size: 0.92rem;
   }
 
-  .real-homepage .rp-hero-authors-meta {
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-hero-authors-meta {
     font-size: 0.84rem;
   }
 }
@@ -541,6 +601,31 @@ html {
   justify-content: flex-start;
   margin-top: 3rem;
   flex-wrap: wrap;
+}
+
+.real-homepage .rp-hero-cta a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rp-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
+.apple-navbar .navbar-links a.rp-nav-external {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apple-navbar .navbar-links a.rp-nav-external .rp-icon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.95;
 }
 
 /* ========================================
@@ -817,23 +902,24 @@ html {
 
 /* Homepage: true mobile layout below 768px (avoid “frozen desktop layout” + shrink-to-fit behavior). */
 @media (max-width: 767.98px) {
-  .real-homepage .rp-hero-carousel {
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-hero-carousel {
     --rp-carousel-gutter: 24px;
   }
 
-  /* Stack the two compare cards vertically on phones. */
-  .real-homepage .rp-compare-grid {
-    grid-template-columns: 1fr;
+  /* Keep the two compare cards side-by-side on phones (requested). */
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-compare-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
   }
 
   /* Evaluation metrics cards: 2 → 1 column on narrow screens. */
-  .real-homepage #evaluation-metrics .rp-eval-grid {
+  .content-wrapper.real-homepage:not(.rp-scale-active) #evaluation-metrics .rp-eval-grid {
     grid-template-columns: 1fr;
   }
 
   /* Full-bleed backgrounds: avoid 100vw overflow quirks on narrow screens. */
-  .real-homepage .rp-fullbleed::before,
-  .real-homepage .rp-challenge-section::before {
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-fullbleed::before,
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-challenge-section::before {
     left: 0;
     width: 100%;
     transform: none;
@@ -841,17 +927,17 @@ html {
 }
 
 @media (max-width: 575.98px) {
-  .real-homepage .rp-hero-carousel {
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-hero-carousel {
     --rp-carousel-gutter: 16px;
   }
 
   /* Arrow buttons can overlap small videos; dots are enough on phones. */
-  .real-homepage .rp-carousel-nav {
+  .content-wrapper.real-homepage:not(.rp-scale-active) .rp-carousel-nav {
     display: none;
   }
 
   /* Keep metric lists readable (single column) on very small screens. */
-  .real-homepage #evaluation-metrics .rp-metrics-list {
+  .content-wrapper.real-homepage:not(.rp-scale-active) #evaluation-metrics .rp-metrics-list {
     grid-template-columns: 1fr;
   }
 }
@@ -859,31 +945,77 @@ html {
 /* Fallback for WebViews that "shrink-to-fit" scale the page:
    media queries may not trigger if the layout viewport stays at 768px, so we also
    apply mobile layout off a JS-set class based on `visualViewport.width`. */
-html.rp-narrow .real-homepage .hero-title {
+html.rp-narrow .content-wrapper.real-homepage:not(.rp-scale-active) .hero-title {
   white-space: normal !important;
 }
 
-html.rp-narrow .real-homepage .rp-hero-carousel {
+html.rp-narrow .content-wrapper.real-homepage:not(.rp-scale-active) .rp-hero-carousel {
   --rp-carousel-gutter: 16px;
 }
 
-html.rp-narrow .real-homepage .rp-compare-grid {
+html.rp-narrow .content-wrapper.real-homepage:not(.rp-scale-active) .rp-compare-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+html.rp-narrow .content-wrapper.real-homepage:not(.rp-scale-active) #evaluation-metrics .rp-eval-grid {
   grid-template-columns: 1fr;
 }
 
-html.rp-narrow .real-homepage #evaluation-metrics .rp-eval-grid {
+html.rp-narrow .content-wrapper.real-homepage:not(.rp-scale-active) #evaluation-metrics .rp-metrics-list {
   grid-template-columns: 1fr;
 }
 
-html.rp-narrow .real-homepage #evaluation-metrics .rp-metrics-list {
-  grid-template-columns: 1fr;
-}
-
-html.rp-narrow .real-homepage .rp-carousel-nav {
+html.rp-narrow .content-wrapper.real-homepage:not(.rp-scale-active) .rp-carousel-nav {
   display: none;
 }
 
-html.rp-narrow .real-leaderboard .rp-leaderboard-container {
+/* Navbar fallback under rp-narrow (for shrink-to-fit WebViews where media queries may not match). */
+html.rp-narrow .rp-nav-toggle {
+  display: block;
+}
+
+html.rp-narrow .navbar-links {
+  display: none;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: rgba(249, 249, 252, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(216, 212, 230, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  z-index: 1001;
+}
+
+html.rp-narrow body.rp-nav-open .navbar-links {
+  display: flex;
+}
+
+html.rp-narrow body.rp-nav-open .rp-nav-backdrop {
+  display: block;
+  opacity: 1;
+}
+
+html.rp-narrow .navbar-links a {
+  padding: 14px 24px;
+  font-size: 1rem;
+}
+
+html.rp-narrow .navbar-links a::after {
+  display: none;
+}
+
+html.rp-narrow .navbar-links a:hover {
+  background: var(--lavender-light);
+}
+
+html.rp-narrow .content-wrapper.real-leaderboard:not(.rp-scale-active) .rp-leaderboard-container {
   padding: 28px 16px 56px;
 }
 
@@ -1015,11 +1147,11 @@ html.rp-narrow .real-leaderboard .rp-leaderboard-container {
   min-height: 300px;
 }
 
-@media (max-width: 768px) {
-  .real-homepage .bento-large,
-  .real-homepage .bento-medium,
-  .real-homepage .bento-small,
-  .real-homepage .bento-wide {
+@media (max-width: 767.98px) {
+  .content-wrapper.real-homepage:not(.rp-scale-active) .bento-large,
+  .content-wrapper.real-homepage:not(.rp-scale-active) .bento-medium,
+  .content-wrapper.real-homepage:not(.rp-scale-active) .bento-small,
+  .content-wrapper.real-homepage:not(.rp-scale-active) .bento-wide {
     grid-column: span 12;
     min-height: 300px;
   }
@@ -1409,6 +1541,40 @@ html.rp-narrow .real-leaderboard .rp-leaderboard-container {
   }
 }
 
+.real-homepage .rp-overview-shell {
+  margin-top: 28px;
+  padding: 18px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(216, 212, 230, 0.38);
+  box-shadow: 0 12px 40px rgba(20, 20, 24, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.real-homepage .rp-overview-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(520px 280px at 85% 12%, rgba(177, 232, 223, 0.35) 0%, rgba(177, 232, 223, 0) 60%),
+    radial-gradient(520px 320px at 10% 88%, rgba(216, 212, 230, 0.35) 0%, rgba(216, 212, 230, 0) 60%);
+  pointer-events: none;
+}
+
+.real-homepage .rp-overview-shell > .rp-overview-grid {
+  position: relative;
+  z-index: 1;
+  margin-top: 0;
+}
+
+@media (max-width: 700px) {
+  .real-homepage .rp-overview-shell {
+    padding: 14px;
+    border-radius: 22px;
+  }
+}
+
 .real-homepage .rp-overview-panel {
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(216, 212, 230, 0.45);
@@ -1437,7 +1603,8 @@ html.rp-narrow .real-leaderboard .rp-leaderboard-container {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-areas:
     "foundation traditional"
-    "operators operators";
+    "operators operators"
+    "transformers transformers";
   gap: 16px;
   align-items: start;
 }
@@ -1454,6 +1621,10 @@ html.rp-narrow .real-leaderboard .rp-leaderboard-container {
   grid-area: operators;
 }
 
+.real-homepage .rp-overview-subgrid--baseline .rp-overview-group--transformers {
+  grid-area: transformers;
+}
+
 .real-homepage #baseline-models .rp-overview-group {
   padding: 14px 14px 12px;
   border: 1px solid rgba(216, 212, 230, 0.35);
@@ -1466,16 +1637,26 @@ html.rp-narrow .real-leaderboard .rp-leaderboard-container {
   gap: 8px 10px;
 }
 
+.real-homepage #baseline-models .rp-overview-group--transformers .rp-overview-list {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 10px;
+}
+
 @media (max-width: 700px) {
   .real-homepage .rp-overview-subgrid--baseline {
     grid-template-columns: 1fr;
     grid-template-areas:
       "foundation"
       "traditional"
-      "operators";
+      "operators"
+      "transformers";
   }
 
   .real-homepage #baseline-models .rp-overview-group--operators .rp-overview-list {
+    grid-template-columns: 1fr;
+  }
+
+  .real-homepage #baseline-models .rp-overview-group--transformers .rp-overview-list {
     grid-template-columns: 1fr;
   }
 }
@@ -2537,7 +2718,8 @@ html.rp-narrow .real-leaderboard .rp-leaderboard-container {
     rgba(245, 245, 247, 1) 100%
   );
   padding-top: 48px; /* tighter top whitespace (body already has 60px for fixed nav) */
-  padding-bottom: 80px;
+  /* Hero no longer ends the page header; the authors band follows below. */
+  padding-bottom: 24px;
 }
 
 .real-homepage .rp-fullbleed--platinum {

@@ -6,11 +6,18 @@
 
 {% block extrahead %}
   {{ super() }}
+  {# Safari/WebView: prevent "shrink-to-fit" scaling that can lock the layout viewport (e.g., 768px) on narrow screens.
+     Apply only to homepage + leaderboard, since other MkDocs pages already behave well. #}
+  {% if is_site_home or is_leaderboard %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  {% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/png" href="{{ 'assets/images/icon.png' | url }}">
-  <link rel="shortcut icon" type="image/png" href="{{ 'assets/images/icon.png' | url }}">
+  {# Favicons: browsers cache aggressively; add a small version query to force refresh when updated. #}
+  <link rel="icon" type="image/png" href="{{ 'assets/images/icon.png' | url }}?v=1">
+  <link rel="shortcut icon" type="image/png" href="{{ 'assets/images/icon.png' | url }}?v=1">
+  <link rel="apple-touch-icon" href="{{ 'assets/images/icon.png' | url }}?v=1">
   <script>
     // Apply collapsed-sidebar state early to avoid flash on refresh.
     (function () {
@@ -23,7 +30,12 @@
         // when available so we can still apply true mobile layout rules.
         var vv = window.visualViewport;
         var vw = (vv && typeof vv.width === "number") ? vv.width : (window.innerWidth || document.documentElement.clientWidth || 0);
-        document.documentElement.classList.toggle("rp-narrow", vw > 0 && vw < 768);
+        var vs = (vv && typeof vv.scale === "number" && vv.scale > 0) ? vv.scale : 1;
+        // Use *effective* visual width (in unscaled CSS px) so this still works if the page is auto-scaled.
+        var effectiveVw = vw * vs;
+        // NOTE: Some embedded browsers lock the layout viewport at exactly 768px while visually smaller.
+        // Use a tiny epsilon so 768.0px still counts as "narrow".
+        document.documentElement.classList.toggle("rp-narrow", effectiveVw > 0 && effectiveVw < 768.01);
         {% if is_site_home %}
         document.documentElement.classList.add("rp-site-home");
         {% else %}
@@ -57,8 +69,23 @@
       <a href="{{ config.site_url or '/' }}datasets/">Datasets</a>
       <a href="{{ config.site_url or '/' }}models/">Models</a>
       <a href="{{ config.site_url or '/' }}metrics/">Metrics</a>
-      <a href="https://huggingface.co/datasets/AI4Science-WestlakeU/RealPDEBench" target="_blank" rel="noopener noreferrer">Hugging Face</a>
-      <a href="{{ config.repo_url }}" target="_blank">GitHub</a>
+      <a
+        class="rp-nav-external"
+        href="https://huggingface.co/datasets/AI4Science-WestlakeU/RealPDEBench"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg class="rp-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M12.025 1.13c-5.77 0-10.449 4.647-10.449 10.378 0 1.112.178 2.181.503 3.185.064-.222.203-.444.416-.577a.96.96 0 0 1 .524-.15c.293 0 .584.124.84.284.278.173.48.408.71.694.226.282.458.611.684.951v-.014c.017-.324.106-.622.264-.874s.403-.487.762-.543c.3-.047.596.06.787.203s.31.313.4.467c.15.257.212.468.233.542.01.026.653 1.552 1.657 2.54.616.605 1.01 1.223 1.082 1.912.055.537-.096 1.059-.38 1.572.637.121 1.294.187 1.967.187.657 0 1.298-.063 1.921-.178-.287-.517-.44-1.041-.384-1.581.07-.69.465-1.307 1.081-1.913 1.004-.987 1.647-2.513 1.657-2.539.021-.074.083-.285.233-.542.09-.154.208-.323.4-.467a1.08 1.08 0 0 1 .787-.203c.359.056.604.29.762.543s.247.55.265.874v.015c.225-.34.457-.67.683-.952.23-.286.432-.52.71-.694.257-.16.547-.284.84-.285a.97.97 0 0 1 .524.151c.228.143.373.388.43.625l.006.04a10.3 10.3 0 0 0 .534-3.273c0-5.731-4.678-10.378-10.449-10.378M8.327 6.583a1.5 1.5 0 0 1 .713.174 1.487 1.487 0 0 1 .617 2.013c-.183.343-.762-.214-1.102-.094-.38.134-.532.914-.917.71a1.487 1.487 0 0 1 .69-2.803m7.486 0a1.487 1.487 0 0 1 .689 2.803c-.385.204-.536-.576-.916-.71-.34-.12-.92.437-1.103.094a1.487 1.487 0 0 1 .617-2.013 1.5 1.5 0 0 1 .713-.174m-10.68 1.55a.96.96 0 1 1 0 1.921.96.96 0 0 1 0-1.92m13.838 0a.96.96 0 1 1 0 1.92.96.96 0 0 1 0-1.92M8.489 11.458c.588.01 1.965 1.157 3.572 1.164 1.607-.007 2.984-1.155 3.572-1.164.196-.003.305.12.305.454 0 .886-.424 2.328-1.563 3.202-.22-.756-1.396-1.366-1.63-1.32q-.011.001-.02.006l-.044.026-.01.008-.03.024q-.018.017-.035.036l-.032.04a1 1 0 0 0-.058.09l-.014.025q-.049.088-.11.19a1 1 0 0 1-.083.116 1.2 1.2 0 0 1-.173.18q-.035.029-.075.058a1.3 1.3 0 0 1-.251-.243 1 1 0 0 1-.076-.107c-.124-.193-.177-.363-.337-.444-.034-.016-.104-.008-.2.022q-.094.03-.216.087-.06.028-.125.063l-.13.074q-.067.04-.136.086a3 3 0 0 0-.135.096 3 3 0 0 0-.26.219 2 2 0 0 0-.12.121 2 2 0 0 0-.106.128l-.002.002a2 2 0 0 0-.09.132l-.001.001a1.2 1.2 0 0 0-.105.212q-.013.036-.024.073c-1.139-.875-1.563-2.317-1.563-3.203 0-.334.109-.457.305-.454m.836 10.354c.824-1.19.766-2.082-.365-3.194-1.13-1.112-1.789-2.738-1.789-2.738s-.246-.945-.806-.858-.97 1.499.202 2.362c1.173.864-.233 1.45-.685.64-.45-.812-1.683-2.896-2.322-3.295s-1.089-.175-.938.647 2.822 2.813 2.562 3.244-1.176-.506-1.176-.506-2.866-2.567-3.49-1.898.473 1.23 2.037 2.16c1.564.932 1.686 1.178 1.464 1.53s-3.675-2.511-4-1.297c-.323 1.214 3.524 1.567 3.287 2.405-.238.839-2.71-1.587-3.216-.642-.506.946 3.49 2.056 3.522 2.064 1.29.33 4.568 1.028 5.713-.624m5.349 0c-.824-1.19-.766-2.082.365-3.194 1.13-1.112 1.789-2.738 1.789-2.738s.246-.945.806-.858.97 1.499-.202 2.362c-1.173.864.233 1.45.685.64.451-.812 1.683-2.896 2.322-3.295s1.089-.175.938.647-2.822 2.813-2.562 3.244 1.176-.506 1.176-.506 2.866-2.567 3.49-1.898-.473 1.23-2.037 2.16c-1.564.932-1.686 1.178-1.464 1.53s3.675-2.511 4-1.297c.323 1.214-3.524 1.567-3.287 2.405.238.839 2.71-1.587 3.216-.642.506.946-3.49 2.056-3.522 2.064-1.29.33-4.568 1.028-5.713-.624"/>
+        </svg>
+        Hugging Face
+      </a>
+      <a class="rp-nav-external" href="{{ config.repo_url }}" target="_blank" rel="noopener noreferrer">
+        <svg class="rp-icon" aria-hidden="true" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+        </svg>
+        GitHub
+      </a>
     </div>
     <div class="navbar-search">
       <button class="search-btn" aria-label="Search" type="button" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
@@ -113,13 +140,172 @@
     (function () {
       function viewportWidth() {
         var vv = window.visualViewport;
-        if (vv && typeof vv.width === "number") return vv.width;
+        if (vv && typeof vv.width === "number") {
+          var s = (typeof vv.scale === "number" && vv.scale > 0) ? vv.scale : 1;
+          return vv.width * s;
+        }
         return window.innerWidth || document.documentElement.clientWidth || 0;
       }
 
       function syncViewportClasses() {
         var w = viewportWidth();
-        document.documentElement.classList.toggle("rp-narrow", w > 0 && w < 768);
+        // Keep in sync with the early-head logic (see note there).
+        document.documentElement.classList.toggle("rp-narrow", w > 0 && w < 768.01);
+      }
+
+      // Homepage + leaderboard: keep desktop layout (min 768px) and scale content down on narrow screens.
+      // Note: This only scales the main content area (not the top navbar), per UX requirements.
+      var RP_SCALE_BASE = 768;
+      var rpScale = {
+        wrapper: null,
+        inner: null,
+        ro: null,
+        raf: null,
+      };
+
+      function rpScaleTargetWrapper() {
+        var wrapper = document.querySelector(".content-wrapper");
+        if (!wrapper) return null;
+        if (wrapper.classList.contains("real-homepage") || wrapper.classList.contains("real-leaderboard")) return wrapper;
+        return null;
+      }
+
+      function rpEnsureScaleInner(wrapper) {
+        if (!wrapper) return null;
+        wrapper.classList.add("rp-scale-outer");
+
+        // Find existing direct child (avoid relying on :scope for older browsers).
+        var inner = null;
+        for (var i = 0; i < wrapper.children.length; i += 1) {
+          var child = wrapper.children[i];
+          if (child && child.classList && child.classList.contains("rp-scale-inner")) {
+            inner = child;
+            break;
+          }
+        }
+        if (inner) return inner;
+
+        inner = document.createElement("div");
+        inner.className = "rp-scale-inner";
+
+        // Move all existing nodes into the inner wrapper.
+        while (wrapper.firstChild) {
+          inner.appendChild(wrapper.firstChild);
+        }
+        wrapper.appendChild(inner);
+        return inner;
+      }
+
+      function rpSetScaledHeight(wrapper, inner, scale) {
+        if (!wrapper || !inner) return;
+        var h = inner.scrollHeight || inner.offsetHeight || 0;
+        wrapper.style.height = (h * scale).toFixed(2) + "px";
+      }
+
+      function updateContentScale() {
+        var wrapper = rpScale.wrapper;
+        var inner = rpScale.inner;
+        if (!wrapper || !inner) return;
+
+        var w = viewportWidth();
+        if (w > 0 && w < RP_SCALE_BASE) {
+          var scale = w / RP_SCALE_BASE;
+          if (scale > 1) scale = 1;
+          if (scale <= 0) scale = 1;
+
+          wrapper.classList.add("rp-scale-active");
+          wrapper.style.setProperty("--rp-page-scale", String(scale));
+          inner.style.width = RP_SCALE_BASE + "px";
+          rpSetScaledHeight(wrapper, inner, scale);
+          return;
+        }
+
+        // >= 768px: revert to normal responsive layout.
+        wrapper.classList.remove("rp-scale-active");
+        wrapper.style.removeProperty("--rp-page-scale");
+        wrapper.style.removeProperty("height");
+        inner.style.removeProperty("width");
+      }
+
+      function scheduleContentScaleUpdate() {
+        if (rpScale.raf != null) return;
+        rpScale.raf = window.requestAnimationFrame(function () {
+          rpScale.raf = null;
+          updateContentScale();
+        });
+      }
+
+      function initContentScale() {
+        var wrapper = rpScaleTargetWrapper();
+        if (!wrapper) return;
+
+        rpScale.wrapper = wrapper;
+        rpScale.inner = rpEnsureScaleInner(wrapper);
+
+        // Watch dynamic content changes (leaderboard renders after data loads).
+        if (window.ResizeObserver) {
+          try {
+            if (rpScale.ro) rpScale.ro.disconnect();
+          } catch (e) {}
+          try {
+            rpScale.ro = new ResizeObserver(function () {
+              scheduleContentScaleUpdate();
+            });
+            rpScale.ro.observe(rpScale.inner);
+          } catch (e) {}
+        }
+
+        updateContentScale();
+      }
+
+      function debugEnabled() {
+        try {
+          return /(?:^|[?&])rpdebug=1(?:&|$)/.test(window.location.search || "");
+        } catch (e) {
+          return false;
+        }
+      }
+
+      function ensureDebugOverlay() {
+        if (!debugEnabled()) return null;
+        var el = document.getElementById("rp-debug");
+        if (el) return el;
+        el = document.createElement("div");
+        el.id = "rp-debug";
+        el.style.position = "fixed";
+        el.style.left = "12px";
+        el.style.bottom = "12px";
+        el.style.zIndex = "99999";
+        el.style.padding = "8px 10px";
+        el.style.borderRadius = "10px";
+        el.style.background = "rgba(0, 0, 0, 0.72)";
+        el.style.color = "white";
+        el.style.fontFamily = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace";
+        el.style.fontSize = "12px";
+        el.style.lineHeight = "1.35";
+        el.style.maxWidth = "calc(100vw - 24px)";
+        el.style.pointerEvents = "none";
+        document.body.appendChild(el);
+        return el;
+      }
+
+      function updateDebugOverlay() {
+        var el = ensureDebugOverlay();
+        if (!el) return;
+        var vv = window.visualViewport;
+        var iw = window.innerWidth || 0;
+        var cw = document.documentElement.clientWidth || 0;
+        var vvw = vv && typeof vv.width === "number" ? vv.width : null;
+        var vvs = vv && typeof vv.scale === "number" ? vv.scale : null;
+        var eff = viewportWidth();
+        el.textContent =
+          "innerWidth=" + iw +
+          "  clientWidth=" + cw +
+          "  vv.width=" + (vvw == null ? "n/a" : vvw.toFixed(1)) +
+          "  vv.scale=" + (vvs == null ? "n/a" : vvs.toFixed(3)) +
+          "\n" +
+          "effectiveWidth=" + eff.toFixed(1) +
+          "  rp-narrow=" + (document.documentElement.classList.contains("rp-narrow") ? "1" : "0");
       }
 
       function fitOneLineTitle(el, opts) {
@@ -151,6 +337,11 @@
         if (!wrapper) return;
 
         var w = viewportWidth();
+        // In "scaled desktop" mode (<768px), we keep the desktop layout and shrink the page.
+        // Title fitting should follow desktop rules even though the viewport is narrow.
+        if (wrapper.classList.contains("rp-scale-active")) {
+          w = 768;
+        }
 
         if (wrapper.classList.contains("real-homepage")) {
           var hero = document.querySelector(".real-homepage .hero-title");
@@ -572,12 +763,14 @@
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {
           syncViewportClasses();
+          initContentScale();
           initSidebarToggle();
           initMobileNav();
           initHeroVideoCarousel();
           initDatasetVideoTiles();
           initTableScrollWrappers();
           fitPageTitle();
+          updateDebugOverlay();
           try {
             document.documentElement.classList.remove("rp-title-pending");
           } catch (e) {}
@@ -587,7 +780,9 @@
             window.clearTimeout(resizeTimer);
             resizeTimer = window.setTimeout(function () {
               syncViewportClasses();
+              updateContentScale();
               fitPageTitle();
+              updateDebugOverlay();
             }, 100);
           });
 
@@ -596,19 +791,23 @@
               window.clearTimeout(resizeTimer);
               resizeTimer = window.setTimeout(function () {
                 syncViewportClasses();
+                updateContentScale();
                 fitPageTitle();
+                updateDebugOverlay();
               }, 100);
             });
           }
         });
       } else {
         syncViewportClasses();
+        initContentScale();
         initSidebarToggle();
         initMobileNav();
         initHeroVideoCarousel();
         initDatasetVideoTiles();
         initTableScrollWrappers();
         fitPageTitle();
+        updateDebugOverlay();
         try {
           document.documentElement.classList.remove("rp-title-pending");
         } catch (e) {}

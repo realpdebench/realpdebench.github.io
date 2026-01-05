@@ -207,4 +207,4 @@ Each baseline defines additional YAML keys (architecture hyperparameters, diffus
 
 - **GitHub Issues**: [Report bugs](https://github.com/AI4Science-WestlakeU/RealPDEBench/issues)
 - **GitHub Discussions**: [Ask questions](https://github.com/AI4Science-WestlakeU/RealPDEBench/discussions)
-- **Email**: `wutailin@westlake.edu.cn`
+- **Email**: `hupeiyan@westlake.edu.cn`, `fenghaodong@westlake.edu.cn`, `liuhongyuan@westlake.edu.cn`

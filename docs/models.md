@@ -1,6 +1,6 @@
 # Models Overview
 
-RealPDEBench benchmarks **10 baseline models** spanning classical reduced-order methods, neural operators, and foundation models.
+RealPDEBench benchmarks **10 baseline models** spanning classical reduced-order methods, neural operators, transformers, and foundation models.
 
 This page summarizes **what is included** and the **shared model interface**. For detailed architecture notes and RealPDEBench-specific constraints, see the per-model pages.
 
@@ -31,8 +31,8 @@ All learning baselines implement a unified `Model` API:
 | Neural Operators | [**DeepONet**](models/deeponet.md) | Lu et al., *Nature Machine Intelligence*, 2021 |
 | Neural Operators | [**FNO**](models/fno.md) | Li et al., ICLR 2021 |
 | Neural Operators | [**MWT**](models/mwt.md) | Gupta et al., NeurIPS 2021 |
-| Neural Operators | [**GK-Transformer**](models/gk-transformer.md) | Cao, NeurIPS 2021 |
-| Neural Operators | [**Transolver**](models/transolver.md) | Wu et al., ICML 2024 |
+| Transformers | [**GK-Transformer**](models/gk-transformer.md) | Cao, NeurIPS 2021 |
+| Transformers | [**Transolver**](models/transolver.md) | Wu et al., ICML 2024 |
 | Neural Operators | [**WDNO**](models/wdno.md) | Hu et al., ICLR 2025 |
 | Foundation Models | [**DPOT** (DPOT-S / DPOT-L)](models/dpot.md) | Hao et al., ICML 2024 |
 
@@ -40,6 +40,7 @@ All learning baselines implement a unified `Model` API:
 
 - **Traditional & CNN**: [Index →](models/trad-cnn.md)
 - **Neural Operators**: [Index →](models/neural-operators.md)
+- **Transformers**: [Index →](models/transformers.md)
 - **Foundation Models**: [Index →](models/foundation-models.md)
 
 ## Add your own model

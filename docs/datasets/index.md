@@ -12,7 +12,7 @@ A scenario provides two branches:
 - **`real/`**: experimentally measured fields (may be incomplete)
 - **`numerical/`**: simulation fields (can include additional, unmeasured modalities)
 
-"Paired" means that the real and numerical trajectories correspond to the **same physical conditions** (e.g., Reynolds number, control frequency, mixture ratio), enabling sim→real transfer and modality-mismatch evaluation.
+"Paired" means that the real and numerical trajectories correspond to the **same configuration** (e.g., Reynolds number, control frequency, mixture ratio), enabling sim→real transfer and modality-mismatch evaluation. Note that paired trajectories are matched by configuration, but their **initial frames are not necessarily aligned**.
 
 ## Dataset inventory
 

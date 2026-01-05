@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/png" href="{{ 'assets/images/icon.png' | url }}">
+  <link rel="shortcut icon" type="image/png" href="{{ 'assets/images/icon.png' | url }}">
   <script>
     // Apply collapsed-sidebar state early to avoid flash on refresh.
     (function () {
@@ -130,20 +132,27 @@
         var wrapper = document.querySelector(".content-wrapper");
         if (!wrapper) return;
 
-        // We only support responsive layout down to 768px width. Below that, do not adapt.
         var w = window.innerWidth || document.documentElement.clientWidth || 0;
 
         if (wrapper.classList.contains("real-homepage")) {
           var hero = document.querySelector(".real-homepage .hero-title");
           if (w < 768) {
-            if (hero) hero.style.removeProperty("font-size");
+            // On narrow screens we allow wrapping; fully reset any inline styles
+            // that were applied by the one-line fitting logic.
+            if (hero) {
+              hero.style.removeProperty("font-size");
+              hero.style.removeProperty("white-space");
+            }
             return;
           }
           fitOneLineTitle(hero, { minPx: 28 });
         } else {
           var h1 = document.querySelector(".content-wrapper:not(.real-homepage) .col-md-9[role='main'] > h1");
           if (w < 768) {
-            if (h1) h1.style.removeProperty("font-size");
+            if (h1) {
+              h1.style.removeProperty("font-size");
+              h1.style.removeProperty("white-space");
+            }
             return;
           }
           fitOneLineTitle(h1, { minPx: 20 });

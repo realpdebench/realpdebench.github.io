@@ -21,7 +21,8 @@
 ## RealPDEBench usage notes
 
 - **No training stage**: DMD is not trained with gradient descent. In the RealPDEBench paper tables, DMD occupies only the inference-only column and the training columns are left blank.
-- **Main knobs**: `n_modes` (number of retained modes), `n_predict` (prediction horizon), `N_autoregressive` (rollout setting used by the benchmark).
+- **Main knobs**: `n_modes` (number of retained modes), `n_predict` (prediction horizon).
+- **Autoregressive rollout**: `N_autoregressive` is a shared evaluation setting (not DMD-specific); see [Getting Started → Evaluation settings](../getting-started.md#evaluation-settings).
 - **Modalities**: if extra channels are zero-padded (unmeasured modalities), DMD is typically configured to use only the measured channels.
 
 ## DMD specific YAML config
@@ -43,7 +44,9 @@ These keys are consumed by `realpdebench.model.load_model.load_model()` and `rea
 - **`n_modes`** (`int`): Number of retained DMD modes after truncation (higher can fit more dynamics, but may overfit/noise).
 - **`n_predict`** (`int`): Number of future frames predicted per DMD forward call.
 - **`input_feature`** (`int`): Number of channels used by DMD from the input tensor (useful when extra channels are zero-padded/unmeasured).
-- **`N_autoregressive`** (`int`): Number of autoregressive rollouts used by the benchmark evaluation loop.
+
+!!! note
+    `N_autoregressive` is used by `realpdebench.eval` as a **shared evaluation key** across baselines (not a DMD-specific key). See [Getting Started → Evaluation settings](../getting-started.md#evaluation-settings).
 
 !!! note
     DMD does not use gradient-based training. Keys like `lr`, `scheduler`, or `clip_grad_norm` (if present) have no effect.

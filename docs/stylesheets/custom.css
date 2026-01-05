@@ -127,6 +127,19 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+@media (max-width: 767.98px) {
+  /* On phones the page is already full width; avoid 100vw breakout causing overflow. */
+  .real-leaderboard .rp-leaderboard-fullbleed {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .real-leaderboard .rp-leaderboard-container {
+    padding: 28px 16px 56px;
+  }
+}
+
 .real-leaderboard .rp-leaderboard-title {
   font-family: var(--font-serif);
   font-size: clamp(2.25rem, 4vw, 3.5rem);
@@ -487,10 +500,24 @@ html {
 
 .real-homepage .rp-hero-authors-names {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.55;
-  font-weight: 350;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  font-weight: 400;
   overflow-wrap: anywhere;
+}
+
+.real-homepage .rp-hero-authors-meta {
+  margin: 0.45rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  opacity: 0.9;
+  overflow-wrap: anywhere;
+}
+
+.real-homepage .rp-hero-authors-emails {
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  opacity: 0.92;
 }
 
 .real-homepage .rp-hero-authors-note {
@@ -503,6 +530,16 @@ html {
   font-size: 0.72em;
   line-height: 0;
   vertical-align: super;
+}
+
+@media (max-width: 768px) {
+  .real-homepage .rp-hero-authors-names {
+    font-size: 0.92rem;
+  }
+
+  .real-homepage .rp-hero-authors-meta {
+    font-size: 0.84rem;
+  }
 }
 
 .real-homepage .rp-hero-cta {
@@ -782,6 +819,47 @@ html {
 @media (max-width: 900px) {
   .real-homepage .rp-compare-grid {
     gap: 14px;
+  }
+}
+
+/* Homepage: true mobile layout below 768px (avoid “frozen desktop layout” + shrink-to-fit behavior). */
+@media (max-width: 767.98px) {
+  .real-homepage .rp-hero-carousel {
+    --rp-carousel-gutter: 24px;
+  }
+
+  /* Stack the two compare cards vertically on phones. */
+  .real-homepage .rp-compare-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Evaluation metrics cards: 2 → 1 column on narrow screens. */
+  .real-homepage #evaluation-metrics .rp-eval-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Full-bleed backgrounds: avoid 100vw overflow quirks on narrow screens. */
+  .real-homepage .rp-fullbleed::before,
+  .real-homepage .rp-challenge-section::before {
+    left: 0;
+    width: 100%;
+    transform: none;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .real-homepage .rp-hero-carousel {
+    --rp-carousel-gutter: 16px;
+  }
+
+  /* Arrow buttons can overlap small videos; dots are enough on phones. */
+  .real-homepage .rp-carousel-nav {
+    display: none;
+  }
+
+  /* Keep metric lists readable (single column) on very small screens. */
+  .real-homepage #evaluation-metrics .rp-metrics-list {
+    grid-template-columns: 1fr;
   }
 }
 

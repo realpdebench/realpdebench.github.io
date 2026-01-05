@@ -75,9 +75,11 @@ nav:
       - CNO: models/cno.md
       - DeepONet: models/deeponet.md
       - MWT: models/mwt.md
+      - WDNO: models/wdno.md
+    - Transformers:
+      - Index: models/transformers.md
       - GK-Transformer: models/gk-transformer.md
       - Transolver: models/transolver.md
-      - WDNO: models/wdno.md
     - Foundation Models:
       - Index: models/foundation-models.md
       - DPOT: models/dpot.md

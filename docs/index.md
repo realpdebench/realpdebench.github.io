@@ -217,14 +217,24 @@
       </p>
       <div class="rp-hero-authors" aria-label="Authors">
         <p class="rp-hero-authors-names">
-          AI for Scientific Simulation and Discovery Lab, Westlake University
+          Peiyan Hu*†¹˒³  Haodong Feng*¹  Hongyuan Liu*¹  Tongtong Yan²  Wenhao Deng¹<br>
+          Tianrun Gao†¹˒⁴  Rong Zheng†¹˒⁵  Haoren Zheng†¹˒²  Chenglei Yu¹  Chuanrui Wang¹  Kaiwen Li†¹˒²  Zhi-Ming Ma³  Dezhi Zhou²  Xingcai Lu⁶  Dixia Fan¹  Tailin Wu†¹
         </p>
-        <p class="rp-hero-authors-note">Corresponding author: Tailin Wu</p>
+        <p class="rp-hero-authors-emails rp-hero-authors-meta">
+          {hupeiyan, fenghaodong, liuhongyuan, wutailin}@westlake.edu.cn
+        </p>
+        <p class="rp-hero-authors-meta">
+          ¹ School of Engineering, Westlake University; ² Global College, Shanghai Jiao Tong University; ³ Academy of Mathematics and Systems Science, Chinese Academy of Sciences;
+        </p>
+        <p class="rp-hero-authors-meta">
+          ⁴ Department of Geotechnical Engineering, Tongji University; ⁵ School of Physics, Peking University; ⁶ Key Laboratory for Power Machinery and Engineering of M. O. E., Shanghai Jiao Tong University
+        </p>
       </div>
       <div class="rp-hero-cta">
         <a href="#datasets" class="btn-primary">Explore Datasets</a>
         <a href="#download" class="btn-secondary">Paper</a>
         <a href="https://huggingface.co/datasets/AI4Science-WestlakeU/RealPDEBench" class="btn-secondary" target="_blank" rel="noopener noreferrer">Hugging Face</a>
+        <a href="https://github.com/AI4Science-WestlakeU/RealPDEBench" class="btn-secondary" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
     </div>
   </div>
@@ -460,9 +470,15 @@
               <li><a class="rp-overview-link" href="models/cno/">CNO</a></li>
               <li><a class="rp-overview-link" href="models/deeponet/">DeepONet</a></li>
               <li><a class="rp-overview-link" href="models/mwt/">MWT</a></li>
+              <li><a class="rp-overview-link" href="models/wdno/">WDNO</a></li>
+            </ul>
+          </div>
+
+          <div class="rp-overview-group rp-overview-group--transformers">
+            <div class="rp-overview-kicker">Transformers</div>
+            <ul class="rp-overview-list">
               <li><a class="rp-overview-link" href="models/gk-transformer/">GK-Transformer</a></li>
               <li><a class="rp-overview-link" href="models/transolver/">Transolver</a></li>
-              <li><a class="rp-overview-link" href="models/wdno/">WDNO</a></li>
             </ul>
           </div>
         </div>

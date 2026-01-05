@@ -109,10 +109,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .real-leaderboard .rp-leaderboard-fullbleed {
-  /* Break out of the theme's outer `.container` max-width, similar to homepage full-bleed sections. */
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  /* Keep full width without using `100vw` breakout (can trigger overflow + “shrink-to-fit” on some mobile WebViews). */
+  width: 100%;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 .real-leaderboard .rp-leaderboard-container {
@@ -128,13 +128,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @media (max-width: 767.98px) {
-  /* On phones the page is already full width; avoid 100vw breakout causing overflow. */
-  .real-leaderboard .rp-leaderboard-fullbleed {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-  }
-
   .real-leaderboard .rp-leaderboard-container {
     padding: 28px 16px 56px;
   }
@@ -863,6 +856,37 @@ html {
   }
 }
 
+/* Fallback for WebViews that "shrink-to-fit" scale the page:
+   media queries may not trigger if the layout viewport stays at 768px, so we also
+   apply mobile layout off a JS-set class based on `visualViewport.width`. */
+html.rp-narrow .real-homepage .hero-title {
+  white-space: normal !important;
+}
+
+html.rp-narrow .real-homepage .rp-hero-carousel {
+  --rp-carousel-gutter: 16px;
+}
+
+html.rp-narrow .real-homepage .rp-compare-grid {
+  grid-template-columns: 1fr;
+}
+
+html.rp-narrow .real-homepage #evaluation-metrics .rp-eval-grid {
+  grid-template-columns: 1fr;
+}
+
+html.rp-narrow .real-homepage #evaluation-metrics .rp-metrics-list {
+  grid-template-columns: 1fr;
+}
+
+html.rp-narrow .real-homepage .rp-carousel-nav {
+  display: none;
+}
+
+html.rp-narrow .real-leaderboard .rp-leaderboard-container {
+  padding: 28px 16px 56px;
+}
+
 /* Hero gradient text for "Sim-to-Real" */
 .real-homepage .hero-gradient {
   background: linear-gradient(135deg, var(--lavender-dark) 0%, var(--slate) 100%);
@@ -1012,10 +1036,10 @@ html {
   content: "";
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 100vw;
+  left: 0;
+  width: 100%;
   height: 100%;
-  transform: translateX(-50%);
+  transform: none;
   background: linear-gradient(
     180deg,
     rgba(235, 233, 245, 0.55) 0%,
@@ -2497,10 +2521,10 @@ html {
   content: "";
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 100vw;
+  left: 0;
+  width: 100%;
   height: 100%;
-  transform: translateX(-50%);
+  transform: none;
   background: var(--rp-fullbleed-bg, transparent);
   z-index: -1;
 }
@@ -2885,6 +2909,22 @@ html.rp-doc body > .container {
   margin-right: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
+}
+
+/* Homepage: also make the theme outer container full-width so our full-bleed sections
+   don't rely on `100vw` hacks (which can trigger “shrink-to-fit” scaling on some mobile WebViews). */
+html.rp-site-home body > .container {
+  max-width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+html.rp-site-home body > .container > .row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  --bs-gutter-x: 0;
 }
 
 html.rp-doc body > .container > .row {

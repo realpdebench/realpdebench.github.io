@@ -1173,7 +1173,7 @@
 
 /* RealPDEBench — Leaderboard Module
  *
- * Renders all 8 evaluation metrics in a two-column grid, with a Top 5 / All toggle,
+ * Renders all 9 metrics in a two-column grid, with a Top 5 / All toggle,
  * using the same ranking + normalization logic as the homepage bar chart.
  *
  * Safe on non-leaderboard pages (early exit if module not present).
@@ -1232,6 +1232,15 @@
       decimals: 5,
       href: "/metrics/data-oriented/#r2",
     },
+    update_ratio: {
+      key: "update_ratio",
+      label: "Update Ratio",
+      full: "Update Ratio",
+      direction: "lower",
+      decimals: 4,
+      href: "/metrics/data-oriented/#update-ratio-training-efficiency",
+      emptyNote: "Update Ratio is only reported for Real-world finetuning.",
+    },
     frmse: {
       key: "frmse",
       label: "fRMSE",
@@ -1266,7 +1275,7 @@
     },
   };
 
-  var METRIC_ORDER = ["rmse", "mae", "rel_l2", "r2", "frmse", "fe", "ke", "mvpe"];
+  var METRIC_ORDER = ["rmse", "mae", "rel_l2", "r2", "update_ratio", "frmse", "fe", "ke", "mvpe"];
   var DATASET_ORDER = ["Cylinder", "Controlled Cylinder", "FSI", "Foil", "Combustion"];
 
   var state = {
@@ -1486,7 +1495,7 @@
     if (itemsAll.length === 0) {
       var empty = document.createElement("div");
       empty.className = "rp-benchmark-loading";
-      empty.textContent = "No data for this selection.";
+      empty.textContent = metric && metric.emptyNote ? metric.emptyNote : "No data for this selection.";
       chartRoot.appendChild(empty);
       return;
     }

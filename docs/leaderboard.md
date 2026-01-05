@@ -3,7 +3,8 @@
     <h1 class="rp-leaderboard-title">Leaderboard</h1>
     <p class="rp-leaderboard-intro">
       Benchmark rankings on real-world test data, stratified by <strong>dataset</strong> and <strong>training paradigm</strong>.
-      This page shows <strong>8 evaluation metrics</strong> in a two-column grid. Use <strong>Top 5</strong> / <strong>All</strong> to toggle how many models are shown for each metric.
+      This page shows <strong>9 metrics</strong> in a two-column grid. Use <strong>Top 5</strong> / <strong>All</strong> to toggle how many models are shown for each metric.
+      Note: <strong>Update Ratio</strong> is only reported for <strong>Real-world finetuning</strong> (simulated pretraining → real-world finetuning).
     </p>
 
     <div class="rp-leaderboard" data-rp-leaderboard>

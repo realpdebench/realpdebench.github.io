@@ -17,6 +17,13 @@
       try {
         // JS-enabled marker (lets CSS avoid hiding content when JS is disabled).
         document.documentElement.classList.add("rp-js");
+
+        // Some embedded browsers/WebViews apply "shrink-to-fit" scaling where the layout viewport
+        // stays large (e.g., 768px) even when the visible viewport is smaller. Use visualViewport
+        // when available so we can still apply true mobile layout rules.
+        var vv = window.visualViewport;
+        var vw = (vv && typeof vv.width === "number") ? vv.width : (window.innerWidth || document.documentElement.clientWidth || 0);
+        document.documentElement.classList.toggle("rp-narrow", vw > 0 && vw < 768);
         {% if is_site_home %}
         document.documentElement.classList.add("rp-site-home");
         {% else %}
@@ -104,6 +111,17 @@
   {{ super() }}
   <script>
     (function () {
+      function viewportWidth() {
+        var vv = window.visualViewport;
+        if (vv && typeof vv.width === "number") return vv.width;
+        return window.innerWidth || document.documentElement.clientWidth || 0;
+      }
+
+      function syncViewportClasses() {
+        var w = viewportWidth();
+        document.documentElement.classList.toggle("rp-narrow", w > 0 && w < 768);
+      }
+
       function fitOneLineTitle(el, opts) {
         if (!el) return;
 
@@ -132,7 +150,7 @@
         var wrapper = document.querySelector(".content-wrapper");
         if (!wrapper) return;
 
-        var w = window.innerWidth || document.documentElement.clientWidth || 0;
+        var w = viewportWidth();
 
         if (wrapper.classList.contains("real-homepage")) {
           var hero = document.querySelector(".real-homepage .hero-title");
@@ -553,6 +571,7 @@
 
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {
+          syncViewportClasses();
           initSidebarToggle();
           initMobileNav();
           initHeroVideoCarousel();
@@ -567,11 +586,23 @@
           window.addEventListener("resize", function () {
             window.clearTimeout(resizeTimer);
             resizeTimer = window.setTimeout(function () {
+              syncViewportClasses();
               fitPageTitle();
             }, 100);
           });
+
+          if (window.visualViewport) {
+            window.visualViewport.addEventListener("resize", function () {
+              window.clearTimeout(resizeTimer);
+              resizeTimer = window.setTimeout(function () {
+                syncViewportClasses();
+                fitPageTitle();
+              }, 100);
+            });
+          }
         });
       } else {
+        syncViewportClasses();
         initSidebarToggle();
         initMobileNav();
         initHeroVideoCarousel();

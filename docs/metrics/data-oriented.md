@@ -62,4 +62,6 @@ Let \(\mathrm{RMSE}_0\) denote the best RMSE achieved with real-world training. 
 
 **Better:** lower is better. Values \(< 1\) indicate pretraining reduces the number of updates needed to match real-world training.
 
+**Note:** Update Ratio is only reported for the **Real-world finetuning** setting (simulated pretraining → real-world finetuning).
+
 

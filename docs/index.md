@@ -259,7 +259,7 @@
         <span class="stat-label">Baseline Models</span>
       </div>
       <div class="rp-home-stat">
-        <span class="stat-number">8</span>
+        <span class="stat-number">9</span>
         <span class="stat-label">Evaluation Metrics</span>
       </div>
     </div>
@@ -485,7 +485,7 @@
       </div>
 
       <div class="rp-overview-panel" id="evaluation-metrics">
-        <h3 class="rp-overview-heading">8 Evaluation Metrics</h3>
+        <h3 class="rp-overview-heading">9 Evaluation Metrics</h3>
 
         <div class="rp-overview-subgrid rp-overview-subgrid--2" aria-label="Metric families">
           <div class="rp-overview-group">
@@ -502,6 +502,9 @@
               </li>
               <li class="rp-metric-item" data-desc="Coefficient of Determination">
                 <a class="rp-metric-link" href="metrics/data-oriented/#r2">R²</a>
+              </li>
+              <li class="rp-metric-item" data-desc="Training efficiency (finetuning only)">
+                <a class="rp-metric-link" href="metrics/data-oriented/#update-ratio-training-efficiency">Update Ratio</a>
               </li>
             </ul>
           </div>
@@ -574,6 +577,7 @@
             <option value="mae">MAE (↓)</option>
             <option value="rel_l2">Rel L₂ (↓)</option>
             <option value="r2">R² (↑)</option>
+            <option value="update_ratio">Update Ratio (↓)</option>
             <option value="frmse">fRMSE (↓)</option>
             <option value="fe">FE (↓)</option>
             <option value="ke">KE (↓)</option>

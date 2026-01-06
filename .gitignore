@@ -41,3 +41,4 @@ site/
 # Other
 CLAUDE.md
 restart_mkdocs.cmd
+deploy_gh_pages.cmd

@@ -239,6 +239,25 @@
 <section class="rp-home-authors" aria-label="Authors">
   <div class="container">
     <div class="rp-hero-inner">
+      <!-- Affiliations + Lab (top strip) -->
+      <div class="rp-affil-strip" aria-label="Affiliations and lab">
+        <div class="rp-affil-carousel" data-rp-affil-carousel aria-label="Affiliation logos">
+          <img class="rp-affil-logo" data-rp-affil-logo src="assets/logos/WestlakeU.png" alt="Westlake University">
+          <img class="rp-affil-logo" data-rp-affil-logo src="assets/logos/CAS.png" alt="Chinese Academy of Sciences">
+          <img class="rp-affil-logo" data-rp-affil-logo src="assets/logos/SJTU.png" alt="Shanghai Jiao Tong University">
+        </div>
+        <a
+          class="rp-lab-badge"
+          href="https://ai4s.lab.westlake.edu.cn/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="AI for Scientific Simulation and Discovery Lab (opens in new tab)"
+          title="Visit AI for Scientific Simulation and Discovery Lab"
+        >
+          <img class="rp-lab-badge-logo" src="assets/logos/AI4S_WestlakeU.png" alt="AI for Scientific Simulation and Discovery Lab logo">
+          <span class="rp-lab-badge-text">AI for Scientific Simulation and Discovery Lab</span>
+        </a>
+      </div>
       <div class="rp-hero-authors">
         <p class="rp-hero-authors-names">
           Peiyan Hu*¹˒³  Haodong Feng*¹  Hongyuan Liu*¹  Tongtong Yan²  Wenhao Deng¹  Tianrun Gao¹˒⁴  Rong Zheng¹˒⁵  Haoren Zheng¹˒²  Chenglei Yu¹  Chuanrui Wang¹  Kaiwen Li¹˒²  Zhi-Ming Ma³  Dezhi Zhou²  Xingcai Lu⁶  Dixia Fan¹  Tailin Wu†¹

@@ -491,6 +491,18 @@ html {
 .real-homepage {
   background: var(--surface);
   min-height: 100vh;
+  /* Precompute affiliation logo height to avoid layout shift on load.
+     Requirement: logo height = hero CTA button height * 1.25 */
+  --rp-hero-cta-font-size: 1rem;
+  --rp-hero-cta-line-height: 1.6; /* inherited from body (numeric, stable before fonts load) */
+  /* Primary CTA has 14px vertical padding; secondary CTA has 12px padding + 2px border = 14px total.
+     So “outer” vertical contribution per side is 14px across CTA buttons. */
+  --rp-hero-cta-outer-y: 14px;
+  --rp-hero-cta-btn-h: calc(
+    (var(--rp-hero-cta-outer-y) * 2) +
+    (var(--rp-hero-cta-font-size) * var(--rp-hero-cta-line-height))
+  );
+  --rp-affil-logo-h: calc(var(--rp-hero-cta-btn-h) * 1.25);
 }
 
 /* Centered container for homepage */
@@ -549,6 +561,137 @@ html {
   border-top: 1px solid rgba(105, 98, 133, 0.14);
   border-bottom: 1px solid rgba(105, 98, 133, 0.08);
   padding: 18px 0 20px;
+}
+
+/* Homepage: affiliations strip (logos carousel + lab badge) */
+.real-homepage .rp-affil-strip {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 1:2 ratio (requested) */
+  column-gap: 28px;
+  align-items: center;
+  margin: 0 0 12px;
+  padding: 4px 0 10px;
+}
+
+.real-homepage .rp-affil-carousel {
+  position: relative;
+  overflow: hidden;
+  /* Center the marquee viewport in the left grid column */
+  justify-self: center;
+  display: flex; /* prevents initial (pre-JS) logos from stacking vertically */
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 380px;
+  /* Lock height so the strip never expands from stacked fallback content */
+  height: calc(var(--rp-affil-logo-h, 34px) + 12px);
+  padding: 6px 0;
+  /* Soft edges for a cleaner marquee look */
+  mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+}
+
+.real-homepage .rp-affil-logo {
+  height: var(--rp-affil-logo-h, 34px);
+  width: auto;
+  max-width: 110px;
+  object-fit: contain;
+  display: block;
+  opacity: 0.92;
+  filter: saturate(0.98);
+  transition: transform 160ms ease, opacity 160ms ease, filter 160ms ease;
+  transform: translateY(0);
+}
+
+.real-homepage .rp-affil-logo:hover {
+  opacity: 1;
+  filter: saturate(1.1);
+  transform: translateY(-1px) scale(1.04);
+}
+
+.real-homepage .rp-affil-marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  flex: 0 0 auto;
+  /* Two copies inside track → move half its width to achieve seamless loop */
+  animation: rp-affil-marquee 16s linear infinite;
+  will-change: transform;
+}
+
+.real-homepage .rp-affil-marquee-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  /* Add a trailing gap so two groups can butt together while still having spacing */
+  padding-right: 18px;
+  flex: 0 0 auto;
+}
+
+.real-homepage .rp-affil-carousel:hover .rp-affil-marquee-track,
+.real-homepage .rp-affil-carousel:focus-within .rp-affil-marquee-track {
+  animation-play-state: paused;
+}
+
+.real-homepage .rp-affil-carousel.rp-affil--static .rp-affil-marquee-track {
+  animation: none;
+}
+
+@keyframes rp-affil-marquee {
+  0%   { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.real-homepage .rp-lab-badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 6px 10px;
+  text-decoration: none;
+  color: var(--carbon);
+  border-radius: 14px;
+  justify-self: start;
+  cursor: pointer;
+  /* Remove card-like hover; keep clean base */
+  transition: color 120ms ease, opacity 120ms ease;
+}
+
+.real-homepage .rp-lab-badge:focus-visible {
+  outline: 3px solid rgba(182, 177, 202, 0.6);
+  outline-offset: 4px;
+}
+
+.real-homepage .rp-lab-badge-logo {
+  height: var(--rp-affil-logo-h, 38px);
+  width: auto;
+  max-width: 240px;
+  object-fit: contain;
+  display: block;
+  flex: 0 0 auto;
+  transition: transform 160ms ease, opacity 160ms ease, filter 160ms ease;
+}
+
+.real-homepage .rp-lab-badge-text {
+  font-family: var(--font-sans);
+  font-weight: 750;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  color: var(--slate);
+  transition: color 160ms ease;
+}
+
+.real-homepage .rp-lab-badge:hover .rp-lab-badge-text {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.real-homepage .rp-lab-badge:hover .rp-lab-badge-logo,
+.real-homepage .rp-lab-badge:focus-visible .rp-lab-badge-logo {
+  opacity: 0.92;
+  filter: saturate(1.05);
+  transform: translateY(-1px);
 }
 
 .real-homepage .rp-hero-authors-names {

@@ -743,6 +743,66 @@
         });
       }
 
+      function initAffilLogoCarousel() {
+        // Homepage-only: affiliation logos marquee (left -> right smooth loop)
+        var home = document.querySelector(".content-wrapper.real-homepage");
+        if (!home) return;
+
+        var carousel = home.querySelector("[data-rp-affil-carousel]");
+        if (!carousel) return;
+
+        // Order requirement: WestlakeU → CAS → TJU → others.
+        var logos = [
+          { src: "assets/logos/WestlakeU.png", alt: "Westlake University" },
+          { src: "assets/logos/CAS.png", alt: "Chinese Academy of Sciences" },
+          { src: "assets/logos/TJU.png", alt: "Tongji University" },
+          { src: "assets/logos/SJTU.png", alt: "Shanghai Jiao Tong University" },
+          { src: "assets/logos/PKU.png", alt: "Peking University" },
+        ];
+
+        // Clear existing children; we'll rebuild marquee track.
+        while (carousel.firstChild) {
+          carousel.removeChild(carousel.firstChild);
+        }
+
+        function createGroup(ariaHidden) {
+          var group = document.createElement("div");
+          group.className = "rp-affil-marquee-group";
+          if (ariaHidden) {
+            group.setAttribute("aria-hidden", "true");
+          }
+
+          logos.forEach(function (item) {
+            var img = document.createElement("img");
+            img.className = "rp-affil-logo";
+            img.src = item.src;
+            img.alt = item.alt;
+            group.appendChild(img);
+          });
+          return group;
+        }
+
+        var track = document.createElement("div");
+        track.className = "rp-affil-marquee-track";
+        track.appendChild(createGroup(false));
+        track.appendChild(createGroup(true)); // duplicate for seamless loop
+        carousel.appendChild(track);
+
+        // Respect reduced motion: stop animation.
+        var reduceMotion = false;
+        try {
+          reduceMotion =
+            window.matchMedia &&
+            window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        } catch (e) {
+          reduceMotion = false;
+        }
+
+        if (reduceMotion) {
+          carousel.classList.add("rp-affil--static");
+        }
+      }
+
       function initTableScrollWrappers() {
         // Doc pages only (exclude homepage).
         var wrapper = document.querySelector(".content-wrapper");
@@ -776,6 +836,7 @@
           initSidebarToggle();
           initMobileNav();
           initHeroVideoCarousel();
+          initAffilLogoCarousel();
           initDatasetVideoTiles();
           initTableScrollWrappers();
           fitPageTitle();
@@ -813,6 +874,7 @@
         initSidebarToggle();
         initMobileNav();
         initHeroVideoCarousel();
+        initAffilLogoCarousel();
         initDatasetVideoTiles();
         initTableScrollWrappers();
         fitPageTitle();

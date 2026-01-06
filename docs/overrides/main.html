@@ -873,7 +873,8 @@
             // Ensure we have enough repeated groups so that when the track shifts right by one group width,
             // the left edge never crosses into the viewport (otherwise you'll see a "restart" flash).
             var minGroups = 2;
-            var needGroups = Math.ceil((viewportW + padRight) / groupW) + 1;
+            // +2 gives us a full-group safety margin (so tiny alignment nudges can't introduce a gap).
+            var needGroups = Math.ceil((viewportW + padRight) / groupW) + 2;
             if (needGroups < minGroups) needGroups = minGroups;
             if (needGroups > 8) needGroups = 8; // safety cap
 
@@ -897,6 +898,28 @@
             track.style.setProperty("--rp-affil-start-offset", startOffset.toFixed(3) + "px");
             // Use an exact shift (one group width) for a truly seamless loop (no rounding drift).
             track.style.setProperty("--rp-affil-shift", groupW.toFixed(3) + "px");
+
+            // Hard requirement: PKU (last logo) must be flush-right at t=0 (including after refresh).
+            // Instead of trusting padding math, measure the actual PKU image box and nudge startOffset.
+            try {
+              // Force layout to apply the new CSS variables before measuring.
+              track.getBoundingClientRect();
+              var pkus = track.querySelectorAll("img[alt='Peking University']");
+              if (pkus && pkus.length) {
+                var pku = pkus[pkus.length - 1];
+                var carRect = carousel.getBoundingClientRect();
+                var pkuRect = pku.getBoundingClientRect();
+                var delta = (carRect && pkuRect) ? (carRect.right - pkuRect.right) : 0;
+                if (typeof delta === "number" && isFinite(delta) && Math.abs(delta) > 0.25) {
+                  // Clamp: if something goes wrong, avoid a huge jump.
+                  var clamp = Math.max(12, padRight + 6);
+                  if (delta > clamp) delta = clamp;
+                  if (delta < -clamp) delta = -clamp;
+                  startOffset = startOffset + delta;
+                  track.style.setProperty("--rp-affil-start-offset", startOffset.toFixed(3) + "px");
+                }
+              }
+            } catch (e) {}
 
             // Enable animation only AFTER we have a stable offset to avoid “different behavior on refresh”.
             carousel.classList.add("rp-affil--ready");

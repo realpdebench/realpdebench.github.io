@@ -752,6 +752,7 @@
         if (!carousel) return;
         // Always re-init to a deterministic state (refresh vs first-load consistency).
         carousel.classList.remove("rp-affil--ready");
+        carousel.classList.remove("rp-affil--static");
         carousel.classList.add("rp-affil--pending");
 
         // Order requirement: WestlakeU → CAS → TJU → others.
@@ -791,24 +792,111 @@
         track.appendChild(createGroup(true)); // duplicate for seamless loop
         carousel.appendChild(track);
 
+        function waitForTrackImages() {
+          try {
+            var imgs = track ? Array.prototype.slice.call(track.querySelectorAll("img")) : [];
+            if (!imgs || imgs.length === 0) return Promise.resolve();
+
+            function waitOne(img) {
+              return new Promise(function (resolve) {
+                if (!img) {
+                  resolve();
+                  return;
+                }
+
+                var done = false;
+                var timeout = null;
+
+                function finish() {
+                  if (done) return;
+                  done = true;
+                  try {
+                    if (timeout) window.clearTimeout(timeout);
+                  } catch (e) {}
+                  resolve();
+                }
+
+                function afterLoad() {
+                  // Once the browser has intrinsic size, decode() makes layout-stable across refresh vs first-load.
+                  try {
+                    if (img.naturalWidth > 0 && typeof img.decode === "function") {
+                      img.decode().then(finish).catch(finish);
+                      return;
+                    }
+                  } catch (e) {}
+                  finish();
+                }
+
+                // Safety: never block forever.
+                try {
+                  timeout = window.setTimeout(finish, 1500);
+                } catch (e) {}
+
+                if (img.complete) {
+                  afterLoad();
+                  return;
+                }
+
+                try {
+                  img.addEventListener("load", afterLoad, { once: true });
+                  img.addEventListener("error", finish, { once: true });
+                } catch (e) {
+                  finish();
+                }
+              });
+            }
+
+            var promises = imgs.map(waitOne);
+
+            return Promise.all(promises).then(function () {});
+          } catch (e) {
+            return Promise.resolve();
+          }
+        }
+
         function measureAndStart() {
           try {
             var viewportW = carousel.getBoundingClientRect().width || 0;
             var firstGroup = track.querySelector(".rp-affil-marquee-group");
-            // Prefer scrollWidth (more stable) but fall back to rect width.
-            var groupW = firstGroup ? (firstGroup.scrollWidth || firstGroup.getBoundingClientRect().width || 0) : 0;
+            // Prefer rect width (fractional-precise) to avoid visible loop "jumps" on high-DPI / zoom.
+            var groupW = firstGroup ? (firstGroup.getBoundingClientRect().width || firstGroup.scrollWidth || 0) : 0;
             if (!(viewportW > 0 && groupW > 0)) return false;
 
             // Align start so PKU (last logo) is flush with the carousel right edge at t=0.
-            // Track contains 2 groups; we must start far enough left to avoid any blank gap as it scrolls right.
+            // Track contains repeated groups; we must have enough groups so no blank gap ever appears.
             var padRight = 0;
             try {
               padRight = firstGroup ? (parseFloat(window.getComputedStyle(firstGroup).paddingRight) || 0) : 0;
             } catch (e) {
               padRight = 0;
             }
-            var startOffset = viewportW - (2 * groupW) + padRight;
-            track.style.setProperty("--rp-affil-start-offset", startOffset.toFixed(2) + "px");
+            // Ensure we have enough repeated groups so that when the track shifts right by one group width,
+            // the left edge never crosses into the viewport (otherwise you'll see a "restart" flash).
+            var minGroups = 2;
+            var needGroups = Math.ceil((viewportW + padRight) / groupW) + 1;
+            if (needGroups < minGroups) needGroups = minGroups;
+            if (needGroups > 8) needGroups = 8; // safety cap
+
+            var existingGroups = 0;
+            try {
+              existingGroups = track.querySelectorAll(".rp-affil-marquee-group").length || 0;
+            } catch (e) {
+              existingGroups = 0;
+            }
+
+            if (existingGroups < needGroups) {
+              // Append extra duplicate groups (aria-hidden) before starting.
+              for (var gi = existingGroups; gi < needGroups; gi++) {
+                track.appendChild(createGroup(true));
+              }
+              // Images for the new groups may not have decoded yet; measure again after they're ready.
+              return -1;
+            }
+
+            var startOffset = viewportW - (needGroups * groupW) + padRight;
+            track.style.setProperty("--rp-affil-start-offset", startOffset.toFixed(3) + "px");
+            // Use an exact shift (one group width) for a truly seamless loop (no rounding drift).
+            track.style.setProperty("--rp-affil-shift", groupW.toFixed(3) + "px");
 
             // Enable animation only AFTER we have a stable offset to avoid “different behavior on refresh”.
             carousel.classList.add("rp-affil--ready");
@@ -836,21 +924,41 @@
           return;
         }
 
-        // Wait a few frames for layout/images to settle (initial load vs refresh can differ).
-        // This avoids measuring 0-width images and prevents loop-start “jump”.
-        var tries = 0;
-        function tryStart() {
-          if (measureAndStart()) return;
-          tries += 1;
-          if (tries >= 12) {
-            // Give up gracefully: show it (still centered), even if not perfectly flush-right.
-            carousel.classList.add("rp-affil--ready");
-            carousel.classList.remove("rp-affil--pending");
-            return;
-          }
-          window.requestAnimationFrame(tryStart);
-        }
-        window.requestAnimationFrame(tryStart);
+        // Deterministic start: wait for images to decode, then measure+start.
+        waitForTrackImages().then(function () {
+          // Give layout a frame to incorporate decoded intrinsic sizes.
+          window.requestAnimationFrame(function () {
+            var startTs = Date.now ? Date.now() : +new Date();
+            function tryStart() {
+              var res = measureAndStart();
+              if (res === true) return;
+              if (res === -1) {
+                // We appended extra groups; wait for their images to decode before measuring again.
+                waitForTrackImages().then(function () {
+                  window.requestAnimationFrame(tryStart);
+                });
+                return;
+              }
+              var now = Date.now ? Date.now() : +new Date();
+              if (now - startTs >= 2000) {
+                // If we still can't measure, avoid a broken animation start (left-start / snap).
+                // Show a static single-group fallback instead of running a wrong loop.
+                try {
+                  var groups = track.querySelectorAll(".rp-affil-marquee-group");
+                  if (groups && groups.length > 1) {
+                    groups[1].remove();
+                  }
+                } catch (e) {}
+                carousel.classList.add("rp-affil--static");
+                carousel.classList.add("rp-affil--ready");
+                carousel.classList.remove("rp-affil--pending");
+                return;
+              }
+              window.requestAnimationFrame(tryStart);
+            }
+            tryStart();
+          });
+        });
       }
 
       function initTableScrollWrappers() {

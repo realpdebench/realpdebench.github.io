@@ -590,6 +590,11 @@ html {
   /* Soft edges for a cleaner marquee look */
   mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+  transition: opacity 120ms ease;
+}
+
+.real-homepage .rp-affil-carousel.rp-affil--pending {
+  opacity: 0;
 }
 
 .real-homepage .rp-affil-logo {
@@ -619,6 +624,10 @@ html {
   /* Two copies inside track → shift by 50% (one group width) for seamless loop */
   animation: rp-affil-marquee 16s linear infinite;
   will-change: transform;
+}
+
+.real-homepage .rp-affil-carousel:not(.rp-affil--ready) .rp-affil-marquee-track {
+  animation: none;
 }
 
 .real-homepage .rp-affil-marquee-group {

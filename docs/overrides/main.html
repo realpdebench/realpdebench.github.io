@@ -750,6 +750,9 @@
 
         var carousel = home.querySelector("[data-rp-affil-carousel]");
         if (!carousel) return;
+        // Always re-init to a deterministic state (refresh vs first-load consistency).
+        carousel.classList.remove("rp-affil--ready");
+        carousel.classList.add("rp-affil--pending");
 
         // Order requirement: WestlakeU → CAS → TJU → others.
         var logos = [
@@ -788,27 +791,33 @@
         track.appendChild(createGroup(true)); // duplicate for seamless loop
         carousel.appendChild(track);
 
-        // Align start so the last logo (PKU) sits at the right edge initially.
-        try {
-          var viewportW = carousel.getBoundingClientRect().width || 0;
-          var firstGroup = track.querySelector(".rp-affil-marquee-group");
-          var groupW = firstGroup ? firstGroup.getBoundingClientRect().width || 0 : 0;
-          if (viewportW > 0 && groupW > 0) {
-            // We animate left -> right. To avoid any blank gap at the loop boundary, the track must
-            // start far enough to the LEFT so the duplicated group can scroll through the viewport.
-            // Also: make PKU (the last logo) flush with the right edge at t=0.
+        function measureAndStart() {
+          try {
+            var viewportW = carousel.getBoundingClientRect().width || 0;
+            var firstGroup = track.querySelector(".rp-affil-marquee-group");
+            // Prefer scrollWidth (more stable) but fall back to rect width.
+            var groupW = firstGroup ? (firstGroup.scrollWidth || firstGroup.getBoundingClientRect().width || 0) : 0;
+            if (!(viewportW > 0 && groupW > 0)) return false;
+
+            // Align start so PKU (last logo) is flush with the carousel right edge at t=0.
+            // Track contains 2 groups; we must start far enough left to avoid any blank gap as it scrolls right.
             var padRight = 0;
             try {
               padRight = firstGroup ? (parseFloat(window.getComputedStyle(firstGroup).paddingRight) || 0) : 0;
             } catch (e) {
               padRight = 0;
             }
-            // Track contains 2 groups. Align the *PKU logo edge* (group end minus trailing padding)
-            // to the viewport right edge.
             var startOffset = viewportW - (2 * groupW) + padRight;
             track.style.setProperty("--rp-affil-start-offset", startOffset.toFixed(2) + "px");
+
+            // Enable animation only AFTER we have a stable offset to avoid “different behavior on refresh”.
+            carousel.classList.add("rp-affil--ready");
+            carousel.classList.remove("rp-affil--pending");
+            return true;
+          } catch (e) {
+            return false;
           }
-        } catch (e) {}
+        }
 
         // Respect reduced motion: stop animation.
         var reduceMotion = false;
@@ -822,7 +831,26 @@
 
         if (reduceMotion) {
           carousel.classList.add("rp-affil--static");
+          carousel.classList.add("rp-affil--ready");
+          carousel.classList.remove("rp-affil--pending");
+          return;
         }
+
+        // Wait a few frames for layout/images to settle (initial load vs refresh can differ).
+        // This avoids measuring 0-width images and prevents loop-start “jump”.
+        var tries = 0;
+        function tryStart() {
+          if (measureAndStart()) return;
+          tries += 1;
+          if (tries >= 12) {
+            // Give up gracefully: show it (still centered), even if not perfectly flush-right.
+            carousel.classList.add("rp-affil--ready");
+            carousel.classList.remove("rp-affil--pending");
+            return;
+          }
+          window.requestAnimationFrame(tryStart);
+        }
+        window.requestAnimationFrame(tryStart);
       }
 
       function initTableScrollWrappers() {

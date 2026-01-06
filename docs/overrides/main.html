@@ -794,7 +794,18 @@
           var firstGroup = track.querySelector(".rp-affil-marquee-group");
           var groupW = firstGroup ? firstGroup.getBoundingClientRect().width || 0 : 0;
           if (viewportW > 0 && groupW > 0) {
-            var startOffset = viewportW - groupW; // negative; positions last logo to the right
+            // We animate left -> right. To avoid any blank gap at the loop boundary, the track must
+            // start far enough to the LEFT so the duplicated group can scroll through the viewport.
+            // Also: make PKU (the last logo) flush with the right edge at t=0.
+            var padRight = 0;
+            try {
+              padRight = firstGroup ? (parseFloat(window.getComputedStyle(firstGroup).paddingRight) || 0) : 0;
+            } catch (e) {
+              padRight = 0;
+            }
+            // Track contains 2 groups. Align the *PKU logo edge* (group end minus trailing padding)
+            // to the viewport right edge.
+            var startOffset = viewportW - (2 * groupW) + padRight;
             track.style.setProperty("--rp-affil-start-offset", startOffset.toFixed(2) + "px");
           }
         } catch (e) {}

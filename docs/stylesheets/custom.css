@@ -615,7 +615,8 @@ html {
   align-items: center;
   width: max-content;
   flex: 0 0 auto;
-  /* Two copies inside track → move half its width to achieve seamless loop */
+  transform: translateX(var(--rp-affil-start-offset, 0));
+  /* Two copies inside track → shift by 50% (one group width) for seamless loop */
   animation: rp-affil-marquee 16s linear infinite;
   will-change: transform;
 }
@@ -639,8 +640,8 @@ html {
 }
 
 @keyframes rp-affil-marquee {
-  0%   { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+  0%   { transform: translateX(var(--rp-affil-start-offset, 0)); }
+  100% { transform: translateX(calc(var(--rp-affil-start-offset, 0) + 50%)); }
 }
 
 .real-homepage .rp-lab-badge {

@@ -788,6 +788,17 @@
         track.appendChild(createGroup(true)); // duplicate for seamless loop
         carousel.appendChild(track);
 
+        // Align start so the last logo (PKU) sits at the right edge initially.
+        try {
+          var viewportW = carousel.getBoundingClientRect().width || 0;
+          var firstGroup = track.querySelector(".rp-affil-marquee-group");
+          var groupW = firstGroup ? firstGroup.getBoundingClientRect().width || 0 : 0;
+          if (viewportW > 0 && groupW > 0) {
+            var startOffset = viewportW - groupW; // negative; positions last logo to the right
+            track.style.setProperty("--rp-affil-start-offset", startOffset.toFixed(2) + "px");
+          }
+        } catch (e) {}
+
         // Respect reduced motion: stop animation.
         var reduceMotion = false;
         try {

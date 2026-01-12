@@ -73,7 +73,7 @@ local_dir = snapshot_download(
     repo_id=repo_id,
     repo_type="dataset",
     allow_patterns=["fsi/**"],  # example: download only the FSI folder
-    endpoint="https://hf-mirror.com",  # optional: use mirror for faster access in China
+    endpoint="https://hf-mirror.com",  # optional: use a mirror endpoint if huggingface.co is slow/unreachable
 )
 
 ds = load_from_disk(os.path.join(local_dir, "fsi", "hf_dataset", "numerical_val"))
@@ -90,7 +90,7 @@ print(row.keys())
 
 - **Auth / rate limits**: set env `HF_TOKEN=...` (or pass `--token`).
 - **Recommended**: set env `HF_HUB_DISABLE_XET=1`.
-- **HF mirror**: set env `HF_ENDPOINT` (example: `https://hf-mirror.com`) or pass `--endpoint` to `realpdebench download` for easy accessing in mainland China.
+- **HF mirror**: if `huggingface.co` is slow/unreachable on your network, set env `HF_ENDPOINT` (example: `https://hf-mirror.com`) or pass `--endpoint` to `realpdebench download`.
 
 ## Configure `dataset_root` (important)
 

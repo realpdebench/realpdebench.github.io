@@ -45,26 +45,31 @@ Wake dynamics behind a **stationary circular cylinder** measured with time-resol
 
 ## HF Datasets format
 
-This scenario is distributed as **Hugging Face Datasets (Arrow)** under `cylinder/hf_dataset/`.
+This scenario is distributed as **Hugging Face Datasets (Arrow)** under `cylinder/hf_dataset/` using a **lazy-slicing** architecture.
 
-### Splits
+### Data organization
 
-- `real_{train|val|test}`
-- `numerical_{train|val|test}`
+- `real/` — Arrow dataset containing **complete** real-world trajectories
+- `numerical/` — Arrow dataset containing **complete** numerical trajectories
+- `{train|val|test}_index_{real|numerical}.json` — Index files defining splits
 
 ### Schema (high level)
 
-- `sim_id` (string): trajectory identifier
-- `time_id` (int): window start index
-- `u` (bytes), `v` (bytes): float32 arrays encoded as bytes
-- `p` (bytes; numerical only): pressure channel
-- `shape_t`, `shape_h`, `shape_w` (int): shape metadata for decoding
+Each Arrow row stores one **complete trajectory** (all 3990 frames):
+
+- `sim_id` (string): trajectory identifier (e.g., `10031.h5`)
+- `u`, `v` (bytes): float32 arrays of shape `(3990, H, W)` — complete time series
+- `p` (bytes; numerical only): float32 array `(3990, H, W)`
+- `shape_t` (int): complete trajectory length (3990)
+- `shape_h`, `shape_w` (int): spatial dimensions
+
+Train/val/test splits are defined by the index JSON files, which map sample indices to `(sim_id, time_id)` pairs.
 
 ## Eval splits & subsets
 
 We provide two layers of splitting:
 
-- **Dataset split (`train/val/test`)**: the standard split in `hf_dataset/*_{train|val|test}`.
+- **Dataset split (`train/val/test`)**: defined by `{split}_index_{type}.json` files.
 - **Eval subset (`test_mode`)**: an optional filter inside `val/test` to select trajectories by parameter regime.
 
 The subset membership is defined by JSON mapping files (downloaded as "metadata"):

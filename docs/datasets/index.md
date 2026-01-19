@@ -106,18 +106,26 @@ RealPDEBench evaluates forecasting on short spatiotemporal windows sampled from 
 
 ## Public distribution format (Hugging Face snapshot)
 
-We distribute data as **Hugging Face Datasets (Arrow)** shards. On disk, a downloaded snapshot is organized as:
+We distribute data as **Hugging Face Datasets (Arrow)** shards using a **lazy-slicing** architecture. Each trajectory is stored **complete** (all frames), and train/val/test splits are defined by separate **index files**. On disk, a downloaded snapshot is organized as:
 
 ```text
 {dataset_root}/
   {scenario}/
     hf_dataset/
-      real_train/ ...
-      real_val/ ...
-      real_test/ ...
-      numerical_train/ ...
-      numerical_val/ ...
-      numerical_test/ ...
+      real/                           # Arrow: complete trajectories
+        data-*.arrow
+        dataset_info.json
+        state.json
+      numerical/                      # Arrow: complete trajectories
+        data-*.arrow
+        dataset_info.json
+        state.json
+      train_index_real.json           # Index: [{"sim_id": "xxx.h5", "time_id": 0}, ...]
+      val_index_real.json
+      test_index_real.json
+      train_index_numerical.json
+      val_index_numerical.json
+      test_index_numerical.json
     in_dist_test_params_real.json
     out_dist_test_params_real.json
     remain_params_real.json
@@ -126,7 +134,7 @@ We distribute data as **Hugging Face Datasets (Arrow)** shards. On disk, a downl
     remain_params_numerical.json
 ```
 
-The `*_test_params_*.json` files are used for `test_mode` filtering ("in_dist/out_dist/seen/unseen") during validation/testing.
+The `*_index_*.json` files define which `(sim_id, time_id)` pairs belong to each split. The `*_test_params_*.json` files are used for `test_mode` filtering ("in_dist/out_dist/seen/unseen") during validation/testing.
 
 ## Evaluation subsets (JSON mappings)
 
@@ -139,15 +147,36 @@ The `*_test_params_*.json` files define evaluation subsets used by `test_mode` f
 
 ### HF Arrow schema (high level)
 
+Each Arrow row stores one **complete trajectory** (all frames). Splits are defined externally by the `*_index_*.json` files.
+
 - **Fluid scenarios (Cylinder / Controlled Cylinder / FSI / Foil)**
-  - `sim_id` (string), `time_id` (int)
-  - `u` (bytes), `v` (bytes), `p` (bytes; numerical only)
-  - `shape_t`, `shape_h`, `shape_w` (int)
+  - `sim_id` (string): trajectory identifier (e.g., `10031.h5`)
+  - `u`, `v` (bytes): float32 arrays of shape `(T_full, H, W)` — **complete time series**
+  - `p` (bytes): float32 array `(T_full, H, W)` *(numerical only)*
+  - `shape_t` (int): **complete trajectory length** (e.g., 3990, 2173)
+  - `shape_h`, `shape_w` (int): spatial dimensions
 
 - **Combustion**
-  - `sim_id` (string), `time_id` (int)
-  - `observed` (bytes) — real-world intensity \(I\) (real) or surrogate intensity (numerical)
-  - `numerical` (bytes; numerical only), `numerical_channels` (int; numerical only)
-  - `shape_t`, `shape_h`, `shape_w` (int)
+  - `sim_id` (string): trajectory identifier (e.g., `40NH3_1.1.h5`)
+  - `observed` (bytes): float32 array `(T_full, H, W)` — real-world intensity \(I\) (real) or surrogate (numerical)
+  - `numerical` (bytes): float32 array `(T_full, H, W, 15)` *(numerical only)*
+  - `numerical_channels` (int): number of channels (15) *(numerical only)*
+  - `shape_t` (int): **complete trajectory length** (e.g., 2001)
+  - `shape_h`, `shape_w` (int): spatial dimensions
+
+### Index file format
+
+The `{split}_index_{type}.json` files map sample indices to trajectory positions:
+
+```json
+[
+  {"sim_id": "10031.h5", "time_id": 0},
+  {"sim_id": "10031.h5", "time_id": 20},
+  {"sim_id": "10031.h5", "time_id": 40},
+  ...
+]
+```
+
+At runtime, the loader uses these indices to slice windows from the complete trajectories, enabling dynamic `N_autoregressive` support.
 
 

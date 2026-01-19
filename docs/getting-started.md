@@ -36,10 +36,12 @@ realpdebench download --dataset-root ./data/realpdebench --scenario cylinder --w
 
 ### Download Arrow shards (large)
 
-For the Arrow-backed loaders (`--use_hf_dataset`), data are stored under:
+For the Arrow-backed loaders (`--use_hf_dataset`), data use a **lazy-slicing** format. Complete trajectories are stored under `{dataset_type}/` directories, with train/val/test splits defined by separate index files:
 
 ```text
-{dataset_root}/{scenario}/hf_dataset/{dataset_type}_{split}/...
+{dataset_root}/{scenario}/hf_dataset/
+  {dataset_type}/                    # Arrow: complete trajectories
+  {split}_index_{dataset_type}.json  # Index: (sim_id, time_id) pairs
 ```
 
 Example: **simulated training** on Cylinder (train on numerical, validate on real, evaluate on real test):
@@ -76,15 +78,17 @@ local_dir = snapshot_download(
     endpoint="https://hf-mirror.com",  # optional: use a mirror endpoint if huggingface.co is slow/unreachable
 )
 
-ds = load_from_disk(os.path.join(local_dir, "fsi", "hf_dataset", "numerical_val"))
+# Load complete trajectories (V2 format)
+ds = load_from_disk(os.path.join(local_dir, "fsi", "hf_dataset", "numerical"))
 row = ds[0]
-print(row.keys())
+print(row.keys())  # sim_id, u, v, p, shape_t, shape_h, shape_w
 ```
 
 !!! tip "Pattern examples"
     - `["fsi/**"]` — download only FSI scenario
-    - `["cylinder/hf_dataset/**"]` — download only Cylinder Arrow datasets
-    - `["*/hf_dataset/*_val/**"]` — download all validation splits
+    - `["cylinder/hf_dataset/**"]` — download only Cylinder Arrow datasets + index files
+    - `["*/hf_dataset/real/**"]` — download all real trajectory data
+    - `["*/hf_dataset/*_index_*.json"]` — download all index files
 
 ### Network tips
 
@@ -229,7 +233,7 @@ Each baseline defines additional YAML keys (architecture hyperparameters, diffus
 
 ## Troubleshooting
 
-- **"HF Arrow dataset not found"**: verify you have `.../{scenario}/hf_dataset/{dataset_type}_{split}/` locally, or run `realpdebench download ...` (or enable `--hf_auto_download`).
+- **"HF Arrow dataset not found"**: verify you have `.../{scenario}/hf_dataset/{dataset_type}/` (trajectory data) and `.../{scenario}/hf_dataset/{split}_index_{dataset_type}.json` (index file) locally, or run `realpdebench download ...` (or enable `--hf_auto_download`).
 - **DNS issues**: set `HF_HUB_DISABLE_XET=1`.
 
 ## Support

@@ -56,28 +56,33 @@ Swirl-stabilized **NH\(_3\)/CH\(_4\)/air** flames: real-world OH* chemiluminesce
 
 ## HF Datasets format
 
-This scenario is distributed as **Hugging Face Datasets (Arrow)** under `combustion/hf_dataset/`.
+This scenario is distributed as **Hugging Face Datasets (Arrow)** under `combustion/hf_dataset/` using a **lazy-slicing** architecture.
 
-### Splits
+### Data organization
 
-- `real_{train|val|test}`
-- `numerical_{train|val|test}`
-- (optional) `surrogate_train` (download with `--include-surrogate-train`)
+- `real/` — Arrow dataset containing **complete** real-world trajectories
+- `numerical/` — Arrow dataset containing **complete** numerical trajectories
+- `{train|val|test}_index_{real|numerical}.json` — Index files defining splits
+- (optional) `surrogate_train/` (download with `--include-surrogate-train`)
 
 ### Schema (high level)
 
-- `sim_id` (string): trajectory identifier
-- `time_id` (int): window start index
-- `observed` (bytes): float32 array encoded as bytes (real-world \(I\) or surrogate \(I\))
-- `numerical` (bytes; numerical only): float32 multi-channel tensor encoded as bytes
-- `numerical_channels` (int; numerical only): channel count for decoding
-- `shape_t`, `shape_h`, `shape_w` (int): shape metadata for decoding
+Each Arrow row stores one **complete trajectory** (all 2001 frames):
+
+- `sim_id` (string): trajectory identifier (e.g., `40NH3_1.1.h5`)
+- `observed` (bytes): float32 array `(2001, H, W)` — real-world intensity \(I\) or surrogate
+- `numerical` (bytes; numerical only): float32 array `(2001, H, W, 15)` — multi-channel tensor
+- `numerical_channels` (int; numerical only): number of channels (15)
+- `shape_t` (int): complete trajectory length (2001)
+- `shape_h`, `shape_w` (int): spatial dimensions
+
+Train/val/test splits are defined by the index JSON files, which map sample indices to `(sim_id, time_id)` pairs.
 
 ## Eval splits & subsets
 
 We provide two layers of splitting:
 
-- **Dataset split (`train/val/test`)**: the standard split in `hf_dataset/*_{train|val|test}`.
+- **Dataset split (`train/val/test`)**: defined by `{split}_index_{type}.json` files.
 - **Eval subset (`test_mode`)**: an optional filter inside `val/test` to select trajectories by parameter regime.
 
 The subset membership is defined by JSON mapping files (downloaded as "metadata"):

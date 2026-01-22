@@ -74,12 +74,12 @@ os.environ["HF_HUB_DISABLE_XET"] = "1"
 local_dir = snapshot_download(
     repo_id=repo_id,
     repo_type="dataset",
-    allow_patterns=["fsi/**"],  # example: download only the FSI folder
+    allow_patterns=["cylinder/**"],  # example: download only the cylinder folder
     endpoint="https://hf-mirror.com",  # optional: use a mirror endpoint if huggingface.co is slow/unreachable
 )
 
 # Load complete trajectories (V2 format)
-ds = load_from_disk(os.path.join(local_dir, "fsi", "hf_dataset", "numerical"))
+ds = load_from_disk(os.path.join(local_dir, "cylinder", "hf_dataset", "numerical"))
 row = ds[0]
 print(row.keys())  # sim_id, u, v, p, shape_t, shape_h, shape_w
 ```
@@ -144,7 +144,7 @@ python -m realpdebench.train --config configs/cylinder/fno.yaml --train_data_typ
 Training flags use `--hf_endpoint` / `--hf_repo_id` (note: the **download CLI** uses `--endpoint` / `--repo-id`):
 
 ```bash
-python -m realpdebench.train --config configs/fsi/fno.yaml --use_hf_dataset --hf_auto_download --hf_endpoint https://hf-mirror.com
+python -m realpdebench.train --config configs/cylinder/fno.yaml --use_hf_dataset --hf_auto_download --hf_endpoint https://hf-mirror.com
 ```
 
 ## Evaluate a checkpoint

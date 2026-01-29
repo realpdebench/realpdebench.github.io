@@ -171,6 +171,20 @@ Each Arrow row stores one **complete trajectory** (all frames). Splits are defin
   - `shape_t` (int): **complete trajectory length** (e.g., 2001)
   - `shape_h`, `shape_w` (int): spatial dimensions
 
+!!! note "Spatial grids are stored time-invariant"
+    `x` and `y` are identical across all frames, so they are stored once as `(H, W)` instead of `(T, H, W)`. The time array `t` is stored as `(T_full,)`. For methods that require per-frame coordinate grids (e.g., PINNs), broadcast at runtime:
+
+    ```python
+    # x, y: (H, W) → (T, H, W)
+    x_grid = np.broadcast_to(x[np.newaxis, :, :], (T, H, W))
+    y_grid = np.broadcast_to(y[np.newaxis, :, :], (T, H, W))
+
+    # t: (T,) → (T, H, W)
+    t_grid = np.broadcast_to(t[:, np.newaxis, np.newaxis], (T, H, W))
+    ```
+
+    `np.broadcast_to` returns a read-only view with zero memory overhead.
+
 ### Index file format
 
 The `{split}_index_{type}.json` files map sample indices to trajectory positions:

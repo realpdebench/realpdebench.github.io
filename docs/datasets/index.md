@@ -153,6 +153,10 @@ Each Arrow row stores one **complete trajectory** (all frames). Splits are defin
   - `sim_id` (string): trajectory identifier (e.g., `10031.h5`)
   - `u`, `v` (bytes): float32 arrays of shape `(T_full, H, W)` — **complete time series**
   - `p` (bytes): float32 array `(T_full, H, W)` *(numerical only)*
+  - `vo` (bytes): float32 array `(T_full, H, W)` — vorticity
+  - `x` (bytes): float32 array `(H, W)` — spatial x-coordinate grid *(time-invariant)*
+  - `y` (bytes): float32 array `(H, W)` — spatial y-coordinate grid *(time-invariant)*
+  - `t` (bytes): float32 array `(T_full,)` — time stamps
   - `shape_t` (int): **complete trajectory length** (e.g., 3990, 2173)
   - `shape_h`, `shape_w` (int): spatial dimensions
 
@@ -161,6 +165,9 @@ Each Arrow row stores one **complete trajectory** (all frames). Splits are defin
   - `observed` (bytes): float32 array `(T_full, H, W)` — real-world intensity \(I\) (real) or surrogate (numerical)
   - `numerical` (bytes): float32 array `(T_full, H, W, 15)` *(numerical only)*
   - `numerical_channels` (int): number of channels (15) *(numerical only)*
+  - `x` (bytes): float32 array `(H, W)` — spatial x-coordinate grid *(time-invariant)*
+  - `y` (bytes): float32 array `(H, W)` — spatial y-coordinate grid *(time-invariant)*
+  - `t` (bytes): float32 array `(T_full,)` — time stamps
   - `shape_t` (int): **complete trajectory length** (e.g., 2001)
   - `shape_h`, `shape_w` (int): spatial dimensions
 

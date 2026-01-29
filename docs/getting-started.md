@@ -81,7 +81,7 @@ local_dir = snapshot_download(
 # Load complete trajectories (V2 format)
 ds = load_from_disk(os.path.join(local_dir, "cylinder", "hf_dataset", "numerical"))
 row = ds[0]
-print(row.keys())  # sim_id, u, v, p, shape_t, shape_h, shape_w
+print(row.keys())  # sim_id, u, v, p, vo, x, y, t, shape_t, shape_h, shape_w, ...
 ```
 
 !!! tip "Pattern examples"

@@ -60,6 +60,10 @@ Each Arrow row stores one **complete trajectory** (all 2173 frames):
 - `sim_id` (string): trajectory identifier (e.g., `3272_18.2_0.8_1.h5`)
 - `u`, `v` (bytes): float32 arrays of shape `(2173, H, W)` — complete time series
 - `p` (bytes; numerical only): float32 array `(2173, H, W)`
+- `vo` (bytes): float32 array `(2173, H, W)` — vorticity
+- `x` (bytes): float32 array `(H, W)` — spatial x-coordinate grid *(time-invariant)*
+- `y` (bytes): float32 array `(H, W)` — spatial y-coordinate grid *(time-invariant)*
+- `t` (bytes): float32 array `(2173,)` — time stamps
 - `shape_t` (int): complete trajectory length (2173)
 - `shape_h`, `shape_w` (int): spatial dimensions
 

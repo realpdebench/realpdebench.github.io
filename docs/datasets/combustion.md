@@ -73,6 +73,9 @@ Each Arrow row stores one **complete trajectory** (all 2001 frames):
 - `observed` (bytes): float32 array `(2001, H, W)` — real-world intensity \(I\) or surrogate
 - `numerical` (bytes; numerical only): float32 array `(2001, H, W, 15)` — multi-channel tensor
 - `numerical_channels` (int; numerical only): number of channels (15)
+- `x` (bytes): float32 array `(H, W)` — spatial x-coordinate grid *(time-invariant)*
+- `y` (bytes): float32 array `(H, W)` — spatial y-coordinate grid *(time-invariant)*
+- `t` (bytes): float32 array `(2001,)` — time stamps
 - `shape_t` (int): complete trajectory length (2001)
 - `shape_h`, `shape_w` (int): spatial dimensions
 

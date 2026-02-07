@@ -215,6 +215,7 @@
       <p class="rp-hero-subtitle">
         The first scientific ML benchmark with <strong style="font-weight: 600;">paired real-world and simulated data</strong> for complex physical systems
       </p>
+      <p class="rp-hero-venue">ICLR 2026 Oral (top 1.2%, scores ranking top 20/20000)</p>
       <div class="rp-hero-cta">
         <a href="#datasets" class="btn-primary">Explore Datasets</a>
         <a href="https://arxiv.org/abs/2601.01829" class="btn-secondary" target="_blank" rel="noopener noreferrer">Paper</a>

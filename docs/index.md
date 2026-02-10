@@ -856,14 +856,14 @@
       <div class="rp-citation-inline-code-meta">
         <span class="rp-citation-inline-hint">BibTeX</span>
       </div>
-      <pre class="rp-code-block"><code class="language-plaintext">@misc{hu2026realpdebenchbenchmarkcomplexphysical,
+
+      <pre class="rp-code-block"><code class="language-plaintext">@inproceedings{hu2026realpdebench,
       title={RealPDEBench: A Benchmark for Complex Physical Systems with Real-World Data}, 
       author={Peiyan Hu and Haodong Feng and Hongyuan Liu and Tongtong Yan and Wenhao Deng and Tianrun Gao and Rong Zheng and Haoren Zheng and Chenglei Yu and Chuanrui Wang and Kaiwen Li and Zhi-Ming Ma and Dezhi Zhou and Xingcai Lu and Dixia Fan and Tailin Wu},
+      booktitle={The Fourteenth International Conference on Learning Representations},
       year={2026},
-      eprint={2601.01829},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2601.01829}, 
+      url={https://openreview.net/forum?id=y3oHMcoItR},
+      note={Oral Presentation}
 }</code></pre>
     </div>
   </div>

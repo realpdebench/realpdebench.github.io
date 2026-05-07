@@ -24,9 +24,25 @@
 
 {% block extrahead %}
   {{ super() }}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Self-hosted variable woff2 for guaranteed first-paint rendering (no Google Fonts FOUT) -->
+  <link rel="preload" as="font" type="font/woff2" href="{{ base_url }}/assets/fonts/fraunces.woff2" crossorigin>
+  <link rel="preload" as="font" type="font/woff2" href="{{ base_url }}/assets/fonts/inter.woff2" crossorigin>
+  <style>
+    @font-face {
+      font-family: 'Fraunces';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('{{ base_url }}/assets/fonts/fraunces.woff2') format('woff2');
+    }
+    @font-face {
+      font-family: 'Inter';
+      font-style: normal;
+      font-weight: 400 700;
+      font-display: swap;
+      src: url('{{ base_url }}/assets/fonts/inter.woff2') format('woff2');
+    }
+  </style>
   <script>
     // Apply collapsed-sidebar state early to avoid flash on refresh.
     (function () {

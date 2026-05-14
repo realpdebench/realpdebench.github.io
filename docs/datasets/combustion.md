@@ -46,13 +46,20 @@ Swirl-stabilized **NH\(_3\)/CH\(_4\)/air** flames: real-world OH* chemiluminesce
 ## Modalities
 
 - **Real-world observed**: intensity \(I\) (OH* chemiluminescence)
-- **Numerical unobserved channels (15 total)**:
-  - absolute pressure
-  - chemistry heat release rate
-  - mole fractions: CH\(_4\), CO, CO\(_2\), H\(_2\)O, NH\(_2\), NH\(_3\), OH
-  - temperature
-  - \(u, v, w, p\)
-  - velocity magnitude
+- **Numerical unobserved channels** (15 total, packed along the last axis of `numerical` in this order):
+
+| Idx | Name | Idx | Name |
+|---:|---|---:|---|
+| 0 | `Absolute_Pressure` | 8 | `Mole_Fraction_of_OH` |
+| 1 | `Chemistry_Heat_Release_Rate` | 9 | `Pressure` |
+| 2 | `Mole_Fraction_of_CH4` | 10 | `Temperature` |
+| 3 | `Mole_Fraction_of_CO` | 11 | `Velocity[i]` |
+| 4 | `Mole_Fraction_of_CO2` | 12 | `Velocity[j]` |
+| 5 | `Mole_Fraction_of_H2O` | 13 | `Velocity[k]` |
+| 6 | `Mole_Fraction_of_NH2` | 14 | `Velocity_Magnitude` |
+| 7 | `Mole_Fraction_of_NH3` | | |
+
+A machine-readable copy of the same list lives in [`combustion/channels.json`](https://huggingface.co/datasets/AI4Science-WestlakeU/RealPDEBench/blob/main/combustion/channels.json) on the HF dataset.
 
 ## HF Datasets format
 

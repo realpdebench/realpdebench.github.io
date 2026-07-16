@@ -89,12 +89,25 @@
     </div>
     <div class="navbar-links" id="rp-nav-menu">
       <a href="{{ config.site_url or '/' }}">Home</a>
-      <a
-        class="rp-nav-external"
-        href="https://realpdecompetition.github.io/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >Competition</a>
+      <span class="rp-nav-comp-wrap">
+        <a
+          class="rp-nav-external rp-nav-comp"
+          href="https://realpdecompetition.github.io/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Competition</a>
+        <span class="rp-nav-comp-card" role="note">
+          <span class="rp-nav-comp-card-kicker">NeurIPS 2026 Competition</span>
+          <span class="rp-nav-comp-card-prize">$21,000</span>
+          <span class="rp-nav-comp-card-sub">total prize pool across two tracks</span>
+          <span class="rp-nav-comp-card-rows">
+            <span><b>Track 1</b> Sim-to-Real Transfer Learning</span>
+            <span><b>Track 2</b> Long-Term Test-Time Adaptation</span>
+            <span><b>Per track</b> $6,000 / $3,000 / $1,500</span>
+            <span><b>Register by</b> Aug 20, 2026 UTC</span>
+          </span>
+        </span>
+      </span>
       <a href="{{ config.site_url or '/' }}leaderboard/">Leaderboard</a>
       <a href="{{ config.site_url or '/' }}getting-started/">Getting Started</a>
       <a href="{{ config.site_url or '/' }}datasets/">Datasets</a>
@@ -131,6 +144,26 @@
     </div>
   </div>
 </nav>
+
+{% if is_site_home %}
+<!-- Thin competition news line. Sits under the navbar, folds away on scroll.
+     Home only: doc pages anchor their fixed sidebar to the 60px navbar, and this line would
+     either cover it or make it slide on every scroll. Those pages carry the mint Competition
+     nav item and its hover card instead. -->
+<div class="rp-news" data-rp-news hidden>
+  <a class="rp-news-link" href="https://realpdecompetition.github.io/" target="_blank" rel="noopener noreferrer">
+    <span class="rp-news-tag">News</span>
+    <!-- Two phrasings rather than one truncating line: the prize figure must survive on a phone. -->
+    <span class="rp-news-text rp-news-text--wide">The <b>NeurIPS 2026 RealPDE Competition</b> is open. <b>$21,000</b> prize pool across two tracks.</span>
+    <span class="rp-news-text rp-news-text--narrow"><b>NeurIPS 2026 Competition</b>. <b>$21,000</b> prize pool.</span>
+    <span class="rp-news-go" aria-hidden="true">&rarr;</span>
+  </a>
+  <button type="button" class="rp-news-close" data-rp-news-close aria-label="Dismiss competition news">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+
 <div class="rp-nav-backdrop" aria-hidden="true"></div>
 
 {% endblock %}
@@ -1032,6 +1065,49 @@
         });
       }
 
+      // Thin competition news line under the navbar. Folds away once the reader scrolls past the
+      // top, unfolds when they come back, and stays gone for the session once dismissed.
+      // Body padding is reserved for its full height while it is live, so folding never reflows.
+      function initNewsBar() {
+        var news = document.querySelector("[data-rp-news]");
+        if (!news) return;
+
+        var DISMISS_KEY = "rp-news-dismissed-competition";
+        var dismissed = false;
+        try {
+          dismissed = window.sessionStorage.getItem(DISMISS_KEY) === "1";
+        } catch (e) {}
+        if (dismissed) return;
+
+        news.hidden = false;
+        document.documentElement.classList.add("rp-news-on");
+
+        var closeBtn = news.querySelector("[data-rp-news-close]");
+        if (closeBtn) {
+          closeBtn.addEventListener("click", function () {
+            document.documentElement.classList.remove("rp-news-on");
+            document.documentElement.classList.remove("rp-news-folded");
+            news.hidden = true;
+            try {
+              window.sessionStorage.setItem(DISMISS_KEY, "1");
+            } catch (e) {}
+          });
+        }
+
+        var ticking = false;
+        function sync() {
+          ticking = false;
+          var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+          document.documentElement.classList.toggle("rp-news-folded", y > 40);
+        }
+        window.addEventListener("scroll", function () {
+          if (ticking) return;
+          ticking = true;
+          window.requestAnimationFrame(sync);
+        }, { passive: true });
+        sync();
+      }
+
       // Competition countdown pair. Single clock authority is UTC, matching Codabench phase
       // boundaries (start 00:00:00Z / end 23:59:59Z) and the competition site timeline.
       function initCompetitionCountdown() {
@@ -1067,14 +1143,22 @@
             lcd: el.querySelector("[data-rp-lcd]"),
             nameEl: el.querySelector("[data-rp-clock-name]"),
             footEl: el.querySelector("[data-rp-clock-target]"),
-            vals: {
-              d: el.querySelector('[data-rp-unit="d"]'),
-              h: el.querySelector('[data-rp-unit="h"]'),
-              m: el.querySelector('[data-rp-unit="m"]'),
-              s: el.querySelector('[data-rp-unit="s"]'),
-            },
+            vals: ["d", "h", "m", "s"].reduce(function (acc, u) {
+              // Two independent digit tiles per unit, written glyph by glyph.
+              acc[u] = Array.prototype.slice.call(
+                el.querySelectorAll('[data-rp-unit="' + u + '"] .rp-digit-val')
+              );
+              return acc;
+            }, {}),
           };
         });
+
+        function write(cells, text) {
+          for (var i = 0; i < cells.length; i += 1) {
+            var ch = text.charAt(i);
+            if (cells[i].textContent !== ch) cells[i].textContent = ch;
+          }
+        }
 
         function targetFor(kind, now) {
           if (kind === "registration") return REGISTRATION;
@@ -1091,7 +1175,7 @@
             c.el.classList.add("is-done");
             c.nameEl.textContent = "Concluded";
             c.footEl.textContent = "Competition over";
-            ["d", "h", "m", "s"].forEach(function (u) { c.vals[u].textContent = "00"; });
+            ["d", "h", "m", "s"].forEach(function (u) { write(c.vals[u], "00"); });
             return;
           }
 
@@ -1105,16 +1189,16 @@
             // Registration is the only clock that can expire without a successor.
             c.el.classList.add("is-done");
             c.nameEl.textContent = "Closed";
-            ["d", "h", "m", "s"].forEach(function (u) { c.vals[u].textContent = "00"; });
+            ["d", "h", "m", "s"].forEach(function (u) { write(c.vals[u], "00"); });
             return;
           }
 
           c.el.classList.remove("is-done");
           var s = Math.floor(left / 1000);
-          c.vals.d.textContent = pad(Math.floor(s / 86400));
-          c.vals.h.textContent = pad(Math.floor(s / 3600) % 24);
-          c.vals.m.textContent = pad(Math.floor(s / 60) % 60);
-          c.vals.s.textContent = pad(s % 60);
+          write(c.vals.d, pad(Math.floor(s / 86400)));
+          write(c.vals.h, pad(Math.floor(s / 3600) % 24));
+          write(c.vals.m, pad(Math.floor(s / 60) % 60));
+          write(c.vals.s, pad(s % 60));
           if (c.lcd) c.lcd.classList.toggle("is-tick", blink);
         }
 
@@ -1134,6 +1218,7 @@
           initContentScale();
           initSidebarToggle();
           initMobileNav();
+          initNewsBar();
           initCompetitionCountdown();
           initHeroVideoCarousel();
           initAffilLogoCarousel();
@@ -1173,6 +1258,7 @@
         initContentScale();
         initSidebarToggle();
         initMobileNav();
+        initNewsBar();
         initCompetitionCountdown();
         initHeroVideoCarousel();
         initAffilLogoCarousel();

@@ -296,7 +296,7 @@
         <p class="rp-comp-lead">
           <span class="rp-term rp-comp-prize" tabindex="0" role="note" data-rp-tip="Per track: $6,000 first place, $3,000 second, $1,500 third. That is $10,500 a track, $21,000 over both. Funded by Uniforce AI Ltd. Top-3 teams in each track present at the associated NeurIPS 2026 workshop and co-author a joint results paper.">$21,000</span>
           total prize pool across
-          <span class="rp-term" tabindex="0" role="note" data-rp-tip="Track 1 · Sim-to-Real Transfer Learning — fuse rich CFD simulation with noisy, partially observed PIV measurements. Track 2 · Long-Term Test-Time Adaptation — long-horizon prediction with continuous online adaptation to streaming observations; agent-augmented adaptation is allowed.">two tracks</span>.
+          <span class="rp-term" tabindex="0" role="note" data-rp-tip="Track 1 · Sim-to-Real Transfer Learning. Fuse rich CFD simulation with noisy, partially observed PIV measurements. Track 2 · Long-Term Test-Time Adaptation. Long-horizon prediction with continuous online adaptation to streaming observations; agent-augmented adaptation is allowed.">two tracks</span>.
         </p>
       </div>
 
@@ -308,22 +308,34 @@
           </div>
           <div class="rp-lcd" data-rp-lcd>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="d">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="d">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Days</span>
             </div>
             <span class="rp-lcd-sep" aria-hidden="true">:</span>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="h">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="h">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Hrs</span>
             </div>
             <span class="rp-lcd-sep" aria-hidden="true">:</span>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="m">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="m">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Min</span>
             </div>
             <span class="rp-lcd-sep" aria-hidden="true">:</span>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="s">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="s">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Sec</span>
             </div>
           </div>
@@ -337,22 +349,34 @@
           </div>
           <div class="rp-lcd" data-rp-lcd>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="d">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="d">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Days</span>
             </div>
             <span class="rp-lcd-sep" aria-hidden="true">:</span>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="h">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="h">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Hrs</span>
             </div>
             <span class="rp-lcd-sep" aria-hidden="true">:</span>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="m">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="m">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Min</span>
             </div>
             <span class="rp-lcd-sep" aria-hidden="true">:</span>
             <div class="rp-lcd-cell">
-              <span class="rp-lcd-stack"><span class="rp-lcd-ghost" aria-hidden="true">88</span><span class="rp-lcd-val" data-rp-unit="s">--</span></span>
+              <span class="rp-lcd-digits" data-rp-unit="s">
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+                <span class="rp-digit"><span class="rp-digit-ghost" aria-hidden="true">8</span><span class="rp-digit-val">-</span></span>
+              </span>
               <span class="rp-lcd-tag">Sec</span>
             </div>
           </div>

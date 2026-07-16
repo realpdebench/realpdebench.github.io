@@ -4532,13 +4532,15 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-footer {
 }
 
 .navbar-links a.rp-nav-comp {
-  color: var(--mint-dark);
+  /* Bright mint, always on: this item is the competition signal. Darkened from the
+     #34cda3 benchmark-bar mint, which only reaches 1.9:1 on the light navbar. */
+  color: #149674;
   font-weight: 600;
 }
 
 .navbar-links a.rp-nav-comp:hover,
 .navbar-links a.rp-nav-comp:focus-visible {
-  color: #34cda3;
+  color: var(--mint-dark);
 }
 
 .rp-nav-comp-card {
@@ -4612,6 +4614,16 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-footer {
   color: var(--carbon);
   font-weight: 600;
   margin-right: 5px;
+}
+
+@media (max-width: 991.98px) {
+  .rp-nav-comp-card {
+    display: none;
+  }
+}
+
+html.rp-narrow .rp-nav-comp-card {
+  display: none;
 }
 
 /* Thin news line, docked under the fixed navbar.

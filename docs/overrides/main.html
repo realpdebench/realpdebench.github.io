@@ -89,6 +89,12 @@
     </div>
     <div class="navbar-links" id="rp-nav-menu">
       <a href="{{ config.site_url or '/' }}">Home</a>
+      <a
+        class="rp-nav-external"
+        href="https://realpdecompetition.github.io/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >Competition</a>
       <a href="{{ config.site_url or '/' }}leaderboard/">Leaderboard</a>
       <a href="{{ config.site_url or '/' }}getting-started/">Getting Started</a>
       <a href="{{ config.site_url or '/' }}datasets/">Datasets</a>
@@ -1026,12 +1032,109 @@
         });
       }
 
+      // Competition countdown pair. Single clock authority is UTC, matching Codabench phase
+      // boundaries (start 00:00:00Z / end 23:59:59Z) and the competition site timeline.
+      function initCompetitionCountdown() {
+        var root = document.querySelector("[data-rp-countdown]");
+        if (!root) return;
+
+        // Keep in sync with the Timeline on realpdecompetition.github.io.
+        var PHASES = [
+          { name: "Warm-up ends", end: "2026-07-19T23:59:59Z" },
+          { name: "Main development ends", end: "2026-09-27T23:59:59Z" },
+          { name: "Decision phase ends", end: "2026-10-25T23:59:59Z" },
+          { name: "Final results", end: "2026-11-10T23:59:59Z" },
+          { name: "Code & fact sheet due", end: "2026-11-25T23:59:59Z" },
+          { name: "NeurIPS 2026 presentation", end: "2026-12-06T23:59:59Z" },
+        ];
+        var REGISTRATION = { name: "Closes Aug 20", end: "2026-08-20T23:59:59Z" };
+
+        var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        function fmtUTC(ms) {
+          var d = new Date(ms);
+          return MONTHS[d.getUTCMonth()] + " " + d.getUTCDate() + ", " + d.getUTCFullYear() + " UTC";
+        }
+
+        function pad(n) {
+          return (n < 10 ? "0" : "") + n;
+        }
+
+        var clocks = Array.prototype.slice.call(root.querySelectorAll("[data-rp-clock]")).map(function (el) {
+          return {
+            el: el,
+            kind: el.getAttribute("data-rp-clock"),
+            lcd: el.querySelector("[data-rp-lcd]"),
+            nameEl: el.querySelector("[data-rp-clock-name]"),
+            footEl: el.querySelector("[data-rp-clock-target]"),
+            vals: {
+              d: el.querySelector('[data-rp-unit="d"]'),
+              h: el.querySelector('[data-rp-unit="h"]'),
+              m: el.querySelector('[data-rp-unit="m"]'),
+              s: el.querySelector('[data-rp-unit="s"]'),
+            },
+          };
+        });
+
+        function targetFor(kind, now) {
+          if (kind === "registration") return REGISTRATION;
+          for (var i = 0; i < PHASES.length; i += 1) {
+            if (Date.parse(PHASES[i].end) > now) return PHASES[i];
+          }
+          return null;
+        }
+
+        function render(c, now, blink) {
+          var t = targetFor(c.kind, now);
+
+          if (!t) {
+            c.el.classList.add("is-done");
+            c.nameEl.textContent = "Concluded";
+            c.footEl.textContent = "Competition over";
+            ["d", "h", "m", "s"].forEach(function (u) { c.vals[u].textContent = "00"; });
+            return;
+          }
+
+          var endMs = Date.parse(t.end);
+          var left = endMs - now;
+
+          c.nameEl.textContent = t.name;
+          c.footEl.textContent = fmtUTC(endMs);
+
+          if (left <= 0) {
+            // Registration is the only clock that can expire without a successor.
+            c.el.classList.add("is-done");
+            c.nameEl.textContent = "Closed";
+            ["d", "h", "m", "s"].forEach(function (u) { c.vals[u].textContent = "00"; });
+            return;
+          }
+
+          c.el.classList.remove("is-done");
+          var s = Math.floor(left / 1000);
+          c.vals.d.textContent = pad(Math.floor(s / 86400));
+          c.vals.h.textContent = pad(Math.floor(s / 3600) % 24);
+          c.vals.m.textContent = pad(Math.floor(s / 60) % 60);
+          c.vals.s.textContent = pad(s % 60);
+          if (c.lcd) c.lcd.classList.toggle("is-tick", blink);
+        }
+
+        function tick() {
+          var now = Date.now();
+          var blink = Math.floor(now / 500) % 2 === 1;
+          clocks.forEach(function (c) { render(c, now, blink); });
+        }
+
+        tick();
+        window.setInterval(tick, 500);
+      }
+
       if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", function () {
           syncViewportClasses();
           initContentScale();
           initSidebarToggle();
           initMobileNav();
+          initCompetitionCountdown();
           initHeroVideoCarousel();
           initAffilLogoCarousel();
           initDatasetVideoTiles();
@@ -1070,6 +1173,7 @@
         initContentScale();
         initSidebarToggle();
         initMobileNav();
+        initCompetitionCountdown();
         initHeroVideoCarousel();
         initAffilLogoCarousel();
         initDatasetVideoTiles();

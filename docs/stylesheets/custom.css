@@ -4329,7 +4329,19 @@ html.sidebar-collapsed .content-wrapper:not(.real-homepage) .rp-footer {
 
 .real-homepage .rp-clock-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* 380px floor: measured min-content of .rp-clock across a 320-1600px viewport sweep
+     (both WebKit + Chromium). The 8 monospace digit tiles + 2.9vw clamp only saturate at
+     2.3rem past ~1269px viewport width, so min-content itself ranges 349-353px (mobile,
+     font pinned at the 1.5rem floor) up to 431-437px (desktop, font pinned at the 2.3rem
+     cap) - it is NOT a fixed number. 380px sits inside the empirically verified safe band
+     [368, 440]: below 368 a squeeze state exists (2 columns get selected by auto-fit while
+     each column is narrower than min-content, e.g. T=350 overflows 5px at a 900px viewport);
+     above ~442 the fixed 902px desktop row width can no longer fit 2*T+gap, so wide desktop
+     regresses to 1 column. Desktop is the tight end and no T can widen it: at 1440 the column
+     is 440px against a 437px min-content under WebKit + SF Mono (Chromium lands at 431px).
+     Every family the stack can reach clears it, but ~8% more advance width does not, so a
+     change to the digit font stack or font-size needs the sweep re-run before it ships. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
   gap: 22px;
   margin-bottom: 32px;
 }

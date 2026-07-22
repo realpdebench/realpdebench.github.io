@@ -294,7 +294,7 @@
         <span class="rp-comp-badge">NeurIPS 2026 Competition</span>
         <h2 class="rp-comp-title" id="rp-comp-title">RealPDE <em>Competition</em></h2>
         <p class="rp-comp-lead">
-          <span class="rp-term rp-comp-prize" tabindex="0" role="note" data-rp-tip="Per track: $6,000 first place, $3,000 second, $1,500 third. That is $10,500 a track, $21,000 over both. Funded by Uniforce AI Ltd. Top-3 teams in each track present at the associated NeurIPS 2026 workshop and co-author a joint results paper.">$21,000</span>
+          <span class="rp-term rp-comp-prize" tabindex="0" role="note" data-rp-tip="Per track: $6,000 first place, $3,000 second, $1,500 third. That is $10,500 a track, $21,000 over both. Funded by Uniforce AI Ltd. The top 3 teams per track present at the associated NeurIPS 2026 workshop. The top 5 teams per track co-author a joint results paper and may each name one advisor of their own as a co-author.">$21,000</span>
           total prize pool across
           <span class="rp-term" tabindex="0" role="note" data-rp-tip="Track 1 · Sim-to-Real Transfer Learning. Fuse rich CFD simulation with noisy, partially observed PIV measurements. Track 2 · Long-Term Test-Time Adaptation. Long-horizon prediction with continuous online adaptation to streaming observations; agent-augmented adaptation is allowed.">two tracks</span>.
         </p>
